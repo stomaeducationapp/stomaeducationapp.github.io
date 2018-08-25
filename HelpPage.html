@@ -5,7 +5,10 @@
     <meta charset="utf-8" />
     <title></title>
     <style>
-
+        .images {
+            height: 360px;
+            width: 640px;
+        }
     </style>
 </head>
 <body>
@@ -22,11 +25,32 @@
     <div class="content" id="home">
         <h1>This is the Help Page</h1>
         <p>Select a button above to move to a section.</p>
+        <p>Note: Information and images are subject to change when updated versions become available.</p>
     </div>
 
     <div class="content" id="Tutorial">
         <h1>Tutorial</h1>
-        <p>Placeholoder text for tutorial section.</p>
+        <h2>Play A Video:</h2>
+            <p>First, browse for a particular piece of content in the sidebar.</p>
+            <img src="/HelpPageImages/sidebar.PNG" alt="Sidebar image" class="images"/>
+            <p>When you have found something you wish to view, select it.</p>
+            <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images"/>
+            <p>Proceed to interact with the controls to play, pause and navigate the video. Options to change volume and to move into full screen view are also available.</p>
+            <img src="/HelpPageImages/videoPlayer.PNG" alt="Video player image" class="images"/>
+        <h2>Mark Content:</h2>
+            <p>First, navigate to the content you wish to mark.</p>
+            <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images"/>
+            <p>On the content page, press the star button located beside the title.</p>
+            <img src="/HelpPageImages/unmarkedContent.PNG" alt="Unmarked content image" class="images"/>
+            <p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p>
+            <img src="/HelpPageImages/markedContent.PNG" alt="Marked content image" class="images"/>
+        <h2>Search:</h2>
+            <p>From the start page, notice the search bar.</p>
+            <img src="/HelpPageImages/searchbar.PNG" alt="Searchbar image" class="images"/>
+            <p>Start typing something to search for and possible matches will appear.</p>
+            <img src="/HelpPageImages/searching.PNG" alt="Searching image" class="images"/>
+            <p>Select the content that you wish to view and it will be loaded into the page.</p>
+            <img src="/HelpPageImages/searchComplete.PNG" alt="Search complete image" class="images"/>
     </div>
     
     <div class="content" id="FAQ">
@@ -61,7 +85,7 @@
             event.currentTarget.className += " current";
         }
 
-        //show the home page when the page first loads
+        //initially, display the home page
         document.getElementById("default").click();
     </script>
 
