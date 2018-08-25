@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\chapterQuiz",
+    "\\globalCSS"
   ],
+  "SelectedNode": "\\chapterQuiz\\startStyles.css",
   "PreviewInSolutionExplorer": false
 }
