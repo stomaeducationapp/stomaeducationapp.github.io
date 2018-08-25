@@ -4,20 +4,31 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <style>
+
+    </style>
 </head>
 <body>
 
+    <!-- buttons for navigation-->
     <div class="buttons">
-        <button class="pageOption">Tutorial</button> <!--add js func call-->
-        <button class="pageOption">Frequently Asked Questions</button> <!--add js func call-->
-        <button class="pageOption">Contacts</button> <!--add js func call-->
+        <button class="pages" id="default" onclick="changePage(event, 'home')" style="display: none">Home</button>
+        <button class="pages" onclick="changePage(event, 'Tutorial')">Tutorial</button>
+        <button class="pages" onclick="changePage(event, 'FAQ')">Frequently Asked Questions</button>
+        <button class="pages" onclick="changePage(event, 'Contacts')">Contacts</button>
+    </div>
+        
+    <!--Actual content of the page-->
+    <div class="content" id="home">
+        <h1>This is the Help Page</h1>
+        <p>Select a button above to move to a section.</p>
     </div>
 
     <div class="content" id="Tutorial">
         <h1>Tutorial</h1>
         <p>Placeholoder text for tutorial section.</p>
     </div>
-
+    
     <div class="content" id="FAQ">
         <h1>Frequently Asked Questions</h1>
         <p>Placeholder text for FAQ section.</p>
@@ -27,6 +38,32 @@
         <h1>Contacts</h1>
         <p>Placeholder text for contacts section.</p>
     </div>
+
+    <!--javascript function to change sections-->
+    <script>
+        function changePage(event, pageToShow) {
+            var ii, content, pages;
+
+            //find all elements with class 'content' and hide them
+            content = document.getElementsByClassName("content");
+            for (ii = 0; ii < content.length; ii++) {
+                content[ii].style.display = "none";
+            }
+
+            //get all elements with class 'pages' and remove the current tag
+            pages = document.getElementsByClassName("pages");
+            for (ii = 0; ii < pages.length; ii++) {
+                pages[ii].className = pages[ii].className.replace(" current", "");
+            }
+
+            //display the chosen page and add the current tag to the buttons class name
+            document.getElementById(pageToShow).style.display = "block";
+            event.currentTarget.className += " current";
+        }
+
+        //show the home page when the page first loads
+        document.getElementById("default").click();
+    </script>
 
 </body>
 </html>
