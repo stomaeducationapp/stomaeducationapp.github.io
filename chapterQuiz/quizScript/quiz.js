@@ -44,7 +44,41 @@ const myQuestions = [
 //This is the fucntion to bgein build/setup of the quiz
 function buildQuiz()
 {
+    //Store all html output from the page
+    const output = [];
 
+    //For every question create a display frame
+    myQuestions.forEach(
+        (currentQuestion, questionNumber) =>
+        {
+
+            //Store all choices for each question
+            const answers = [];
+
+            //Push the question choices to an array for display
+            for (letter in currentQuestion.answers)
+            {
+
+                // Add the choice and a button for user to select it as the answer
+                answers.push(
+                    `<label>
+            <input type="radio" name="question${questionNumber}" value="${letter}">
+            ${letter} :
+            ${currentQuestion.answers[letter]}
+          </label>`
+                );
+            }
+
+            //Add the built question to the output
+            output.push(
+                `<div class="question"> ${currentQuestion.question} </div>
+        <div class="answers"> ${answers.join('')} </div>`
+            );
+        }
+    );
+
+    //Put the finsihed questions back on the page
+    quizContainer.innerHTML = output.join('');
 }
 
 //This is the function for showing the results
