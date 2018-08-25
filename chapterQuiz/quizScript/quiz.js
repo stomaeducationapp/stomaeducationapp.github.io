@@ -84,7 +84,45 @@ function buildQuiz()
 //This is the function for showing the results
 function showResults()
 {
+    //Get all answers the user selected in the quiz from the page
+    const answerContainers = quizContainer.querySelectorAll('.answers');
 
+    //Have a variable to tack the number of questions the user got correct
+    let numCorrect = 0;
+
+    //Go through each question and check the answer
+    myQuestions.forEach((currentQuestion, questionNumber) =>
+    {
+
+        //Find the answer the user selected for this question
+        const answerContainer = answerContainers[questionNumber];
+        const selector = 'input[name=question' + questionNumber + ']:checked';
+        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+        //If the got the correct answer
+        if (userAnswer === currentQuestion.correctAnswer)
+        {
+            //Increase total
+            numCorrect++;
+
+            //Colour the answer green (for when user see the quiz after)
+            answerContainers[questionNumber].style.color = 'lightgreen';
+
+        }
+        //If the got it wrong (including no answer)
+        else
+        {
+            //Colour it red
+            answerContainers[questionNumber].style.color = 'red';
+        }
+
+        //Unhide the reasoning secion of the question here
+
+    });
+
+    //Show the total of correct answers
+    resultsContainer.innerHTML = numCorrect + ' out of ' + myQuestions.length;
+    //Also put the congratulations text here
 }
 
 //We need to build the quiz first
