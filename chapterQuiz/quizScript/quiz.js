@@ -42,17 +42,16 @@ const myQuestions = [
     {
         question: "Where is Waldo really?",
         answers: {
-            a: "Antarctica",
-            b: "Exploring the Pacific Ocean",
-            c: "Sitting in a tree",
-            d: "Minding his own business, so stop asking"
+            a: "Exploring the Pacific Ocean",
+            b: "Sitting in a tree",
+            c: "Minding his own business, so stop asking"
         },
-        correctAnswer: "d",
+        correctAnswer: "c",
         reasoning: "Who cares where is he is anyway?"
     }
 ];
 
-//This is the fucntion to bgein build/setup of the quiz
+//This is the function to bgein build/setup of the quiz
 function buildQuiz()
 {
     //Store all html output from the page
@@ -91,7 +90,7 @@ function buildQuiz()
         }
     );
 
-    //Put the finsihed questions back on the page
+    //Put the finished questions back on the page
     quizContainer.innerHTML = output.join("");
 }
 
@@ -101,7 +100,7 @@ function showResults()
     //Get all answers the user selected in the quiz from the page
     const answerContainers = quizContainer.querySelectorAll(".answers");
 
-    //Have a variable to tack the number of questions the user got correct
+    //Have a variable to track the number of questions the user got correct
     let numCorrect = 0;
 
     //Go through each question and check the answer
@@ -123,7 +122,7 @@ function showResults()
             answerContainers[questionNumber].style.color = "lightgreen";
 
         }
-        //If the got it wrong (including no answer)
+        //If they got it wrong (including no answer)
         else
         {
             //Colour it red
