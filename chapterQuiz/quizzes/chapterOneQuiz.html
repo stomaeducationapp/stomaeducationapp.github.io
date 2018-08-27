@@ -14,13 +14,22 @@
 <body>
 
     <!-- This is the section for the quiz to be displayed -->
-    <div id="quiz"></div>
+    <div id="quiz" align="center"></div>
 
-    <!-- This is the button we will use to submit all answers -->
-    <button id="submit">Submit Quiz</button>
+    <!-- We use divs to hold the buttons so that we can easily manipulate thir position-->
+    <div id="submitSect"  align="center">
+        <!-- This is the button we will use to submit all answers -->
+        <button id="submitButt">Submit Quiz</button>
+    </div>
 
     <!-- This is the section for providing results -->
     <div id="results"></div>
+
+    <!-- We use divs to hold the buttons so that we can easily manipulate thir position-->
+    <div id="returnSect"  align="center">
+        <!-- This is the button we use to allow the use to return to main chapter select page -->
+        <button id="returnButt">Back to chapter select</button>
+    </div>
 
     <!-- Run the javascript to handle the quiz -->
     <script type="application/javascript" src="../quizScript/quiz.js"></script>
