@@ -77,7 +77,7 @@ function buildQuiz()
             output.push(
                 `<div class="question"> ${currentQuestion.question} </div>
         <div class="answers"> ${answers.join('')} </div>
-        <div class="reasoning"> ${currentQuestion.reasoning} </div>`
+        <div class="reasoning"> <p> ${currentQuestion.reasoning} <br /> </p> </div>`
             );
         }
     );
@@ -124,24 +124,26 @@ function showResults()
     });
 
     //Unhide the reasoning by disabling the visibility tag
-    document.getElementById('.reasoning').style.visibility = "visible";
+    const reasonContainer = quizContainer.querySelectorAll('.reasoning');
+    myQuestions.forEach((currentQuestion, questionNumber) =>
+    {
+        reasonContainer[questionNumber].style.visibility = 'visible';
+    });
 
-    //Show the total of correct answers
-    resultsContainer.innerHTML = numCorrect + ' out of ' + myQuestions.length;
     //Place a custom congratulations message based on what score the user got
     switch (numCorrect)
     {
         case 0:
-            resultsContainer.innerHTML = 'You suck';
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + ' out of ' + myQuestions.length + '<br />' + 'You suck.' + '</p>';
             break;
         case 1:
-            resultsContainer.innerHTML = 'Bad Luck Brian';
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + ' out of ' + myQuestions.length + '<br />' + 'Bad Luck Brian' + '</p>';
             break;
         case 2:
-            resultsContainer.innerHTML = 'Not too shabby!';
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + ' out of ' + myQuestions.length + '<br />' + 'Not too shabby!' + '</p>';
             break;
         case 3:
-            resultsContainer.innerHTML = 'Ultimate Quiz Master';
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + ' out of ' + myQuestions.length + '<br />' + 'Ultimate Quiz Master' + '</p>';
             break;
 
     }
