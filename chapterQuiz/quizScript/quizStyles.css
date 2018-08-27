@@ -20,7 +20,7 @@ body {
         display: block;
     }
 
-#submit {
+.button {
     font-family: sans-serif;
     font-size: 20px;
     background-color: #279;
@@ -32,6 +32,6 @@ body {
     margin-bottom: 20px;
 }
 
-    #submit:hover {
+    .button:hover {
         background-color: #38a;
     }
