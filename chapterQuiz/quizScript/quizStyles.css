@@ -20,6 +20,10 @@ body {
         display: block;
     }
 
+.reasoning {
+    visibility:hidden;
+}
+
 .button {
     font-family: sans-serif;
     font-size: 20px;

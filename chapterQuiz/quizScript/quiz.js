@@ -7,7 +7,8 @@
 //Thes are the ID variables we will use to access the html objects in the provided .html document
 const quizContainer = document.getElementById('quiz');
 const resultsContainer = document.getElementById('results');
-const submitButton = document.getElementById('submit');
+const submitButton = document.getElementById('submitButt');
+const returnButton = document.getElementById('returnButt');
 
 //A initial client side based set of questions - REMOVE BEFORE RELEASE -> REPLACE WITH DATABASE RETRIEVAL
 const myQuestions = [
@@ -18,7 +19,8 @@ const myQuestions = [
             b: "The Terminator",
             c: "Waluigi, obviously"
         },
-        correctAnswer: "c"
+        correctAnswer: "c",
+        reasoning: "WAAAAAAAHHH!"
     },
     {
         question: "What is the best site ever created?",
@@ -27,7 +29,8 @@ const myQuestions = [
             b: "Simple Steps Code",
             c: "Trick question; they're both the best"
         },
-        correctAnswer: "c"
+        correctAnswer: "c",
+        reasoning: "Always a trick question"
     },
     {
         question: "Where is Waldo really?",
@@ -37,7 +40,8 @@ const myQuestions = [
             c: "Sitting in a tree",
             d: "Minding his own business, so stop asking"
         },
-        correctAnswer: "d"
+        correctAnswer: "d",
+        reasoning: "Who cares where is he is anyway?"
     }
 ];
 
@@ -72,7 +76,8 @@ function buildQuiz()
             //Add the built question to the output
             output.push(
                 `<div class="question"> ${currentQuestion.question} </div>
-        <div class="answers"> ${answers.join('')} </div>`
+        <div class="answers"> ${answers.join('')} </div>
+        <div class="reasoning"> ${currentQuestion.reasoning} </div>`
             );
         }
     );
@@ -114,15 +119,37 @@ function showResults()
         {
             //Colour it red
             answerContainers[questionNumber].style.color = 'red';
-        }
-
-        //Unhide the reasoning secion of the question here
+        }   
 
     });
 
+    //Unhide the reasoning by disabling the visibility tag
+    document.getElementById('.reasoning').style.visibility = "visible";
+
     //Show the total of correct answers
     resultsContainer.innerHTML = numCorrect + ' out of ' + myQuestions.length;
-    //Also put the congratulations text here
+    //Place a custom congratulations message based on what score the user got
+    switch (numCorrect)
+    {
+        case 0:
+            resultsContainer.innerHTML = 'You suck';
+            break;
+        case 1:
+            resultsContainer.innerHTML = 'Bad Luck Brian';
+            break;
+        case 2:
+            resultsContainer.innerHTML = 'Not too shabby!';
+            break;
+        case 3:
+            resultsContainer.innerHTML = 'Ultimate Quiz Master';
+            break;
+
+    }
+}
+
+function goBack()
+{
+    window.location.assign("../quizStart.html");
 }
 
 //We need to build the quiz first
@@ -130,3 +157,6 @@ buildQuiz();
 
 //Once the user clicks submit - show them their results
 submitButton.addEventListener('click', showResults);
+
+//If the user clicks return - go back to the quiz selector page
+returnButton.addEventListener('click', goBack)
