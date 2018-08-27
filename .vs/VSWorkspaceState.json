@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\globalCSS",
+    "\\HelpPageTest"
   ],
-  "PreviewInSolutionExplorer": false
+  "SelectedNode": "\\HelpPageTest",
+  "PreviewInSolutionExplorer": true
 }
