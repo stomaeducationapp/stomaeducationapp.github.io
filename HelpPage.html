@@ -5,11 +5,6 @@
     <meta charset="utf-8" />
     <title></title>
     <style>
-        * {
-            padding: 5px 50px;
-            background-color: #e6e6e6;
-        }
-
         .images {
             height: 360px;
             width: 640px;
@@ -22,21 +17,16 @@
         .link {
             color: blue;
         }
-
-        .buttons {
-            padding: 10px 150px;
-            background-color: lightgray;
-        }
     </style>
 </head>
 <body>
 
     <!-- buttons for navigation-->
-    <div class="header" id="top">
-        <button class="buttons" id="default" onclick="changePage(event, 'home')" style="display: none">Home</button>
-        <button class="buttons" onclick="changePage(event, 'Tutorial')">Tutorial</button>
-        <button class="buttons" onclick="changePage(event, 'FAQ')">Frequently Asked Questions</button>
-        <button class="buttons" onclick="changePage(event, 'Contacts')">Contacts</button>
+    <div class="buttons" id="top">
+        <button class="pages" id="default" onclick="changePage(event, 'home')" style="display: none">Home</button>
+        <button class="pages" onclick="changePage(event, 'Tutorial')">Tutorial</button>
+        <button class="pages" onclick="changePage(event, 'FAQ')">Frequently Asked Questions</button>
+        <button class="pages" onclick="changePage(event, 'Contacts')">Contacts</button>
     </div>
 
 
@@ -140,7 +130,7 @@
     <!--javascript function to change sections-->
     <script>
         function changePage(event, pageToShow) {
-            var ii, content, buttons;
+            var ii, content, pages;
 
             //find all elements with class 'content' and hide them
             content = document.getElementsByClassName("content");
@@ -148,10 +138,10 @@
                 content[ii].style.display = "none";
             }
 
-            //get all elements with class 'buttons' and remove the current tag (dictates which page is visible)
-            buttons = document.getElementsByClassName("buttons");
-            for (ii = 0; ii < buttons.length; ii++) {
-                buttons[ii].className = buttons[ii].className.replace(" current", "");
+            //get all elements with class 'pages' and remove the current tag
+            pages = document.getElementsByClassName("pages");
+            for (ii = 0; ii < pages.length; ii++) {
+                pages[ii].className = pages[ii].className.replace(" current", "");
             }
 
             //display the chosen page and add the current tag to the buttons class name
