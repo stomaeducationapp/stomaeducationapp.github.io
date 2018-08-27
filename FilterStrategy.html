@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="txtEntry">
+        <input id="txtBox" type="text" />
+    </div>
+
+    <div>
+        <button id="submit" onclick="sanitiseSearch(document.getElementById('txtBox').value)">submit</button>
+    </div>
+
+    <div>
+        <p id="searchOutput">output: </p>
+    </div>
+
+    <script>
+        function sanitiseSearch(inTxt) {
+            //do sanitisation
+            var outTxt;
+            outTxt = inTxt;
+
+            //regex to remove all non alphanumeric or whitespace character
+            outTxt = outTxt.replace(/[^0-9a-zA-Z ]/g, "");
+
+            document.getElementById("output").innerHTML = "output: " + outTxt;
+        }
+    </script>
+</body>
+</html>
