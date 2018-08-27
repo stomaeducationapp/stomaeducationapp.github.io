@@ -6,6 +6,7 @@
     <title></title>
 </head>
 <body>
+    <!--handles checking the search filter-->
     <div id="txtEntry">
         <input id="txtBox" type="text" />
     </div>
@@ -18,6 +19,27 @@
         <p id="searchOutput">output: </p>
     </div>
 
+    <br />
+    <br />
+
+    <!--handles checking the web storage filter-->
+    <div>
+        <button id="instance" onclick="instanceStorage()">Instance web storage</button>
+    </div>
+
+    <div id="storageEntry">
+        <input id="storageInput" type="text" />
+    </div>
+
+    <div>
+        <button id="storageSubmit" onclick="sanitiseWebStorage(document.getElementById('storageInput').value)">enter</button>
+    </div>
+
+    <div>
+        <p id="storageOutput">output: </p>
+    </div>
+
+
     <script>
         function sanitiseSearch(inTxt) {
             //do sanitisation
@@ -28,6 +50,25 @@
             outTxt = outTxt.replace(/[^0-9a-zA-Z ]/g, "");
 
             document.getElementById("output").innerHTML = "output: " + outTxt;
+        }
+
+        function sanitiseWebStorage(inKey) {
+            var inRef, outRef;
+
+            inRef = localStorage.getItem(inKey);
+
+            //regex to remove all non alphanumeric or whitespace or slash character
+            outRef = inRef.replace(/[^0-9a-zA-Z /]/g, "");
+
+            document.getElementById("storageOutput").innerHTML = "output: " + outRef;
+        }
+
+        function instanceStorage() {
+            //add some entries into html web storage
+            localStorage.setItem("Video 1", "/videos/Video1");
+            localStorage.setItem("Video 2", "/videos/Video2");
+            localStorage.setItem("Text 1", "/text/Text1");
+            localStorage.setItem("Disallowed", "<script>something malicious<//script>");
         }
     </script>
 </body>
