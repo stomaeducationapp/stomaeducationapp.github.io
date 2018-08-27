@@ -39,3 +39,9 @@ body {
     .button:hover {
         background-color: #38a;
     }
+
+#continueButt {
+    color: gray;
+    cursor: not-allowed;
+    background-color: gray;
+}
