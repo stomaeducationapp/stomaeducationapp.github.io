@@ -1,12 +1,15 @@
 ﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<div class="Header1">
-    <script type="text/javascript" src="headerScript.js"></script>
-    <button onclick="headerFunction()" class="header1">Dropdown</button>
-    <div id="Header1" class="header1-content">
-        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" />
-        <a href="#subheader">SubHeader</a>
+<div class="sidenav">
+    <a href="#about">About</a>
+    <button class="dropdown-btn">
+        Dropdown
+        <i class="fa fa-caret-down"><</i>
+    </button>
+    <div class="dropdown-container">
+        <a href="#">Link 1</a>
     </div>
 </div>
+<script type="text/javascript" src="headerScript.js"></script>
 </html>
