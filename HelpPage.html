@@ -8,7 +8,6 @@
         * {
             padding: 5px 50px;
             background-color: #e6e6e6;
-            
         }
 
         .images {
@@ -32,7 +31,7 @@
 </head>
 <body>
 
-    <!-- buttons for navigation-->
+    <!-- buttons for navigation. Note 'home' button is hidden but used for landing page-->
     <div class="header" id="top">
         <button class="buttons" id="default" onclick="changePage(event, 'home')" style="display: none">Home</button>
         <button class="buttons" onclick="changePage(event, 'Tutorial')">Tutorial</button>
@@ -49,13 +48,14 @@
         <p>Note: Information and images are subject to change when updated versions become available.</p>
     </div>
 
-    <!--Tutorial section-->
+    <!--Tutorial section of help page-->
     <div class="content" id="Tutorial">
         <h1>Tutorial</h1>
-        <a class="link" href="#video">1. Skip to Play Video tutorial</a> </br> </br>
-        <a class="link" href="#mark">2. Skip to Content Marking tutorial</a> </br> </br>
-        <a class="link" href="#search">3. Skip to Search tutorial</a> </br> </br>
+        <a class="link" href="#video">1. Skip to Play Video tutorial</a> <br><br>
+        <a class="link" href="#mark">2. Skip to Content Marking tutorial</a> <br><br>
+        <a class="link" href="#search">3. Skip to Search tutorial</a> <br><br>
 
+        <!--Play video tutorial info-->
         <h2 id="video">Play A Video:</h2>
             <p>First, browse for a particular piece of content in the sidebar.</p>
             <img src="/HelpPageImages/sidebar.PNG" alt="Sidebar image" class="images" />
@@ -63,25 +63,27 @@
             <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" />
             <p>Proceed to interact with the controls to play, pause and navigate the video.
                 Options to change volume and to move into full screen view are also available.</p>
-            <img src="/HelpPageImages/videoPlayer.PNG" alt="Video player image" class="images" /> </br>
+            <img src="/HelpPageImages/videoPlayer.PNG" alt="Video player image" class="images" /> <br>
             <a href="#top">Return to top</a>
 
+        <!--Mark content tutorial info-->
         <h2 id="mark" style="padding-top: 50px">Mark Content:</h2>
             <p>First, navigate to the content you wish to mark.</p>
             <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" />
             <p>On the content page, press the star button located beside the title.</p>
             <img src="/HelpPageImages/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
             <p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p>
-            <img src="/HelpPageImages/markedContent.PNG" alt="Marked content image" class="images" /></br>
+            <img src="/HelpPageImages/markedContent.PNG" alt="Marked content image" class="images" /><br>
             <a href="#top">Return to top</a>
 
+        <!--Searching tutorial info-->
         <h2 id="search" style="padding-top: 50px">Search:</h2>
             <p>From the start page, notice the search bar.</p>
             <img src="/HelpPageImages/searchbar.PNG" alt="Searchbar image" class="images" />
             <p>Start typing something to search for and possible matches will appear.</p>
             <img src="/HelpPageImages/searching.PNG" alt="Searching image" class="images" />
             <p>Select the content that you wish to view and it will be loaded into the page.</p>
-            <img src="/HelpPageImages/searchComplete.PNG" alt="Search complete image" class="images" /></br>
+            <img src="/HelpPageImages/searchComplete.PNG" alt="Search complete image" class="images" /><br>
             <a href="#top">Return to top</a>
     </div>
     
@@ -108,9 +110,9 @@
             not be ashamed of your stoma surgery.</p>
         <h3>Can I travel with a stoma?</h3>
         <p>The presence of a stoma should not stop you from travelling, however it is recommended to always take a reasonable supply of stoma 
-            bags with you, as availability can be uncertain.</p> </br>
+            bags with you, as availability can be uncertain.</p> <br>
         <h3>Couldn't find what you were looking for?</h3>
-        <p>Any further questions should be directed towards your registered stoma therapy nurse.</p> </br>
+        <p>Any further questions should be directed towards your registered stoma therapy nurse.</p> <br>
 
         <p>
             FAQ adapted from:
@@ -118,7 +120,7 @@
         </p>
     </div>
 
-    <!--Contacts section-->
+    <!--Contacts section: Should be updated when actual information becomes available-->
     <div class="content" id="Contacts">
         <h1>Contacts</h1>
         <h2>XYZ Hospital</h2>
@@ -138,8 +140,8 @@
             </p>
 </div>
 
-    <!--javascript function to change sections-->
     <script>
+        //JavaScript function to change sections of the page
         function changePage(event, pageToShow) {
             var ii, content, buttons;
 
@@ -149,7 +151,8 @@
                 content[ii].style.display = "none";
             }
 
-            //get all elements with class 'pages' and remove the current tag
+            //Get all elements with class 'buttons' and remove the current tag
+            //Note: the 'current' tag dictates which page is currently visible
             buttons = document.getElementsByClassName("buttons");
             for (ii = 0; ii < buttons.length; ii++) {
                 buttons[ii].className = buttons[ii].className.replace(" current", "");
@@ -160,7 +163,7 @@
             event.currentTarget.className += " current";
         }
 
-        //initially, display the home page
+        //initially, click the invisible home page button to display the landing page
         document.getElementById("default").click();
     </script>
 
