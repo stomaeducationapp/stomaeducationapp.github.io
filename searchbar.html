@@ -1,0 +1,56 @@
+<head>
+	<link rel="stylesheet" type="text/css" href="searchstyle.css">
+</head>
+
+
+ /* example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
+<div id="dropdownUI" class="UserInterfaceSearchScreen">
+	<input id="inputBox" type="text" placeholder="Enter search..." onfocus="searchFilter()" onblur="searchFilterBlur()" onkeyup="displayFilter()">
+	<div id="dropDownList" class="dropDownList">
+
+		<a href="#apple">Apple</a>
+		<a href="#banana">Banana</a>
+		<a href="#carrot">Carrot</a>
+		<a href="#danish">Danish</a>
+		<a href="#eggplant">Eggplant</a>
+		<a href="#fritters">Fritters</a>
+		<a href="#garlic">Garlic</a>
+		<a href="#halloumi">Halloumi</a>
+		<a href="#ice">Ice</a>
+		<a href="#jalapeno">Jalapeno</a>
+	</div>
+
+</div>
+
+
+<script>
+	function searchFilter() {
+		document.getElementById("dropDownList").classList.toggle("show");
+	}
+
+	function searchFilterBlur() {
+		document.getElementById("dropDownList").classList.toggle("hide");
+	}
+
+	function displayFilter() {
+		var searchInput, searchValue, a, i;
+
+		searchInput = document.getElementById("inputBox");
+
+		searchValue = searchInput.value.toUpperCase();
+
+		div = document.getElementById("dropDownList");
+
+		a = div.getElementsByTagName("a");
+
+		for (i = 0; i < a.length; i++) {
+			if (a[i].innerHTML.toUpperCase().indexOf(searchValue) > -1) {
+				a[i].style.display = "";
+			}
+			else {
+				a[i].style.display = "none";
+			}
+
+		}
+	}
+</script>
