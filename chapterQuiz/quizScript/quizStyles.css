@@ -10,18 +10,32 @@ body {
 
 .question {
     font-weight: 600;
+    background-color: royalblue;
+    /*margin-left: 500px;
+    margin-right: 500px;*/
 }
 
 .answers {
-    margin-bottom: 20px;
+    margin: inherit;
 }
 
     .answers label {
         display: block;
     }
 
+.choices {
+    background-color: lightgray;
+    /*margin-left: 500px;
+    margin-right: 500px;
+    */
+}
+
 .reasoning {
-    visibility:hidden;
+    visibility: hidden;
+    background-color: mintcream;
+    /*margin-left: 500px;
+    margin-right: 500px;
+    */
 }
 
 .button {
@@ -36,9 +50,12 @@ body {
     margin-bottom: 20px;
 }
 
-    .button:hover {
+/* I have commented out this styling until I decide if it is necessary - if so I also need to figure out disabling it when a button
+ * that has this property is disabled
+ */
+/*    .button:hover {
         background-color: #38a;
-    }
+    }*/
 
 #continueButt {
     color: gray;
