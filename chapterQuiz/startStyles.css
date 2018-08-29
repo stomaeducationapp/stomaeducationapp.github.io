@@ -1,0 +1,15 @@
+﻿/*This is the style sheet for local styling of quizStart.html - providing edits to specific items within that page*/
+/*A lot of basics/design learned/adapted from tutorials available from www.w3schools.com*/
+
+body
+{
+}
+
+table, th, td {
+    border: 4px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+}

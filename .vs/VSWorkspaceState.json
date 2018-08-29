@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Tests"
+    "\\chapterQuiz",
+    "\\chapterQuiz\\quizScript",
+    "\\chapterQuiz\\quizzes",
+    "\\globalCSS"
   ],
-  "SelectedNode": "\\Main.html",
-  "PreviewInSolutionExplorer": true
+  "SelectedNode": "\\chapterQuiz\\quizStart.html",
+  "PreviewInSolutionExplorer": false
 }

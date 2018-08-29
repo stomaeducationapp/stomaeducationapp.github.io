@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<!-- AUTHOR INFORMATION
+     CREATOR - Jeremy Dunnet 25/08/2018
+     LAST MODIFIED BY - Jeremy Dunnet 29/08/2018
+-->
+<!-- CLASS/FILE DESCRIPTION
+     This is the web page for the fourth chapter quiz - where a user can start the quiz, answer the questions and view their results
+     Afterwards - they can continue on (if they passed), reread (if they failed) or return to main menu (either result)
+-->
+<!-- VERSION HISTORY
+     25/08/2018 - Created page and added base fucntionality from reference below
+     29/08/2018 - Updated layout and comment style
+-->
+<!-- REFERENCES
+     The base design was implemented from the provided design by https://www.sitepoint.com/simple-javascript-quiz/
+     A lot of basics/design learned/adapted from tutorials available from https://www.w3schools.com
+-->
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../quizScript/quizStyles.css">
+    <title>Chapter 4 Quiz</title>
+</head>
+<body>
+
+    <!-- This is the section for the quiz to be displayed -->
+    <div id="quiz" align="center"></div>
+
+    <!-- We use divs to hold the buttons so that we can easily manipulate thir position-->
+    <div id="submitSect" align="center">
+        <!-- This is the button we will use to submit all answers -->
+        <button class="button" id="submitButt">Submit Quiz</button>
+    </div>
+
+    <!-- This is the section for providing results -->
+    <div id="results"></div>
+
+    <!-- We use divs to hold the buttons so that we can easily manipulate thir position-->
+    <div id="returnSect" align="center">
+        <!-- This is the button we use to allow the use to return to main chapter select page -->
+        <button class="button" id="returnButt">Back to chapter select</button>
+        <!-- This is the button we dynamically change based on user result - disabled initially until they submit the quiz -->
+        <button class="button" id="continueButt" disabled>||||||||||||||||||||||||||||||||||||||||</button>
+    </div>
+
+    <!-- Run the javascript to handle the quiz -->
+    <script type="application/javascript" src="../quizScript/quiz.js"></script>
+
+</body>
+</html>

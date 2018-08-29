@@ -1,0 +1,64 @@
+﻿/* This is the design template file for the layout of all chapter quizzes, as they will be displayed the same */
+
+/* The design choices were inspired/based on the one provided by https://www.sitepoint.com/simple-javascript-quiz/ */
+
+body {
+    font-size: 20px;
+    font-family: sans-serif;
+    color: #333;
+}
+
+.question {
+    font-weight: 600;
+    background-color: royalblue;
+    /*margin-left: 500px;
+    margin-right: 500px;*/
+}
+
+.answers {
+    margin: inherit;
+}
+
+    .answers label {
+        display: block;
+    }
+
+.choices {
+    background-color: lightgray;
+    /*margin-left: 500px;
+    margin-right: 500px;
+    */
+}
+
+.reasoning {
+    visibility: hidden;
+    background-color: mintcream;
+    /*margin-left: 500px;
+    margin-right: 500px;
+    */
+}
+
+.button {
+    font-family: sans-serif;
+    font-size: 20px;
+    background-color: #279;
+    color: #fff;
+    border: 0px;
+    border-radius: 3px;
+    padding: 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+/* I have commented out this styling until I decide if it is necessary - if so I also need to figure out disabling it when a button
+ * that has this property is disabled
+ */
+/*    .button:hover {
+        background-color: #38a;
+    }*/
+
+#continueButt {
+    color: gray;
+    cursor: not-allowed;
+    background-color: gray;
+}
