@@ -39,15 +39,21 @@
         <p id="storageOutput">output: </p>
     </div>
 
-
+    <!--The actual sanitisation code-->
     <script>
         function sanitiseSearch(inTxt) {
             //do sanitisation
-            var outTxt;
+            var outTxt, maxLen;
             outTxt = inTxt;
+            maxLen = 15;
 
             //regex to remove all non alphanumeric or whitespace character
             outTxt = outTxt.replace(/[^0-9a-zA-Z ]/g, "");
+            //only accept strings less than 15 characters
+            if (outTxt.length > maxLen) {
+                outTxt = outTxt.slice(0, maxLen);
+            }
+
 
             document.getElementById("searchOutput").innerHTML = "output: " + outTxt;
         }
@@ -58,7 +64,7 @@
             inRef = localStorage.getItem(inKey);
 
             //regex to remove all non alphanumeric or whitespace or slash character
-            outRef = inRef.replace(/[^0-9a-zA-Z /]/g, "");
+            outRef = inRef.replace(/[^0-9a-zA-Z]/g, "");
 
             document.getElementById("storageOutput").innerHTML = "output: " + outRef;
         }
