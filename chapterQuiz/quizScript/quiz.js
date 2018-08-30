@@ -17,37 +17,46 @@
  * 28/08/2018 - Reworked question functionality to act as close as possible to "database" without actual database present
  * 29/08/2018 - Fixed comments to reflect group standard, reworked answer html build, reworked answer highlighting and added
  *              quiz feature disabling after submission
- * 30/08/2018 - Updated to retrieve questions from a JSON file
+ * 30/08/2018 - Updated to retrieve questions from a JSON file, redesigned layout to fit new decided style
  */
 
 /* REFERENCES
  * All code/implementation was adapted/learned from the tutorial on JavaScript Quiz at https://www.sitepoint.com/simple-javascript-quiz/
  * The function loadJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
+ * Scroll up fucntionality was learned/adapted from https://stackoverflow.com/questions/19311301/how-to-scroll-back-to-the-top-of-page-on-button-click
+ * Radio button listener code was learned adpated from http://www.dynamicdrive.com/forums/showthread.php?74477-How-do-you-attach-an-event-listener-to-radio-button-using-javascript
  * And many tutorials/documentation from https://www.w3schools.com 
  */
 
 //Global file variable declarations here.
 
 //Thes are the ID variables we will use to access the html objects in the provided .html document
-const quizContainer = document.getElementById("quiz");
-const resultsContainer = document.getElementById("results");
-const submitButton = document.getElementById("submitButt");
+//Chapter Section
+const informationContainer = document.getElementById("information");
+//Question Section
+const quizTitleContainer = document.getElementById("qTitle");
+const answersContainer = document.getElementById("answers");
+const reasoningContainer = document.getElementById("reasoning");
+const scoreContainer = document.getElementById("score");
+const encouragementContainer = document.getElementById("encouragement");
+//Buttons
 const returnButton = document.getElementById("returnButt");
+const retryButton = document.getElementById("retryButt");
+const nextButton = document.getElementById("nextButt");
 const continueButton = document.getElementById("continueButt");
 
-//We want a constant pass result we can use for a continue button and any future "pass required" features
-const passMark = 5;
+/* REMOVED FEATURE: No grading is done in current layout since we encourage users to get all answers right
+ * We want a constant pass result we can use for a continue button and any future "pass required" features
+ * const passMark = 5;
+ */
 //Variable to hold the maximum number of questions for this chapter in the database (for generating random numbers later)
 const QMAX = 25;
 
-//Set a global container for the url value for the continue button
-continueHref = "";
-
 //This is the global container for the selected 10 questions the quiz will use throughout the page
-myQuestions = new Array(10);
+var myQuestions = new Array(10);
 
 //We will use this variable to track what question we are on and then when it is answered correctly we move on to the next
-numCorrect = 0;
+var numCorrect;
 
 //A const name for the corresponding JSON file we will use to simulate a request to a database - path is weird due to the XMLHTTPRequest object
 //gets its path from the linked HTML page rather than this document. The JSON file does not allow comments so it's comment block is located below
@@ -61,7 +70,7 @@ numCorrect = 0;
  * The JSON file is also parsed directly into a javascript object so it can be used easily
  * 
  * VERSION HISTORY
- * 30/08/2018 - Created and laid out to needs of the .js code
+ * 30/08/2018 - Created and laid out to needs of the .js code and added the revisionText field (really long but all gibberish)
  * 
  * REFERENCES
  * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
@@ -73,53 +82,65 @@ const jsonFile = "../quizScript/questionList.json";
 //Function declarations
 
 /* FUNCTION INFORMATION
- * NAME - buildQuiz
+ * NAME - buildQuestion
  * INPUTS - none
  * OUTPUTS - none (Data is reflected to the screen inside the function)
- * PURPOSE - This is the function to begin build/setup of the quiz by obtaining the randomized questions and creating the sections
- *           of each questions element in HTML
+ * PURPOSE - This is the function to build the next question in the Question div (either refresh if got wrong or create new if got right)
  */
-function buildQuiz()
+function buildQuestion()
 {
     //Store all html output from the page
-    const output = [];
+    const answers = [];
 
-    //For every question create a display frame
-    for (ii = 0; ii < myQuestions.length; ii++)
+    currentQuestion = myQuestions[numCorrect]; //We select the question based on number correct as that correlates to the current array question
+
+
+    //Push the question choices to an array for display
+    for (letter in currentQuestion.answers)
     {
-
-        currentQuestion = myQuestions[ii];
-
-        //Store all choices for each question
-        const answers = [];
-
-        //Push the question choices to an array for display
-        for (letter in currentQuestion.answers)
-        {
-
-            // Add the choice and a button for user to select it as the answer
-            answers.push
-                (
-                `<div class="choices">
-                        <input type="radio" name="question${ii}" value="${letter}">
+        //Add the choice and a button for user to select it as the answer
+        answers.push
+            (
+            `<div class="choices">
+                        <input type="radio" name="question${numCorrect}" value="${letter}">
                             ${letter} :
                             ${currentQuestion.answers[letter]}
                      </div>`
-                );
-        }
-
-        //Add the built question to the output
-        output.push
-            (
-            `<div class="question"> ${currentQuestion.question} </div>
-                 <div class="answers"> ${answers.join('')} </div>
-                 <div class="reasoning"> ${currentQuestion.reasoning} </div> <br ?>`
             );
-
     }
 
-    //Put the finished questions back on the page
-    quizContainer.innerHTML = output.join("");
+    //Put the finished question back on the page
+    quizTitleContainer.innerHTML = currentQuestion.question;
+    reasoningContainer.innerHTML = currentQuestion.reasoning;
+    reasoningContainer.style.visibility = "hidden";
+    informationContainer.innerHTML = currentQuestion.revisionText;
+    answersContainer.innerHTML = answers.join("");
+
+    //Set all buttons to disabled and hide their text
+    retryButton.disabled = true;
+    retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    retryButton.style.backgroundColor = "gray";
+    retryButton.style.cursor = "not-allowed";
+
+    nextButton.disabled = true;
+    nextButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    nextButton.style.backgroundColor = "gray";
+    nextButton.style.cursor = "not-allowed";
+
+    continueButton.disabled = true;
+    continueButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    continueButton.style.backgroundColor = "gray";
+    continueButton.style.cursor = "not-allowed";
+
+
+    //Now that the radio buttons are back on the page - let's set a event listener to activate when one is clicked
+    var radioButtons = document.getElementsByName("question" + numCorrect);
+
+    for (ii = 0; ii < radioButtons.length; ii++)
+    {
+        radioButtons[ii].onclick = showResult;
+    }
+ 
 }
 
 /* FUNCTION INFORMATION
@@ -193,47 +214,126 @@ function setQuestions(response)
 
     }
 
-    //Call buildQuiz to start assembling - CHANGE TO buildQuestion WHEN NEW LAYOUT IN PLAY
-    buildQuiz();
+    //Call buildQuestion to start assembling the first question - which we have set by assigning 0 to numCorrect (0-based array)
+    numCorrect = 0;
+    buildQuestion();
 
 }
 
 /* FUNCTION INFORMATION
- * NAME - showResults
+ * NAME - showResult
  * INPUTS - none
  * OUTPUTS - none (changes to the corresponding HTML are reflected back within this function)
- * PURPOSE - This function is activated on button press when the user has finished the quiz, collates the answers and evaluates them
- *           to be displayed back to them as a score (with the reasoning unhidden beneath each question to give users help in
- *           understanding why an answer is correct)
+ * PURPOSE - This function is activated on selection of an answer when the user decides and what to choose for the given question,
+ *           we then evaluate the answer and reflect it in a score and encouragement statement. If they got it wrong they are given a
+ *           chance to retry, if they got it correct they can continue to the next question
+ *           (with the reasoning unhidden beneath each question to give users help in understanding why an answer is correct)
  */
-function showResults()
+function showResult()
 {
-    //Get all answers the user selected in the quiz from the page
-    const answerContainers = quizContainer.querySelectorAll(".answers");
+    //Get all answers the user selected in the question from the page
+    const choicesContainer = answersContainer.querySelectorAll(".choices");
 
-    //Go through each question and check the answer
-    for (ii = 0; ii < myQuestions.length; ii++)
+
+    const currentQuestion = myQuestions[numCorrect];
+    const selector = "input[name=question" + numCorrect + "]:checked";
+    const userAnswer = (answersContainer.querySelector(selector) || {}).value;
+
+    //If the got the correct answer or hit one of my trick questions and at least selected an answer
+    if ((userAnswer === currentQuestion.correctAnswer) || (((typeof userAnswer) !== "undefined") && (currentQuestion.correctAnswer === "D")))
     {
 
-        //Find the answer the user selected for this question
-        const answerContainer = answerContainers[ii];
-        const currentQuestion = myQuestions[ii];
-        const selector = "input[name=question" + ii + "]:checked";
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+        numCorrect++; //Increment the number of questions they got correct
+        var correctChoice;
 
-        //If the got the correct answer or hit one of my trick questions and at least selected an answer
-        if ((userAnswer === currentQuestion.correctAnswer) || (((typeof userAnswer) !== "undefined") && (currentQuestion.correctAnswer === "D")))
+        for (jj = 0; jj < 3; jj++) //Iterate through every choice
         {
+            currentChoice = choicesContainer[jj];
+            choiceValue = currentChoice.querySelector(selector); //Since they picked the wrong answer - the :checked selector will
+            //find it
+            if (choiceValue !== null) //Only accept the querySelector that returns a valid element
+            {
+                correctChoice = currentChoice;
+            }
+        }
 
-            const choicesContainer = answerContainer.querySelectorAll(".choices"); //Grab all the choices
-            var correctChoice; //Where we will store the correct choice
-            numCorrect++;
+        correctChoice.style.color = "green"; //Color and add a tick to reaffirm how smart the user is
+        correctChoice.innerHTML += "✔"; //UTF-8 symbol for tick mark (U+2713)
+
+        if (numCorrect === 10) //User has completed the quiz
+        {
+            continueButton
+
+            //Disable the retry button - no incorrect answer
+            retryButton.innerHTML = "Retry question"; //Padded to give uniform button size
+            retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            retryButton.style.backgroundColor = "gray";
+            retryButton.disabled = true;  //Disable button press
+            retryButton.style.cursor = "not-allowed";
+
+            //Disable the next button - got it right
+            nextButton.innerHTML = "Next question"; //Padded to give uniform button size
+            nextButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            nextButton.style.backgroundColor = "gray";
+            nextButton.disabled = true;  //Disable button press
+            nextButton.style.cursor = "not-allowed";
+
+            //Enable continue to next quiz buttton
+            continueButton.innerHTML = "Continue to next chapter quiz";
+            continueButton.style.color = "#fff";  //Change the colors back to the "normal" button settings
+            continueButton.style.backgroundColor = "#279";
+            continueButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+            continueButton.style.cursor = "pointer";
+        }
+        else
+        {
+            //Disable the retry button - no incorrect answer
+            retryButton.innerHTML = "Retry question"; //Padded to give uniform button size
+            retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            retryButton.style.backgroundColor = "gray";
+            retryButton.disabled = true;  //Disable button press
+            retryButton.style.cursor = "not-allowed";
+
+            //Enableable the next button - got it right
+            nextButton.innerHTML = "Next question"; //Padded to give uniform button size
+            nextButton.style.color = "#fff";  //Change the colors back to the "normal" button settings
+            nextButton.style.backgroundColor = "#279";
+            nextButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+            nextButton.style.cursor = "pointer";
+        }
+
+
+    }
+    //If they got it wrong (including no answer)
+    else
+    {
+        if ((typeof userAnswer) !== "undefined") //If they selected an answer
+        {
+            var incorrectChoice; //Where we will store the incorrect choice
 
             for (jj = 0; jj < 3; jj++) //Iterate through every choice
             {
                 currentChoice = choicesContainer[jj];
-                choiceValue = currentChoice.querySelector(selector); //Since they picked the right answer - the :checked selector will
-                                                                     //find it
+                choiceValue = currentChoice.querySelector(selector); //Since they picked the wrong answer - the :checked selector will
+                //find it
+                if (choiceValue !== null) //Only accept the querySelector that returns a valid element
+                {
+                    incorrectChoice = currentChoice;
+                }
+            }
+
+            incorrectChoice.style.color = "red"; //Color and add a cross to say "Bad user!"
+            incorrectChoice.innerHTML += "✖";  //UTF-8 symbol for heavy multiplication (U+2716)
+
+            //Now we need to tell the user what the right answer was so they learn
+            var correctChoice; //Where we will store the correct choice
+            const correctSelector = "input[value=" + currentQuestion.correctAnswer + "]";
+
+            for (jj = 0; jj < 3; jj++) //Iterate through every choice
+            {
+                currentChoice = choicesContainer[jj];
+                choiceValue = currentChoice.querySelector(correctSelector); //Since they picked the right answer - the :checked selector will
+                //find it
                 if (choiceValue !== null) //Only accept the querySelector that returns a valid element
                 {
                     correctChoice = currentChoice;
@@ -242,150 +342,81 @@ function showResults()
 
             correctChoice.style.color = "green"; //Color and add a tick to reaffirm how smart  the user is
             correctChoice.innerHTML += "✔"; //UTF-8 symbol for tick mark (U+2713)
-
         }
-        //If they got it wrong (including no answer)
-        else
+
+        //If they didn't select an answer then we don't change the color of the unchecked answers - if they want to be that lazy
+        //so can I!
+
+        /* Added this if we decide to allow trick questions to show that all the answers were correct
+         * Only for if above comment turns out to be not the desired functionality for skipped questions
+        if (currentQuestion.correctAnswer === "D") //It's a trick/all of the above question so we need to select them all
+                                                   //So they can know I tricked them!
         {
-            if ((typeof userAnswer) !== "undefined") //If they selected an answer
+            const choicesContainer = answerContainer.querySelectorAll(".choices"); //Grab all the choices
+
+            for (jj = 0; jj < 3; jj++) //Iterate through every choice
             {
-
-                const choicesContainer = answerContainer.querySelectorAll(".choices"); //Grab all the choices
-                var incorrectChoice; //Where we will store the incorrect choice
-
-                for (jj = 0; jj < 3; jj++) //Iterate through every choice
-                {
-                    currentChoice = choicesContainer[jj];
-                    choiceValue = currentChoice.querySelector(selector); //Since they picked the wrong answer - the :checked selector will
-                    //find it
-                    if (choiceValue !== null) //Only accept the querySelector that returns a valid element
-                    {
-                        incorrectChoice = currentChoice;
-                    }
-                }
-
-                incorrectChoice.style.color = "red"; //Color and add a cross to say "Bad user!"
-                incorrectChoice.innerHTML += "✖";  //UTF-8 symbol for heavy multiplication (U+2716)
-
-                //Now we need to tell the user what the right answer was so they learn
-                var correctChoice; //Where we will store the correct choice
-                const correctSelector = "input[value=" + currentQuestion.correctAnswer + "]";
-
-                for (jj = 0; jj < 3; jj++) //Iterate through every choice
-                {
-                    currentChoice = choicesContainer[jj];
-                    choiceValue = currentChoice.querySelector(correctSelector); //Since they picked the right answer - the :checked selector will
-                    //find it
-                    if (choiceValue !== null) //Only accept the querySelector that returns a valid element
-                    {
-                        correctChoice = currentChoice;
-                    }
-                }
-
-                correctChoice.style.color = "green"; //Color and add a tick to reaffirm how smart  the user is
-                correctChoice.innerHTML += "✔"; //UTF-8 symbol for tick mark (U+2713)
+                currentChoice = choicesContainer[jj];
+                currentChoice.style.color = "green"; //Color and add a tick to reaffirm how smart  the user is
+                currentChoice.innerHTML += "✔"; //UTF-8 symbol for tick mark (U+2713)
             }
 
-            //If they didn't select an answer then we don't change the color of the unchecked answers - if they want to be that lazy
-            //so can I!
+        }*/
 
-            /* Added this if we decide to allow trick questions to show that all the answers were correct
-             * Only for if above comment turns out to be not the desired fucntionality for skipped questions
-             * if (currentQuestion.correctAnswer === "D") //It's a trick/all of the above question so we need to select them all
-                                                       //So they can know I tricked them!
-            {
-                const choicesContainer = answerContainer.querySelectorAll(".choices"); //Grab all the choices
+        //Enable the retry button - give a chance to try again
+        retryButton.innerHTML = "Retry question"; //Padded to give uniform button size
+        retryButton.style.color = "#fff";  //Change the colors back to the "normal" button settings
+        retryButton.style.backgroundColor = "#279";
+        retryButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+        retryButton.style.cursor = "pointer";
 
-                for (jj = 0; jj < 3; jj++) //Iterate through every choice
-                {
-                    currentChoice = choicesContainer[jj];
-                    currentChoice.style.color = "green"; //Color and add a tick to reaffirm how smart  the user is
-                    currentChoice.innerHTML += "✔"; //UTF-8 symbol for tick mark (U+2713)
-                }
+    }
 
-            }*/
-
-        } 
-
-        //Now we want to disable all the radio buttons for this questions (stops people messing with answers afterwards)
-        const choiceSelector = "input[type=radio]"; //Select only radio button input tags
-        const choice = answerContainer.querySelectorAll(choiceSelector); //Grab all for this question
-        for (jj = 0; jj < 3; jj++)
-        {
-            choice[jj].disabled = true; //Disabled being able to select this
-        }
-
+    //Now we want to disable all the radio buttons for this questions (stops people messing with answers afterwards)
+    const choiceSelector = "input[type=radio]"; //Select only radio button input tags
+    const choice = answersContainer.querySelectorAll(choiceSelector); //Grab all for this question
+    for (jj = 0; jj < 3; jj++)
+    {
+        choice[jj].disabled = true; //Disable being able to select this
     }
 
     //Unhide the reasoning by disabling the visibility tag
-    const reasonContainer = quizContainer.querySelectorAll(".reasoning");
-    for (ii = 0; ii < myQuestions.length; ii++)
-    {
-        reasonContainer[ii].style.visibility = "visible";
-    }
-
+    reasoningContainer.style.visibility = "visible";
 
     //Place a custom congratulations message based on what score the user got
     switch (numCorrect)
     {
         case 0:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "You suck." + "</p>";
+            scoreContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "</p>";
+            encouragementContainer.innerHTML = '<p align="center"> Just getting started. </p>';
             break;
         case 1:
         case 2:
         case 3:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Come on man." + "</p>";
-            break;
         case 4:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Bad Luck Brian" + "</p>";
+            scoreContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "</p>";
+            encouragementContainer.innerHTML = '<p align="center"> Keep it up! </p>';
             break;
         case 5:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Just snuck in there didn't ya!" + "</p>";
+            scoreContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "</p>";
+            encouragementContainer.innerHTML = '<p align="center"> Halfway there! </p>';
             break;
         case 6:
         case 7:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Not too shabby!" + "</p>";
+            scoreContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "</p>";
+            encouragementContainer.innerHTML = '<p align="center"> You\'re going great! </p>';
             break;
         case 8:
         case 9:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Nearly there!" + "</p>";
+            scoreContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "</p>";
+            encouragementContainer.innerHTML = '<p align="center"> Nearly there! </p>';
             break;
         case 10:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Ultimate Quiz Master" + "</p>";
+            scoreContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "</p>";
+            encouragementContainer.innerHTML = '<p align="center"> Ultimate quiz master! </p>';
             break;
 
     }
-
-    //Now we want to edit which continue button they get based on if they passed or not
-    if (numCorrect >= passMark)
-    {
- 
-        continueVal = document.getElementById("continueButt"); //Grab the button element
-        continueVal.innerHTML = "Next Chapter";
-        continueVal.style.color = "#fff";  //Change the colors back to the "normal" button settings
-        continueVal.style.backgroundColor = "#279";
-        continueVal.disabled = false;  //Remove the lock on the button and return cursor to standard as well
-        continueVal.style.cursor = "pointer";
-        continueHref = "chapterTwoQuiz.html"; //CHAPTER CONTENT HAS NOT YET BEEN IMPLEMENTED - EDIT ONCE THIS IS DONE
-
-    }
-    else
-    {
-
-        continueVal = document.getElementById("continueButt"); //Grab the button element
-        continueVal.innerHTML = "Back to start of Chapter";
-        continueVal.style.color = "#fff"; //Change the colors back to the "normal" button settings
-        continueVal.style.backgroundColor = "#279";
-        continueVal.disabled = false; //Remove the lock on the button and return cursor to standard as well
-        continueVal.style.cursor = "pointer";
-        continueHref = "chapterOnequiz.html"; //CHAPTER CONTENT HAS NOT YET BEEN IMPLEMENTED - EDIT ONCE THIS IS DONE
-
-    }
-
-    //Now that the results submission is done - we disable the submit results button so it also can't be clicked by curious people
-    submitButton.style.backgroundColor = "gray";
-    submitButton.style.cursor = "not-allowed";
-    submitButton.disabled = true;
 
 }
 
@@ -404,24 +435,28 @@ function goBack()
  * NAME -goForward
  * INPUTS - none
  * OUTPUTS - none (navigates the user away from this page)
- * PURPOSE - This button event method takes to user to the value of continueHref (which is set based on quiz score) to either the
- *           next chapter or to reread the previous one based on if they passed or not
+ * PURPOSE - This button event method takes to user to the next chapter quiz since this unlocks when we have completed the quiz
  */
 function goForward()
 {
-    window.location.assign(continueHref);
+    //At current implementation no other chapter quizzes are fleshed out but we go there anyway
+    window.location.assign("chapterTwoQuiz.html");
 }
+
 
 //Code starts here
 
-//We start but requesting the JSON to retrieve the question list - CHANGE TO buildQuiz WHEN NEW LAYOUT IN PLAY
+//We start but requesting the JSON to retrieve the question list
 loadJSON();
 
-//Once the user clicks submit - show them their results
-submitButton.addEventListener("click", showResults);
 
-//If the user clicks return - go back to the quiz selector page
+//Once the user gets the answer wrong - once clicked reloads the question (since numCorrect is not incremented will rebuild same question) 
+retryButton.addEventListener("click", buildQuestion);
+//If the user gets the answer right - builds next question (since numCorrect incremented)
+nextButton.addEventListener("click", buildQuestion);
+
+//If the user clicks go back to chapter select - go back to the quiz selector page
 returnButton.addEventListener("click", goBack);
 
-//If the user completes the quiz - we will take them top what continueHref is set to
+//If the user completes the quiz - we will take them to the next chapter quiz
 continueButton.addEventListener("click", goForward);
