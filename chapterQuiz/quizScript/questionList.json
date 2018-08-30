@@ -1,0 +1,281 @@
+{
+
+  "questions":[
+    {
+      "id": 1,
+      "question": "What time is noon?",
+      "answers": {
+        "A": "10am",
+        "B": "12pm",
+        "C": "9pm"
+      },
+      "correctAnswer": "B",
+      "reasoning": "Noon is the middle of the day."
+    },
+    {
+      "id": 2,
+      "question": "What is a centuar?",
+      "answers": {
+        "A": "Man and Bull",
+        "B": "Man and Goat",
+        "C": "Man and Horse"
+      },
+      "correctAnswer": "C",
+      "reasoning": "The centuar is a man with a horse's legs instead of his own."
+    },
+    {
+      "id": 3,
+      "question": "Who invented paper?",
+      "answers": {
+        "A": "China",
+        "B": "Japan",
+        "C": "America"
+      },
+      "correctAnswer": "A",
+      "reasoning": "The chinese used rice-based paper as far back as 200BC."
+    },
+    {
+      "id": 4,
+      "question": "Who is the current Australian prime minister?",
+      "answers": {
+        "A": "Malcom Turnbull",
+        "B": "Scott Morrison",
+        "C": "Who knows today?"
+      },
+      "correctAnswer": "C",
+      "reasoning": "It can change so fast apparently."
+    },
+    {
+      "id": 5,
+      "question": "What sound does a cat make?",
+      "answers": {
+        "A": "Woof",
+        "B": "Meow",
+        "C": "Moo"
+      },
+      "correctAnswer": "B",
+      "reasoning": "If I need to explain it - then we have a problem."
+    },
+    {
+      "id": 6,
+      "question": "Why could you get a stoma?",
+      "answers": {
+        "A": "Just want it",
+        "B": "Bowel/Gut problems",
+        "C": "Everyone else is getting one"
+      },
+      "correctAnswer": "B",
+      "reasoning": "It is used as a bypass for lower instinal/bowel issues - when they either don't function properly or need time to heal."
+    },
+    {
+      "id": 7,
+      "question": "What are you currently participating in?",
+      "answers": {
+        "A": "A quiz",
+        "B": "An interrogation",
+        "C": "A game show"
+      },
+      "correctAnswer": "A",
+      "reasoning": "Some are pretty obvious, right?"
+    },
+    {
+      "id": 8,
+      "question": "Which is the correct answer?",
+      "answers": {
+        "A": "B",
+        "B": "C",
+        "C": "A"
+      },
+      "correctAnswer": "D",
+      "reasoning": "Just messing with you."
+    },
+    {
+      "id": 9,
+      "question": "What colour is a stop sign?",
+      "answers": {
+        "A": "Blue",
+        "B": "Green",
+        "C": "Red"
+      },
+      "correctAnswer": "C",
+      "reasoning": "Red is common symbol of dnager, used to make you pay attention."
+    },
+    {
+      "id": 10,
+      "question": "What is 2+2?",
+      "answers": {
+        "A": "4",
+        "B": "3",
+        "C": "2"
+      },
+      "correctAnswer": "A",
+      "reasoning": "Use your fingers."
+    },
+    {
+      "id": 11,
+      "question": "How long does it take light from the sun to reach the earth?",
+      "answers": {
+        "A": "1 hour",
+        "B": "8 minutes",
+        "C": "The blink of an eye"
+      },
+      "correctAnswer": "B",
+      "reasoning": "The distance between the sun and earth is 149.6 million km."
+    },
+    {
+      "id": 12,
+      "question": "Who is Batman's secret identity?",
+      "answers": {
+        "A": "Clark Kent",
+        "B": "Peter Parker",
+        "C": "Bruce Wayne"
+      },
+      "correctAnswer": "C",
+      "reasoning": "Read a comic man."
+    },
+    {
+      "id": 13,
+      "question": "Why do we get night and day?",
+      "answers": {
+        "A": "They turn the sun off",
+        "B": "The earth's rotation",
+        "C": "The sun gets really far away"
+      },
+      "correctAnswer": "B",
+      "reasoning": "Did you really think the other's were true?"
+    },
+    {
+      "id": 14,
+      "question": "What is the name of a real ocean?",
+      "answers": {
+        "A": "Pacific ocean",
+        "B": "Specific ocean",
+        "C": "Pacific Standard Ocean"
+      },
+      "correctAnswer": "A",
+      "reasoning": "I got pretty specific didn't I?"
+    },
+    {
+      "id": 15,
+      "question": "What are you chances of winning the lottery?",
+      "answers": {
+        "A": "45%",
+        "B": "1 in 100000",
+        "C": "You can't"
+      },
+      "correctAnswer": "C",
+      "reasoning": "A bit cynical."
+    },
+    {
+      "id": 16,
+      "question": "Use the force ____?",
+      "answers": {
+        "A": "Luke",
+        "B": "Chewie",
+        "C": "You fool!"
+      },
+      "correctAnswer": "A",
+      "reasoning": "Watch a movie."
+    },
+    {
+      "id": 17,
+      "question": "Where would you find the answer to this question?",
+      "answers": {
+        "A": "Here",
+        "B": "Google it",
+        "C": "Guess"
+      },
+      "correctAnswer": "D",
+      "reasoning": "You're tactic is as good as mine."
+    },
+    {
+      "id": 18,
+      "question": "Is this question different from the others?",
+      "answers": {
+        "A": "Yes",
+        "B": "No",
+        "C": "I wasn't paying attention"
+      },
+      "correctAnswer": "A",
+      "reasoning": "It should be."
+    },
+    {
+      "id": 19,
+      "question": "How many fingers am I holding up?",
+      "answers": {
+        "A": "You don't even have hands",
+        "B": "All of them",
+        "C": "Just one"
+      },
+      "correctAnswer": "C",
+      "reasoning": "Can you guess which one?"
+    },
+    {
+      "id": 20,
+      "question": "What happens when you sleep?",
+      "answers": {
+        "A": "Everyone hides",
+        "B": "You dream",
+        "C": "They cover your eyes"
+      },
+      "correctAnswer": "B",
+      "reasoning": "If you picked the others, my friends in black want to talk with you."
+    },
+    {
+      "id": 21,
+      "question": "What was Chicken Little afraid of?",
+      "answers": {
+        "A": "The sky falling down",
+        "B": "Thanksgiving",
+        "C": "Rotten eggs"
+      },
+      "correctAnswer": "A",
+      "reasoning": "Read a book."
+    },
+    {
+      "id": 22,
+      "question": "What is your pin number?",
+      "answers": {
+        "A": "1234",
+        "B": "password1",
+        "C": "Can't catch me!"
+      },
+      "correctAnswer": "C",
+      "reasoning": "If you picked the others, I'm stealing your money."
+    },
+    {
+      "id": 23,
+      "question": "How do all Australians get around?",
+      "answers": {
+        "A": "A car dummy",
+        "B": "Kangaroos",
+        "C": "Walking"
+      },
+      "correctAnswer": "B",
+      "reasoning": "It is 100% true."
+    },
+    {
+      "id": 24,
+      "question": "Why am I a bad coder?",
+      "answers": {
+        "A": "Don't answer that",
+        "B": "Bad teaching",
+        "C": "Bad learner"
+      },
+      "correctAnswer": "A",
+      "reasoning": "Please don't."
+    },
+    {
+      "id": 25,
+      "question": "Why is the quiz taking so long?",
+      "answers": {
+        "A": "Time is funny here",
+        "B": "Do you really wanna know?",
+        "C": "It's endless"
+      },
+      "correctAnswer": "B",
+      "reasoning": "Do you?"
+    }
+  ]
+
+}

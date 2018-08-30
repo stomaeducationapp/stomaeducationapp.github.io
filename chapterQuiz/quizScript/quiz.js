@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 24/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 29/08/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 30/08/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -17,10 +17,12 @@
  * 28/08/2018 - Reworked question functionality to act as close as possible to "database" without actual database present
  * 29/08/2018 - Fixed comments to reflect group standard, reworked answer html build, reworked answer highlighting and added
  *              quiz feature disabling after submission
+ * 30/08/2018 - Updated to retrieve questions from a JSON file
  */
 
 /* REFERENCES
  * All code/implementation was adapted/learned from the tutorial on JavaScript Quiz at https://www.sitepoint.com/simple-javascript-quiz/
+ * The function loadJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
  * And many tutorials/documentation from https://www.w3schools.com 
  */
 
@@ -41,285 +43,11 @@ const QMAX = 25;
 //Set a global container for the url value for the continue button
 continueHref = "";
 
-//A initial client side based set of questions - REMOVE BEFORE RELEASE -> REPLACE WITH DATABASE RETRIEVAL
-//This will be replaced with a myQuestion object that has all the same fields - but is an empty object which we build in setQuestions
-const myQuestions = [
-    {
-        id: 1,
-        question: "What time is noon?",
-        answers: {
-            A: "10am",
-            B: "12pm",
-            C: "9pm"
-        },
-        correctAnswer: "B",
-        reasoning: "Noon is the middle of the day."
-    },
-    {
-        id: 2,
-        question: "What is a centuar?",
-        answers: {
-            A: "Man and Bull",
-            B: "Man and Goat",
-            C: "Man and Horse"
-        },
-        correctAnswer: "C",
-        reasoning: "The centuar is a man with a horse's legs instead of his own."
-    },
-    {
-        id: 3,
-        question: "Who invented paper?",
-        answers: {
-            A: "China",
-            B: "Japan",
-            C: "America"
-        },
-        correctAnswer: "A",
-        reasoning: "The chinese used rice-based paper as far back as 200BC."
-    },
-    {
-        id: 4,
-        question: "Who is the current Australian prime minister?",
-        answers: {
-            A: "Malcom Turnbull",
-            B: "Scott Morrison",
-            C: "Who knows today?"
-        },
-        correctAnswer: "C",
-        reasoning: "It can change so fast apparently."
-    },
-    {
-        id: 5,
-        question: "What sound does a cat make?",
-        answers: {
-            A: "Woof",
-            B: "Meow",
-            C: "Moo"
-        },
-        correctAnswer: "B",
-        reasoning: "If I need to explain it - then we have a problem."
-    },
-    {
-        id: 6,
-        question: "Why could you get a stoma?",
-        answers: {
-            A: "Just want it",
-            B: "Bowel/Gut problems",
-            C: "Everyone else is getting one"
-        },
-        correctAnswer: "B",
-        reasoning: "It is used as a bypass for lower instinal/bowel issues - when they either don't function properly or need time to heal."
-    },
-    {
-        id: 7,
-        question: "What are you currently participating in?",
-        answers: {
-            A: "A quiz",
-            B: "An interrogation",
-            C: "A game show"
-        },
-        correctAnswer: "A",
-        reasoning: "Some are pretty obvious, right?"
-    },
-    {
-        id: 8,
-        question: "Which is the correct answer?",
-        answers: {
-            A: "B",
-            B: "C",
-            C: "A"
-        },
-        correctAnswer: "D",
-        reasoning: "Just messing with you."
-    },
-    {
-        id: 9,
-        question: "What colour is a stop sign?",
-        answers: {
-            A: "Blue",
-            B: "Green",
-            C: "Red"
-        },
-        correctAnswer: "C",
-        reasoning: "Red is common symbol of dnager, used to make you pay attention."
-    },
-    {
-        id: 10,
-        question: "What is 2+2?",
-        answers: {
-            A: "4",
-            B: "3",
-            C: "2"
-        },
-        correctAnswer: "A",
-        reasoning: "Use your fingers."
-    },
-    {
-        id: 11,
-        question: "How long does it take light from the sun to reach the earth?",
-        answers: {
-            A: "1 hour",
-            B: "8 minutes",
-            C: "The blink of an eye"
-        },
-        correctAnswer: "B",
-        reasoning: "The distance between the sun and earth is 149.6 million km."
-    },
-    {
-        id: 12,
-        question: "Who is Batman's secret identity?",
-        answers: {
-            A: "Clark Kent",
-            B: "Peter Parker",
-            C: "Bruce Wayne"
-        },
-        correctAnswer: "C",
-        reasoning: "Read a comic man."
-    },
-    {
-        id: 13,
-        question: "Why do we get night and day?",
-        answers: {
-            A: "They turn the sun off",
-            B: "The earth's rotation",
-            C: "The sun gets really far away"
-        },
-        correctAnswer: "B",
-        reasoning: "Did you really think the other's were true?"
-    },
-    {
-        id: 14,
-        question: "What is the name of a real ocean?",
-        answers: {
-            A: "Pacific ocean",
-            B: "Specific ocean",
-            C: "Pacific Standard Ocean"
-        },
-        correctAnswer: "A",
-        reasoning: "I got pretty specific didn't I?"
-    },
-    {
-        id: 15,
-        question: "What are you chances of winning the lottery?",
-        answers: {
-            A: "45%",
-            B: "1 in 100000",
-            C: "You can't"
-        },
-        correctAnswer: "C",
-        reasoning: "A bit cynical."
-    },
-    {
-        id: 16,
-        question: "Use the force ____?",
-        answers: {
-            A: "Luke",
-            B: "Chewie",
-            C: "You fool!"
-        },
-        correctAnswer: "A",
-        reasoning: "Watch a movie."
-    },
-    {
-        id: 17,
-        question: "Where would you find the answer to this question?",
-        answers: {
-            A: "Here",
-            B: "Google it",
-            C: "Guess"
-        },
-        correctAnswer: "D",
-        reasoning: "You're tactic is as good as mine."
-    },
-    {
-        id: 18,
-        question: "Is this question different from the others?",
-        answers: {
-            A: "Yes",
-            B: "No",
-            C: "I wasn't paying attention"
-        },
-        correctAnswer: "A",
-        reasoning: "It should be."
-    },
-    {
-        id: 19,
-        question: "How many fingers am I holding up?",
-        answers: {
-            A: "You don't even have hands",
-            B: "All of them",
-            C: "Just one"
-        },
-        correctAnswer: "C",
-        reasoning: "Can you guess which one?"
-    },
-    {
-        id: 20,
-        question: "What happens when you sleep?",
-        answers: {
-            A: "Everyone hides",
-            B: "You dream",
-            C: "They cover your eyes"
-        },
-        correctAnswer: "B",
-        reasoning: "If you picked the others, my friends in black want to talk with you."
-    },
-    {
-        id: 21,
-        question: "What was Chicken Little afraid of?",
-        answers: {
-            A: "The sky falling down",
-            B: "Thanksgiving",
-            C: "Rotten eggs"
-        },
-        correctAnswer: "A",
-        reasoning: "Read a book."
-    },
-    {
-        id: 22,
-        question: "What is your pin number?",
-        answers: {
-            A: "1234",
-            B: "password1",
-            C: "Can't catch me!"
-        },
-        correctAnswer: "C",
-        reasoning: "If you picked the others, I'm stealing your money."
-    },
-    {
-        id: 23,
-        question: "How do all Australians get around?",
-        answers: {
-            A: "A car dummy",
-            B: "Kangaroos",
-            C: "Walking"
-        },
-        correctAnswer: "B",
-        reasoning: "It is 100% true."
-    },
-    {
-        id: 24,
-        question: "Why am I a bad coder?",
-        answers: {
-            A: "Don't answer that",
-            B: "Bad teaching",
-            C: "Bad learner"
-        },
-        correctAnswer: "A",
-        reasoning: "Please don't."
-    },
-    {
-        id: 25,
-        question: "Why is the quiz taking so long?",
-        answers: {
-            A: "Time is funny here",
-            B: "Do you really wanna know?",
-            C: "It's endless"
-        },
-        correctAnswer: "B",
-        reasoning: "Do you?"
-    }
-];
+//This is the global container for the selected 10 questions the quiz will use throughout the page
+myQuestions = new Array[10];
+
+//We will use this variables to track what question we are on and then when it is answered correctly we move on to the next
+numCorrect = 0;
 
 //Function declarations
 
@@ -371,6 +99,30 @@ function buildQuiz()
 
     //Put the finished questions back on the page
     quizContainer.innerHTML = output.join("");
+}
+
+/* FUNCTION INFORMATION
+ * NAME - loadJSON
+ * INPUTS - none
+ * OUTPUTS - questions (Array of randomly selected questions from another source (Database/JSON/Object Array etc.))
+ * PURPOSE - This is the method that randomly selected questions from a source by using Math.random to generate a number within a set
+ *           bound and then pulling the question with that numerical id into the array to be returned
+ */
+function loadJSON(callback)
+{
+
+    var xobj = new XMLHttpRequest(); //Create a request object to get the data from the JSON File
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', 'my_data.json', true); // Replace 'my_data' with the path to your file
+    xobj.onreadystatechange = function ()
+    {
+        if (xobj.readyState == 4 && xobj.status == "200")
+        {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+        }
+    };
+    xobj.send(null);
 }
 
 /* FUNCTION INFORMATION
@@ -433,9 +185,6 @@ function showResults()
 {
     //Get all answers the user selected in the quiz from the page
     const answerContainers = quizContainer.querySelectorAll(".answers");
-
-    //Have a variable to track the number of questions the user got correct
-    let numCorrect = 0;
 
     //Go through each question and check the answer
     for (ii = 0; ii < questions.length; ii++)
