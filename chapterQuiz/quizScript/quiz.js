@@ -44,10 +44,31 @@ const QMAX = 25;
 continueHref = "";
 
 //This is the global container for the selected 10 questions the quiz will use throughout the page
-myQuestions = new Array[10];
+myQuestions = new Array(10);
 
-//We will use this variables to track what question we are on and then when it is answered correctly we move on to the next
+//We will use this variable to track what question we are on and then when it is answered correctly we move on to the next
 numCorrect = 0;
+
+//A const name for the corresponding JSON file we will use to simulate a request to a database - path is weird due to the XMLHTTPRequest object
+//gets its path from the linked HTML page rather than this document. The JSON file does not allow comments so it's comment block is located below
+/* AUTHOR INFORMATION
+ * CREATOR - Jeremy Dunnet 30/08/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 30/08/2018
+ * 
+ * CLASS/FILE DESCRIPTION
+ * The JSON acts as a mock database - which can be filled with arrays pertaining to the pool of questions available for that chapter
+ * Each array has a unique name which can be placed used in the specific chapter .js file to allow only questions from the relevant chapter to be selected
+ * The JSON file is also parsed directly into a javascript object so it can be used easily
+ * 
+ * VERSION HISTORY
+ * 30/08/2018 - Created and laid out to needs of the .js code
+ * 
+ * REFERENCES
+ * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
+ * 
+ */
+
+const jsonFile = "../quizScript/questionList.json";
 
 //Function declarations
 
@@ -64,10 +85,10 @@ function buildQuiz()
     const output = [];
 
     //For every question create a display frame
-    for (ii = 0; ii < questions.length; ii++)
+    for (ii = 0; ii < myQuestions.length; ii++)
     {
 
-        currentQuestion = questions[ii];
+        currentQuestion = myQuestions[ii];
 
         //Store all choices for each question
         const answers = [];
@@ -104,41 +125,43 @@ function buildQuiz()
 /* FUNCTION INFORMATION
  * NAME - loadJSON
  * INPUTS - none
- * OUTPUTS - questions (Array of randomly selected questions from another source (Database/JSON/Object Array etc.))
- * PURPOSE - This is the method that randomly selected questions from a source by using Math.random to generate a number within a set
- *           bound and then pulling the question with that numerical id into the array to be returned
+ * OUTPUTS - none
+ * PURPOSE - This is the method that loads the question list from a JSON file so that setQuestions can pick the random 10
  */
-function loadJSON(callback)
+function loadJSON()
 {
 
     var xobj = new XMLHttpRequest(); //Create a request object to get the data from the JSON File
-    xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'my_data.json', true); // Replace 'my_data' with the path to your file
-    xobj.onreadystatechange = function ()
+    xobj.overrideMimeType("application/json"); //Overide the deafult file type it is looking for to JSON
+    xobj.open("POST", jsonFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
+                                        //(while the rest of the code cannot function until code is loaded - sychronous requests are deprecated according to https://xhr.spec.whatwg.org/#the-open()-method)
+                                        //We use POST as it is more secure than GET (Method is ignored in non-HTML requests but best to be safe)
+    xobj.onreadystatechange = function () //What event listener activates when the task is done
     {
-        if (xobj.readyState == 4 && xobj.status == "200")
+        if (xobj.readyState == 4 /*&& xobj.status == "200" I have removed this check now since the status will not change on local tests - RE-ENABLE ON LIVE TESTS*/) //If the the request is DONE(readyState) and OK(status) 
         {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-            callback(xobj.responseText);
+            setQuestions(xobj.responseText);
         }
     };
-    xobj.send(null);
+    xobj.send(null); //Send a null to the request to complete the transaction
 }
 
 /* FUNCTION INFORMATION
  * NAME - setQuestions
- * INPUTS - none
+ * INPUTS - response (a JSON data object retrieved from the question list JSON file)
  * OUTPUTS - questions (Array of randomly selected questions from another source (Database/JSON/Object Array etc.))
  * PURPOSE - This is the method that randomly selected questions from a source by using Math.random to generate a number within a set
  *           bound and then pulling the question with that numerical id into the array to be returned
  */
-function setQuestions()
+function setQuestions(response)
 {
 
-    var questions = new Array(10); //An array to store our questions
     var index; //Used to store the unique random number
     var indexes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //Store all previously generated numbers
     finished = false; //We will use this to control the main loop
+
+    //JSON unpacking
+    var questionList = JSON.parse(response);
 
     for(ii = 0; ii < indexes.length; ii++) //Until we have filled all ten slots
     {
@@ -162,14 +185,16 @@ function setQuestions()
         }
 
         indexes[ii] = index; //Assign it to the record for use in next iteration
-        questions[ii] = myQuestions[index]; //Put the generated question in the loop
+        myQuestions[ii] = questionList.chapterOne[index]; //Put the generated question in the loop - we access .chapterOne as multiple chapters can be contained within it
+
         //HERE IS WHERE THE DATABASE IMPLEMENTATION COMES IN
         //Once we have the index (corresponds to the unique ID key of the databases chapter 1 questions table) we would send a query to retrieve that tuple
         //Then we parse and extract each column into our myQuestion object
 
     }
 
-    return questions; //Give it back to buildQuiz
+    //Call buildQuiz to start assembling - CHANGE TO buildQuestion WHEN NEW LAYOUT IN PLAY
+    buildQuiz();
 
 }
 
@@ -187,12 +212,12 @@ function showResults()
     const answerContainers = quizContainer.querySelectorAll(".answers");
 
     //Go through each question and check the answer
-    for (ii = 0; ii < questions.length; ii++)
+    for (ii = 0; ii < myQuestions.length; ii++)
     {
 
         //Find the answer the user selected for this question
         const answerContainer = answerContainers[ii];
-        const currentQuestion = questions[ii];
+        const currentQuestion = myQuestions[ii];
         const selector = "input[name=question" + ii + "]:checked";
         const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
@@ -294,7 +319,7 @@ function showResults()
 
     //Unhide the reasoning by disabling the visibility tag
     const reasonContainer = quizContainer.querySelectorAll(".reasoning");
-    for (ii = 0; ii < questions.length; ii++)
+    for (ii = 0; ii < myQuestions.length; ii++)
     {
         reasonContainer[ii].style.visibility = "visible";
     }
@@ -304,29 +329,29 @@ function showResults()
     switch (numCorrect)
     {
         case 0:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + questions.length + "<br />" + "You suck." + "</p>";
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "You suck." + "</p>";
             break;
         case 1:
         case 2:
         case 3:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + questions.length + "<br />" + "Come on man." + "</p>";
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Come on man." + "</p>";
             break;
         case 4:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + questions.length + "<br />" + "Bad Luck Brian" + "</p>";
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Bad Luck Brian" + "</p>";
             break;
         case 5:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + questions.length + "<br />" + "Just snuck in there didn't ya!" + "</p>";
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Just snuck in there didn't ya!" + "</p>";
             break;
         case 6:
         case 7:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + questions.length + "<br />" + "Not too shabby!" + "</p>";
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Not too shabby!" + "</p>";
             break;
         case 8:
         case 9:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + questions.length + "<br />" + "Nearly there!" + "</p>";
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Nearly there!" + "</p>";
             break;
         case 10:
-            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + questions.length + "<br />" + "Ultimate Quiz Master" + "</p>";
+            resultsContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "<br />" + "Ultimate Quiz Master" + "</p>";
             break;
 
     }
@@ -389,11 +414,8 @@ function goForward()
 
 //Code starts here
 
-//We need to build the quiz first
-const questions = setQuestions();
-
-//Then we build the quiz
-buildQuiz();
+//We start but requesting the JSON to retrieve the question list - CHANGE TO buildQuiz WHEN NEW LAYOUT IN PLAY
+loadJSON();
 
 //Once the user clicks submit - show them their results
 submitButton.addEventListener("click", showResults);
