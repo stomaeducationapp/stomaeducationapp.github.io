@@ -18,7 +18,7 @@
     <div>
         <p id="searchOutput">output: </p>
     </div>
-
+    <!--End search filter testing-->
     <br />
     <br />
 
@@ -38,35 +38,47 @@
     <div>
         <p id="storageOutput">output: </p>
     </div>
+    <!--End web storage filter test-->
 
     <!--The actual sanitisation code-->
     <script>
         function sanitiseSearch(inTxt) {
             //do sanitisation
             var outTxt, maxLen;
-            outTxt = inTxt;
-            maxLen = 15;
+            maxLen = 12;
 
-            //regex to remove all non alphanumeric or whitespace character
-            outTxt = outTxt.replace(/[^0-9a-zA-Z ]/g, "");
-            //only accept strings less than 15 characters
+            //regex to remove all non alphanumeric or whitespace characters
+            outTxt = inTxt.replace(/[^0-9a-zA-Z ]/g, "");
+
+            //only accept strings less than maxLen characters
             if (outTxt.length > maxLen) {
                 outTxt = outTxt.slice(0, maxLen);
             }
 
+            //Add new rules here
 
             document.getElementById("searchOutput").innerHTML = "output: " + outTxt;
+            //return outTxt;    temporarily remove until ready to automate test
         }
 
         function sanitiseWebStorage(inKey) {
-            var inRef, outRef;
+            var inRef, outRef, maxLen;
+            maxLen = 12;
 
             inRef = localStorage.getItem(inKey);
 
-            //regex to remove all non alphanumeric or whitespace or slash character
+            //regex to remove all non alphanumeric characters
             outRef = inRef.replace(/[^0-9a-zA-Z]/g, "");
 
+            //only accept up to maxLen characters
+            if (outTxt.length > maxLen) {
+                outTxt = outTxt.slice(0, maxLen);
+            }
+
+            //Add new rules here
+
             document.getElementById("storageOutput").innerHTML = "output: " + outRef;
+            //return outRef;
         }
 
         function instanceStorage() {
