@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 24/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 30/08/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 02/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -18,6 +18,7 @@
  * 29/08/2018 - Fixed comments to reflect group standard, reworked answer html build, reworked answer highlighting and added
  *              quiz feature disabling after submission
  * 30/08/2018 - Updated to retrieve questions from a JSON file, redesigned layout to fit new decided style
+ * 02/09/2018 - Updated code related to new layout - fixing bugs and uneeded lines 
  */
 
 /* REFERENCES
@@ -62,7 +63,7 @@ var numCorrect;
 //gets its path from the linked HTML page rather than this document. The JSON file does not allow comments so it's comment block is located below
 /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 30/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 30/08/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 02/09/2018
  * 
  * CLASS/FILE DESCRIPTION
  * The JSON acts as a mock database - which can be filled with arrays pertaining to the pool of questions available for that chapter
@@ -71,6 +72,7 @@ var numCorrect;
  * 
  * VERSION HISTORY
  * 30/08/2018 - Created and laid out to needs of the .js code and added the revisionText field (really long but all gibberish)
+ * 02/09/2018 - Added titles to revisionText and some typo fixes
  * 
  * REFERENCES
  * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
@@ -89,6 +91,9 @@ const jsonFile = "../quizScript/questionList.json";
  */
 function buildQuestion()
 {
+    //Since everytime we want to display a new question - refocus the window to the top so the user always starts at the start of the page
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+
     //Store all html output from the page
     const answers = [];
 
@@ -262,42 +267,36 @@ function showResult()
 
         if (numCorrect === 10) //User has completed the quiz
         {
-            continueButton
 
             //Disable the retry button - no incorrect answer
-            retryButton.innerHTML = "Retry question"; //Padded to give uniform button size
             retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
             retryButton.style.backgroundColor = "gray";
             retryButton.disabled = true;  //Disable button press
             retryButton.style.cursor = "not-allowed";
 
             //Disable the next button - got it right
-            nextButton.innerHTML = "Next question"; //Padded to give uniform button size
             nextButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
             nextButton.style.backgroundColor = "gray";
             nextButton.disabled = true;  //Disable button press
             nextButton.style.cursor = "not-allowed";
 
             //Enable continue to next quiz buttton
-            continueButton.innerHTML = "Continue to next chapter quiz";
-            continueButton.style.color = "#fff";  //Change the colors back to the "normal" button settings
-            continueButton.style.backgroundColor = "#279";
+            continueButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
+            continueButton.style.backgroundColor = "#8FBBA5";
             continueButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
             continueButton.style.cursor = "pointer";
         }
         else
         {
             //Disable the retry button - no incorrect answer
-            retryButton.innerHTML = "Retry question"; //Padded to give uniform button size
             retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
             retryButton.style.backgroundColor = "gray";
             retryButton.disabled = true;  //Disable button press
             retryButton.style.cursor = "not-allowed";
 
-            //Enableable the next button - got it right
-            nextButton.innerHTML = "Next question"; //Padded to give uniform button size
-            nextButton.style.color = "#fff";  //Change the colors back to the "normal" button settings
-            nextButton.style.backgroundColor = "#279";
+            //Enable the next button - got it right
+            nextButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
+            nextButton.style.backgroundColor = "#8FBBA5";
             nextButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
             nextButton.style.cursor = "pointer";
         }
@@ -364,9 +363,8 @@ function showResult()
         }*/
 
         //Enable the retry button - give a chance to try again
-        retryButton.innerHTML = "Retry question"; //Padded to give uniform button size
-        retryButton.style.color = "#fff";  //Change the colors back to the "normal" button settings
-        retryButton.style.backgroundColor = "#279";
+        retryButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
+        retryButton.style.backgroundColor = "#8FBBA5";
         retryButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
         retryButton.style.cursor = "pointer";
 
@@ -389,8 +387,21 @@ function showResult()
         case 0:
             scoreContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "</p>";
             encouragementContainer.innerHTML = '<p align="center"> Just getting started. </p>';
+
+            //We set the borders here so they don't show up while hidden (creates a little black spot when no text inside)
+            //Getting it wrong can be the first time the text shows up
+            scoreContainer.style.border = "solid";
+            encouragementContainer.style.border = "solid";
             break;
         case 1:
+            scoreContainer.innerHTML = '<p align="center">' + numCorrect + " out of " + myQuestions.length + "</p>";
+            encouragementContainer.innerHTML = '<p align="center"> Good Start! </p>';
+
+            //We set the borders here so they don't show up while hidden (creates a little black spot when no text inside)
+            //Getting the first right is also the first time the text can show up (afterwards text is just replaced)
+            scoreContainer.style.border = "solid";
+            encouragementContainer.style.border = "solid";
+            break;
         case 2:
         case 3:
         case 4:

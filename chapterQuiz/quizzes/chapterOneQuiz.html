@@ -2,7 +2,7 @@
 
 <!-- AUTHOR INFORMATION
      CREATOR - Jeremy Dunnet 25/08/2018
-     LAST MODIFIED BY - Jeremy Dunnet 30/08/2018
+     LAST MODIFIED BY - Jeremy Dunnet 02/09/2018
 -->
 <!-- CLASS/FILE DESCRIPTION
      This is the web page for the first chapter quiz - where a user can start the quiz, answer the questions and view their results
@@ -12,6 +12,7 @@
      25/08/2018 - Created page and added base fucntionality from reference below
      29/08/2018 - Updated layout and comment style
      30/08/2018 - Updated layout to new style
+     02/09/2018 - Updated to fix bugs in new layout
 -->
 <!-- REFERENCES
      The base design was implemented from the provided design by https://www.sitepoint.com/simple-javascript-quiz/
@@ -37,7 +38,7 @@
                 <!-- This is the button we use to allow the use to return to main chapter select page -->
                 <button class="button" id="returnButt">Back to chapter select</button>
                 <!-- This is the button we dynamically change based on user result - disabled initially until they submit the quiz -->
-                <button class="button" id="continueButt" disabled></button>
+                <button class="button" id="continueButt" disabled>Continue to next chapter quiz</button>
             </div>
 
         </div>
@@ -57,9 +58,9 @@
                 <!-- This is where we hold the buttons pertaining to the questions -->
                 <div id="buttons">
                     <!-- This is the button we dynamically change based on user result - disabled initially until they submit the quiz -->
-                    <button class="button" id="retryButt" disabled></button>
+                    <button class="button" id="retryButt" disabled>Retry question</button>
                     <!-- This is the button we dynamically change based on user result - disabled initially until they submit the quiz -->
-                    <button class="button" id="nextButt" disabled></button>
+                    <button class="button" id="nextButt" disabled>Next question</button>
                 </div>
                 <!-- This is the section for providing results -->
                 <div id="results">
