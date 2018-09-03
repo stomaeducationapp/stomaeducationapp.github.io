@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 24/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 02/09/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 03/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -19,13 +19,15 @@
  *              quiz feature disabling after submission
  * 30/08/2018 - Updated to retrieve questions from a JSON file, redesigned layout to fit new decided style
  * 02/09/2018 - Updated code related to new layout - fixing bugs and uneeded lines 
+ * 03/09/2018 - Added as much exception handling as I could find for this code and cleaned up more unused code
  */
 
 /* REFERENCES
  * All code/implementation was adapted/learned from the tutorial on JavaScript Quiz at https://www.sitepoint.com/simple-javascript-quiz/
  * The function loadJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
  * Scroll up fucntionality was learned/adapted from https://stackoverflow.com/questions/19311301/how-to-scroll-back-to-the-top-of-page-on-button-click
- * Radio button listener code was learned adpated from http://www.dynamicdrive.com/forums/showthread.php?74477-How-do-you-attach-an-event-listener-to-radio-button-using-javascript
+ * Radio button listener code was learned/adpated from http://www.dynamicdrive.com/forums/showthread.php?74477-How-do-you-attach-an-event-listener-to-radio-button-using-javascript
+ * Javascript exception handling learned/adapted from https://stackoverflow.com/questions/4467044/proper-way-to-catch-exception-from-json-parse
  * And many tutorials/documentation from https://www.w3schools.com 
  */
 
@@ -45,11 +47,12 @@ const returnButton = document.getElementById("returnButt");
 const retryButton = document.getElementById("retryButt");
 const nextButton = document.getElementById("nextButt");
 const continueButton = document.getElementById("continueButt");
+//Body - for error handling
+const body = document.getElementById("body");
 
-/* REMOVED FEATURE: No grading is done in current layout since we encourage users to get all answers right
- * We want a constant pass result we can use for a continue button and any future "pass required" features
- * const passMark = 5;
- */
+//A html body for the error screen
+const bugScreen = "<p>Looks like an error has occured.<br />To try and fix the issue:<ul><li>Refresh the page</li><li>Close the window and reload</li><li>Try from a different browser - supported browsers include:<ul><li>Chrome (Version 68 and above)</li><li>Edge (Version 17 and above)</li><li>Opera (Version 55 and above)</li></ul></li></ul></p>";
+
 //Variable to hold the maximum number of questions for this chapter in the database (for generating random numbers later)
 const QMAX = 25;
 
@@ -106,11 +109,7 @@ function buildQuestion()
         //Add the choice and a button for user to select it as the answer
         answers.push
             (
-            `<div class="choices">
-                        <input type="radio" name="question${numCorrect}" value="${letter}">
-                            ${letter} :
-                            ${currentQuestion.answers[letter]}
-                     </div>`
+            '<div class="choices"> <input type="radio" name="question' + numCorrect + '" value="' + letter + '"> ' + letter +  ' : ' + currentQuestion.answers[letter] + '</div>'
             );
     }
 
@@ -159,9 +158,10 @@ function loadJSON()
 
     var xobj = new XMLHttpRequest(); //Create a request object to get the data from the JSON File
     xobj.overrideMimeType("application/json"); //Overide the deafult file type it is looking for to JSON
-    xobj.open("POST", jsonFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
+    xobj.open("GET", jsonFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
                                         //(while the rest of the code cannot function until code is loaded - sychronous requests are deprecated according to https://xhr.spec.whatwg.org/#the-open()-method)
-                                        //We use POST as it is more secure than GET (Method is ignored in non-HTML requests but best to be safe)
+                                        //We use GET as while POST more secure, GET is the only guaranteed method to work in all browsers
+                                        //in current build - REVIEW WHEN MOVED TO FULL LIVE TESTING
     xobj.onreadystatechange = function () //What event listener activates when the task is done
     {
         if (xobj.readyState == 4 /*&& xobj.status == "200" I have removed this check now since the status will not change on local tests - RE-ENABLE ON LIVE TESTS*/) //If the the request is DONE(readyState) and OK(status) 
@@ -263,7 +263,7 @@ function showResult()
         }
 
         correctChoice.style.color = "green"; //Color and add a tick to reaffirm how smart the user is
-        correctChoice.innerHTML += "✔"; //UTF-8 symbol for tick mark (U+2713)
+        correctChoice.innerHTML += " ✔"; //UTF-8 symbol for tick mark (U+2713)
 
         if (numCorrect === 10) //User has completed the quiz
         {
@@ -322,7 +322,7 @@ function showResult()
             }
 
             incorrectChoice.style.color = "red"; //Color and add a cross to say "Bad user!"
-            incorrectChoice.innerHTML += "✖";  //UTF-8 symbol for heavy multiplication (U+2716)
+            incorrectChoice.innerHTML += " ✖";  //UTF-8 symbol for heavy multiplication (U+2716)
 
             //Now we need to tell the user what the right answer was so they learn
             var correctChoice; //Where we will store the correct choice
@@ -340,7 +340,7 @@ function showResult()
             }
 
             correctChoice.style.color = "green"; //Color and add a tick to reaffirm how smart  the user is
-            correctChoice.innerHTML += "✔"; //UTF-8 symbol for tick mark (U+2713)
+            correctChoice.innerHTML += " ✔"; //UTF-8 symbol for tick mark (U+2713)
         }
 
         //If they didn't select an answer then we don't change the color of the unchecked answers - if they want to be that lazy
@@ -357,7 +357,7 @@ function showResult()
             {
                 currentChoice = choicesContainer[jj];
                 currentChoice.style.color = "green"; //Color and add a tick to reaffirm how smart  the user is
-                currentChoice.innerHTML += "✔"; //UTF-8 symbol for tick mark (U+2713)
+                currentChoice.innerHTML += " ✔"; //UTF-8 symbol for tick mark (U+2713)
             }
 
         }*/
@@ -457,8 +457,45 @@ function goForward()
 
 //Code starts here
 
-//We start but requesting the JSON to retrieve the question list
-loadJSON();
+try
+{
+    //We start but requesting the JSON to retrieve the question list
+    loadJSON();
+}
+catch(bug) //It's a joke. I do that.
+{
+    //These exceptions are kept somwhat vague to decrease client knoweledge of page code (for security)
+    if (bug instanceof SyntaxError) //JSON parsing error
+    {
+        body.innerHTML = bugScreen + "<p>Problem parsing JSON input</p>";
+    }
+    else if (bug instanceof InvalidStateError) //XMLHTTPRequest retrieval error
+    {
+        body.innerHTML = bugScreen + "<p>Problem retrieving data from questions database</p>";
+    }
+    else if (bug instanceof RangeError) //An array/list went out of bounds
+    {
+        body.innerHTML = bugScreen + "<p>You're out of bounds - here be dragons</p>";
+    }
+    else if (bug instanceof TypeError) //A variable had a bad type/object function syntax used on it
+    {
+        body.innerHTML = bugScreen + "<p>A resource was that to be a type different to what it actually was (Scandalous :O)</p>";
+    }
+    else if (bug instanceof ReferenceError) //A object was derefenced badly
+    {
+        body.innerHTML = bugScreen + "<p>Problem accessing webpage resources</p>";
+    }
+    else if (bug instanceof InternalError) //Javascript engine error
+    {
+        body.innerHTML = bugScreen + "<p>Problem with javascript engine</p>";
+    }
+    //I do not catch URI/Eval Errors specifically since I do not use their respective functions in this code
+    //Everything else goes to an unknown error
+    else
+    {
+        body.innerHTML = bugScreen + "<p>An unknown error occured</p>";
+    }
+}
 
 
 //Once the user gets the answer wrong - once clicked reloads the question (since numCorrect is not incremented will rebuild same question) 

@@ -2,10 +2,10 @@
 
 <!-- AUTHOR INFORMATION
      CREATOR - Jeremy Dunnet 25/08/2018
-     LAST MODIFIED BY - Jeremy Dunnet 02/09/2018
+     LAST MODIFIED BY - Jeremy Dunnet 03/09/2018
 -->
 <!-- CLASS/FILE DESCRIPTION
-     This is the web page for the first chapter quiz - where a user can start the quiz, answer the questions and view their results
+     This is the web page for the second chapter quiz - where a user can start the quiz, answer the questions and view their results
      Afterwards - they can continue on (if they passed), reread (if they failed) or return to main menu (either result)
 -->
 <!-- VERSION HISTORY
@@ -13,6 +13,7 @@
      29/08/2018 - Updated layout and comment style
      30/08/2018 - Updated layout to new style
      02/09/2018 - Updated to fix bugs in new layout
+     03/09/2018 - Updated to use browser checking and gave an id to body for exception handling
 -->
 <!-- REFERENCES
      The base design was implemented from the provided design by https://www.sitepoint.com/simple-javascript-quiz/
@@ -23,9 +24,13 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../quizScript/quizStyles.css">
-    <title>Chapter 1 Quiz</title>
+    <title>Chapter 2 Quiz</title>
+
+    <!-- Broswer check for supported software/versions -->
+    <script type="application/javascript" src="../../globalErrorPages/browserTest.js"></script>
+
 </head>
-<body>
+<body id="body">
 
     <div id="quiz">
         <!-- This is the section where the chapter revision features are displayed -->

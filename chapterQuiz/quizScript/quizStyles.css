@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 25/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 02/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 03/09/2018
  * 
  * CLASS/FILE DESCRIPTION
  * This is the design template file for the layout of all chapter quizzes, as they will be displayed the same, this holds the ovverides
@@ -12,6 +12,7 @@
  * 29/08/2018 - Updated colors to give distinction to sections
  * 30/08/2018 - Updated to add new divs/sections to reflect new layout
  * 02/09/2018 - Changed modifiers to try and fix new layout bugs/added correct comment style
+ * 03/09/2018 - Removed uneeded code
  * 
  * REFERENCES
  * The design choices were inspired/based on the one provided by https://www.sitepoint.com/simple-javascript-quiz/
@@ -120,16 +121,8 @@ body {
     background-color: #8FBBA5;
     color: #464646;
     border: 0px;
-    border-radius: 3px;
     padding: 20px;
     width: 95%;
     cursor: pointer;
     margin-bottom: 20px;
 }
-
-/* I have commented out this styling until I decide if it is necessary - if so I also need to figure out disabling it when a button
- * that has this property is disabled
- */
-/*    .button:hover {
-        background-color: #38a;
-    }*/

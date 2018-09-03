@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <!-- AUTHOR INFORMATION 
      CREATOR - Jeremy Dunnet 24/08/2018
-     LAST MODIFIED BY - Jeremy Dunnet 29/08/2018
+     LAST MODIFIED BY - Jeremy Dunnet 03/09/2018
 -->
 
 <!-- CLASS/FILE DESCRIPTION
@@ -12,6 +12,7 @@
 <!-- VERSION HISTORY
      24/08/2018 - Created this page and added basic links/styling to use for walkthroughs
      29/08/2018 - Edited comment style and fixed up layout
+     03/09/2018 - Updated to use new error pages and removed useless page links
 -->
 
 <!-- REFERENCES
@@ -23,7 +24,8 @@
     <link rel="stylesheet" href="/globalCSS/styles.css">
     <link rel="stylesheet" href="startStyles.css">
     <meta charset="utf-8" />
-    <title></title>
+    <!-- Broswer check for supported software/versions -->
+    <script type="application/javascript" src="../globalErrorPages/browserTest.js"></script>
 </head>
 <body>
     <p align="center">Please click the link that corresponds to the quiz chapter you want to take</p>
@@ -41,16 +43,10 @@
             <th colspan="10">Quizzes</th> <!-- Makes the table look a little better-->
         </tr>
         <tr>
-            <td> <a href="quizzes/chapterOneQuiz.html" target="_blank"> 1 </a> </td>
-            <td> <a href="quizzes/chapterTwoQuiz.html" target="_blank"> 2 </a> </td>
-            <td> <a href="quizzes/chapterThreeQuiz.html" target="_blank"> 3 </a> </td>
-            <td> <a href="quizzes/chapterFourQuiz.html" target="_blank"> 4 </a> </td>
-            <td> <a href="quizzes/chapterFiveQuiz.html" target="_blank"> 5 </a> </td>
-            <td> <a href="quizzes/chapterSixQuiz.html" target="_blank"> 6 </a> </td>
-            <td> <a href="quizzes/chapterSevenQuiz.html" target="_blank"> 7 </a> </td>
-            <td> <a href="quizzes/chapterEightQuiz.html" target="_blank"> 8 </a> </td>
-            <td> <a href="quizzes/chapterNineQuiz.html" target="_blank"> 9 </a> </td>
-            <td> <a href="quizzes/chapterTenQuiz.html" target="_blank"> 10 </a> </td>
+            <td> <a href="quizzes/chapterOneQuiz.html"> 1 </a> </td>
+            <!-- I have removed links to the rest of the original test pages sionce they are just copies of the above - not contributing anything
+                 to the framework - readd them based on the template of the one above when fully implemented
+            -->
         </tr>
     </table>
 
