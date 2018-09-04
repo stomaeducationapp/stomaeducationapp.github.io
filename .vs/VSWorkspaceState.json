@@ -4,8 +4,9 @@
     "\\chapterQuiz",
     "\\chapterQuiz\\quizScript",
     "\\chapterQuiz\\quizzes",
-    "\\globalCSS"
+    "\\globalCSS",
+    "\\HelpPageImages"
   ],
-  "SelectedNode": "\\chapterQuiz\\quizScript\\quiz.js",
+  "SelectedNode": "\\chapterQuiz\\quizStart.html",
   "PreviewInSolutionExplorer": false
 }
