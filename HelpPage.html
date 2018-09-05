@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        * {
+            padding: 5px 50px;
+            background-color: #e6e6e6;
+        }
+
+        .images {
+            height: 360px;
+            width: 640px;
+        }
+
+        h3 {
+            padding-top: 25px;
+        }
+
+        .link {
+            color: blue;
+        }
+
+        .buttons {
+            padding: 10px 150px;
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- buttons for navigation. Note 'home' button is hidden but used for landing page-->
+    <div class="header" id="top">
+        <button class="buttons" id="default" onclick="changePage(event, 'home')" style="display: none">Home</button>
+        <button class="buttons" onclick="changePage(event, 'Tutorial')">Tutorial</button>
+        <button class="buttons" onclick="changePage(event, 'FAQ')">Frequently Asked Questions</button>
+        <button class="buttons" onclick="changePage(event, 'Contacts')">Contacts</button>
+    </div>
+
+
+    <!--Actual content of the page-->
+    <!--Landing page of help page-->
+    <div class="content" id="home">
+        <h1>This is the Help Page</h1>
+        <p>Select a button above to move to a section.</p>
+        <p>Note: Information and images are subject to change when updated versions become available.</p>
+    </div>
+
+    <!--Tutorial section of help page-->
+    <div class="content" id="Tutorial">
+        <h1>Tutorial</h1>
+        <a class="link" href="#video">1. Skip to Play Video tutorial</a> <br><br>
+        <a class="link" href="#mark">2. Skip to Content Marking tutorial</a> <br><br>
+        <a class="link" href="#search">3. Skip to Search tutorial</a> <br><br>
+
+        <!--Play video tutorial info-->
+        <h2 id="video">Play A Video:</h2>
+            <p>First, browse for a particular piece of content in the sidebar.</p>
+            <img src="/HelpPageImages/sidebar.PNG" alt="Sidebar image" class="images" />
+            <p>When you have found something you wish to view, select it.</p>
+            <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" />
+            <p>Proceed to interact with the controls to play, pause and navigate the video.
+                Options to change volume and to move into full screen view are also available.</p>
+            <img src="/HelpPageImages/videoPlayer.PNG" alt="Video player image" class="images" /> <br>
+            <a href="#top">Return to top</a>
+
+        <!--Mark content tutorial info-->
+        <h2 id="mark" style="padding-top: 50px">Mark Content:</h2>
+            <p>First, navigate to the content you wish to mark.</p>
+            <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" />
+            <p>On the content page, press the star button located beside the title.</p>
+            <img src="/HelpPageImages/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
+            <p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p>
+            <img src="/HelpPageImages/markedContent.PNG" alt="Marked content image" class="images" /><br>
+            <a href="#top">Return to top</a>
+
+        <!--Searching tutorial info-->
+        <h2 id="search" style="padding-top: 50px">Search:</h2>
+            <p>From the start page, notice the search bar.</p>
+            <img src="/HelpPageImages/searchbar.PNG" alt="Searchbar image" class="images" />
+            <p>Start typing something to search for and possible matches will appear.</p>
+            <img src="/HelpPageImages/searching.PNG" alt="Searching image" class="images" />
+            <p>Select the content that you wish to view and it will be loaded into the page.</p>
+            <img src="/HelpPageImages/searchComplete.PNG" alt="Search complete image" class="images" /><br>
+            <a href="#top">Return to top</a>
+    </div>
+    
+    <!--FAQ section-->
+    <div class="content" id="FAQ">
+        <h1>Frequently Asked Questions</h1>
+        <h3>What is an ileostomy stoma?</h3>
+        <p>An ileostomy stoma is an opening created between the small intestine and the abdominal wall for the evacuation of faeces 
+            when organ function is abnormal.</p>
+        <h3>Is a stoma surgery permanent?</h3>
+        <p>A stoma surgery may be permanent or temporary depending on the reason. You should be able to get information about your 
+            condition from your stoma therapy nurse.</p>
+        <h3>What do I do if I am having problems with my stoma?</h3>
+        <p>You should contact your stoma therapy nurse or general practitioner, or in case of emergencies your hospital’s emergency room.</p>
+        <h3>How is waste collected?</h3>
+        <p>Evacuated waste is collected in a bag connected to the stoma via an adhesive.</p>
+        <h3>Where can I get stoma bags from?</h3>
+        <p>Your stoma therapy nurse will assist you in finding the best location to acquire any appliances you require to maintain your health. 
+            It is always best to check with your nurse before purchasing/using new products to confirm it is what you need.</p>
+        <h3>How do I dispose of a used bag?</h3>
+        <p>If possible empty the contents into the toilet. Secure the appliance in a plastic bag and dispose in a regular rubbish bin.</p>
+        <h3>Should I tell people about my stoma?</h3>
+        <p>Whether or not you inform others about your stoma is completely up to you. Either way it is important to remember that you should 
+            not be ashamed of your stoma surgery.</p>
+        <h3>Can I travel with a stoma?</h3>
+        <p>The presence of a stoma should not stop you from travelling, however it is recommended to always take a reasonable supply of stoma 
+            bags with you, as availability can be uncertain.</p> <br>
+        <h3>Couldn't find what you were looking for?</h3>
+        <p>Any further questions should be directed towards your registered stoma therapy nurse.</p> <br>
+
+        <p>
+            FAQ adapted from:
+            <a href="https://australianstoma.com.au/about-stoma/frequently-asked-questions/">australianstoma.com</a>
+        </p>
+    </div>
+
+    <!--Contacts section: Should be updated when actual information becomes available-->
+    <div class="content" id="Contacts">
+        <h1>Contacts</h1>
+        <h2>XYZ Hospital</h2>
+            <p>Address: 123 ABC Street, Perth, WA</p>
+            <p>Phone: (08) 1111 1111</p>
+            <p>E-mail: XYZ@hospital.com</p>
+            <p>Fax: (08) 2222 2222</p>
+        <h2 style="padding-top: 30px">XYZ Emergency Room</h2>
+            <p>Address: 456 ABC Street, Perth, WA</p>
+            <p>Phone: (08) 3333 3333</p>
+        <h2 style="padding-top: 30px">Social Media</h2>
+            <p>
+                Facebook: <a href="www.facebook.com/XYZ">www.facebook.com/XYZ </a> 
+            </p>
+            <p>
+                Twitter: <a href="www.twitter.com/XYZ">@XYZ_Hospital</a>
+            </p>
+</div>
+
+    <script>
+        //JavaScript function to change sections of the page
+        function changePage(event, pageToShow) {
+            var ii, content, buttons;
+
+            //find all elements with class 'content' and hide them
+            content = document.getElementsByClassName("content");
+            for (ii = 0; ii < content.length; ii++) {
+                content[ii].style.display = "none";
+            }
+
+            //Get all elements with class 'buttons' and remove the current tag
+            //Note: the 'current' tag dictates which page is currently visible
+            buttons = document.getElementsByClassName("buttons");
+            for (ii = 0; ii < buttons.length; ii++) {
+                buttons[ii].className = buttons[ii].className.replace(" current", "");
+            }
+
+            //display the chosen page and add the current tag to the buttons class name
+            document.getElementById(pageToShow).style.display = "block";
+            event.currentTarget.className += " current";
+        }
+
+        //initially, click the invisible home page button to display the landing page
+        document.getElementById("default").click();
+    </script>
+
+</body>
+</html>

@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\chapterQuiz",
+    "\\chapterQuiz\\quizScript",
+    "\\chapterQuiz\\quizzes",
+    "\\globalCSS",
+    "\\HelpPageImages"
   ],
+  "SelectedNode": "\\chapterQuiz\\quizStart.html",
   "PreviewInSolutionExplorer": false
 }
