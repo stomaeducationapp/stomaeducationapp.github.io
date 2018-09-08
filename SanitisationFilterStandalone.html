@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<!--Author: Ethan Bell
+    Last changed: 08/09/2018-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        /* These functions allow sanitising input text and HTML web storage via the key. */
+
+        function sanitiseSearch(inTxt) {
+            var outTxt, maxLen;
+            maxLen = 12;
+
+            //regex to remove all non alphanumeric or whitespace characters
+            outTxt = inTxt.replace(/[^0-9a-zA-Z ]/g, "");
+
+            //only accept strings less than maxLen characters
+            if (outTxt.length > maxLen) {
+                outTxt = outTxt.slice(0, maxLen);
+            }
+
+            //
+            //Add new rules here if necessary in future
+            //
+
+            return outTxt;
+        }
+
+        /* This function may be able to be combined with the function above, depending on the implementation of the web storage.
+         * If the caller reads the text and passes it, the function above can be used. If the caller passes the key, this function will be used. */
+        function sanitiseWebStorage(inKey) {
+            var inRef, outRef, maxLen;
+            maxLen = 12;
+
+            inRef = localStorage.getItem(inKey);
+
+            //regex to remove all non alphanumeric or whitespace characters
+            outRef = inRef.replace(/[^0-9a-zA-Z ]/g, "");
+
+            //only accept up to maxLen characters
+            if (outRef.length > maxLen) {
+                outRef = outRef.slice(0, maxLen);
+            }
+
+            //
+            //Add new rules here if necessary in future
+            //
+
+            return outRef;
+        }
+    </script>
+</body>
+</html>

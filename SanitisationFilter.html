@@ -1,47 +1,64 @@
 ﻿<!DOCTYPE html>
-
+<!--Author: Ethan Bell
+    Last changed: 08/09/2018-->
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <title></title>
 </head>
 <body>
-    <!--handles checking the search filter-->
+    
+    <!--NOTE: This HTML body is only for testing purposes. The sanitisation functions can be found in the JavaScript at the bottom of this file-->
+
+    <!--HTML markup to test the search bar filter-->
     <div id="txtEntry">
         <input id="txtBox" type="text" />
     </div>
-
     <div>
         <button id="submit" onclick="sanitiseSearch(document.getElementById('txtBox').value)">submit</button>
     </div>
-
     <div>
         <p id="searchOutput">output: </p>
     </div>
     <!--End search filter testing-->
+
     <br />
     <br />
 
-    <!--handles checking the web storage filter-->
+    <!--HTML markup to test the web storage filter-->
     <div>
         <button id="instance" onclick="instanceStorage()">Instance web storage</button>
+        <p id="out"></p>
     </div>
-
     <div id="storageEntry">
         <input id="storageInput" type="text" />
     </div>
-
     <div>
-        <button id="storageSubmit" onclick="sanitiseWebStorage(document.getElementById('storageInput').value)">enter</button>
+        <button id="storageSubmit" onclick="sanitiseWebStorage(document.getElementById('storageInput').value)">Enter</button>
     </div>
-
     <div>
         <p id="storageOutput">output: </p>
     </div>
     <!--End web storage filter test-->
 
-    <!--The actual sanitisation code-->
     <script>
+        //This function populates the HTML web storage for testing purposes
+        function instanceStorage() {
+            //add some entries into html web storage
+            localStorage.clear();
+            localStorage.setItem("Video 1", "Video1");
+            localStorage.setItem("Video 2", "Video2");
+            localStorage.setItem("Text 1", "Text1");
+            localStorage.setItem("Bad 1", "<script>");
+            localStorage.setItem("Bad 2", "../../../passwd");
+            document.getElementById('out').innerHTML = "Storage Set";
+        }
+
+        /* The actual sanitisation code is below.
+         * These functions do the work of the filter.
+         * As such, only these functions should be integrated.
+         * These functions allow sanitising input text and HTML web storage via the key. */
+
         function sanitiseSearch(inTxt) {
             //do sanitisation
             var outTxt, maxLen;
@@ -58,35 +75,28 @@
             //Add new rules here
 
             document.getElementById("searchOutput").innerHTML = "output: " + outTxt;
-            //return outTxt;    temporarily remove until ready to automate test
         }
 
+
+        /* This function may be able to be combined with the function above, depending on the implementation of the web storage.
+         * If the caller reads the text and passes it, the function above can be used. If the caller passes the key, this function will be used. */
         function sanitiseWebStorage(inKey) {
             var inRef, outRef, maxLen;
             maxLen = 12;
 
             inRef = localStorage.getItem(inKey);
 
-            //regex to remove all non alphanumeric characters
-            outRef = inRef.replace(/[^0-9a-zA-Z]/g, "");
+            //regex to remove all non alphanumeric or whitespace characters
+            outRef = inRef.replace(/[^0-9a-zA-Z ]/g, "");
 
             //only accept up to maxLen characters
-            if (outTxt.length > maxLen) {
-                outTxt = outTxt.slice(0, maxLen);
+            if (outRef.length > maxLen) {
+                outRef = outRef.slice(0, maxLen);
             }
 
             //Add new rules here
 
             document.getElementById("storageOutput").innerHTML = "output: " + outRef;
-            //return outRef;
-        }
-
-        function instanceStorage() {
-            //add some entries into html web storage
-            localStorage.setItem("Video 1", "/videos/Video1");
-            localStorage.setItem("Video 2", "/videos/Video2");
-            localStorage.setItem("Text 1", "/text/Text1");
-            localStorage.setItem("Disallowed", "<script>something malicious<//script>");
         }
     </script>
 </body>
