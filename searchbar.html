@@ -5,7 +5,7 @@
 
  /* example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
 <div id="dropdownUI" class="UserInterfaceSearchScreen">
-	<input id="inputBox" type="text" placeholder="Enter search..." onfocus="searchFilter()" onblur="searchFilterBlur()" onkeyup="displayFilter()">
+	<input id="inputBox" type="text" placeholder="Enter search..." onclick="searchFilter()" onkeyup="displayFilter()">
 	<div id="dropDownList" class="dropDownList">
 
 		<a href="#apple">Apple</a>
@@ -31,13 +31,39 @@
 </body>
 
 <script>
+    //Based on example from http://blustemy.io/detecting-a-click-outside-an-element-in-javascript/
+    document.addEventListener("click", (evt) => {
+        const flyoutElement = document.getElementById("dropdownUI");
+        let targetElement = evt.target; // clicked element
+
+        do {
+            if (targetElement == flyoutElement) {
+                // This is a click inside. Do nothing, just return.
+                //searchFilter();
+                document.write("Click Inside");
+                return;
+            }
+            // Go up the DOM
+            targetElement = targetElement.parentNode;
+        } while (targetElement);
+
+        // This is a click outside.
+        document.write("Click Outside");
+        serchFilterBlur();
+    });
+
+
 	function searchFilter() {
-		document.getElementById("dropDownList").classList.toggle("show");
+        document.getElementById("dropDownList").classList.toggle("show");
+        hideOnClickOutside();
 	}
 
 	function searchFilterBlur() {
 		document.getElementById("dropDownList").classList.toggle("hide");
-	}
+    }
+
+
+
 
 	function displayFilter() {
 		var searchInput, searchValue, a, i;
