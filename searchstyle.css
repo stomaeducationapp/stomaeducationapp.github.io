@@ -20,7 +20,7 @@ h1 {
 
 .dropDownList {
     position: absolute;
-    z-index: 10;
+    z-index: 30;
 }
 
 /*.dropDownList a {

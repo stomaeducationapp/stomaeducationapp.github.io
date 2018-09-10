@@ -31,6 +31,10 @@
 </body>
 
 <script>
+
+    // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
+    window.onload = pre_loader; // Hides the search items when the page is loaded
+
     /**************************************************************************
     *  Function: Event listener click event                                   *
     *  Purpose: Detect the location of clicks relative to the search bar and  *
@@ -70,6 +74,19 @@
 
 
     /**************************************************************************
+    *  Function: pre_loader                                                   *
+    *  Purpose: Hides the search list before the page is loaded               *
+    *  IMPORT: none                                                           *
+    *  EXPORT: none                                                           *
+    *  ***********************************************************************/
+  
+    function pre_loader() {
+        // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
+
+        document.getElementById("dropDownList").style.display = "none";
+    };
+
+    /**************************************************************************
     *  Function: searchFilter                                                 *
     *  Purpose: Enable the display of the current items in the search list    *
     *  IMPORT: none                                                           *
@@ -78,7 +95,6 @@
 
     function searchFilter() {
         document.getElementById("dropDownList").style.display="block";
-        /*document.getElementById("dropDownList").classList.toggle("show")*/
         /*document.write("show");*/
     }
 
@@ -92,7 +108,6 @@
 
     function searchFilterBlur() {
         document.getElementById("dropDownList").style.display="none";
-        /*document.getElementById("dropDownList").classList.toggle("hide")*/
         /*document.write("hide");*/
     }
 
