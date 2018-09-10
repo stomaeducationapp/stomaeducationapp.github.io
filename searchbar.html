@@ -63,6 +63,8 @@
             searchFilterBlur();
         }
 
+        clickFlag = false;
+
         return;
     });
 
@@ -75,7 +77,9 @@
     *  ***********************************************************************/
 
     function searchFilter() {
-        document.getElementById("dropDownList").classList.toggle("show");
+        document.getElementById("dropDownList").style.display="block";
+        /*document.getElementById("dropDownList").classList.toggle("show")*/
+        /*document.write("show");*/
     }
 
 
@@ -87,7 +91,9 @@
     *  ***********************************************************************/
 
     function searchFilterBlur() {
-        document.getElementById("dropDownList").classList.toggle("hide");
+        document.getElementById("dropDownList").style.display="none";
+        /*document.getElementById("dropDownList").classList.toggle("hide")*/
+        /*document.write("hide");*/
     }
 
 
