@@ -31,6 +31,13 @@
 </body>
 
 <script>
+    /**************************************************************************
+    *  Function: Event listener click event                                   *
+    *  Purpose: Detect the location of clicks relative to the search bar and  *
+    *           search items                                                  *
+    *  IMPORT: none                                                           *
+    *  EXPORT: none                                                           *
+    *  ***********************************************************************/
     //Based on example from http://blustemy.io/detecting-a-click-outside-an-element-in-javascript/
     document.addEventListener("click", (evt) => {
         const flyoutElement = document.getElementById("dropdownUI");
@@ -60,16 +67,36 @@
     });
 
 
+    /**************************************************************************
+    *  Function: searchFilter                                                 *
+    *  Purpose: Enable the display of the current items in the search list    *
+    *  IMPORT: none                                                           *
+    *  EXPORT: none                                                           *
+    *  ***********************************************************************/
+
     function searchFilter() {
         document.getElementById("dropDownList").classList.toggle("show");
-	}
+    }
+
+
+    /**************************************************************************
+    *  Function: searchFilterBlur                                             *
+    *  Purpose: Disable and hide the current items in the search list         *
+    *  IMPORT: none                                                           *
+    *  EXPORT: none                                                           *
+    *  ***********************************************************************/
 
     function searchFilterBlur() {
         document.getElementById("dropDownList").classList.toggle("hide");
     }
 
 
-
+    /**************************************************************************
+    *  Function: displayFilter                                                *
+    *  Purpose: Alter the displayed search list based on user input           *
+    *  IMPORT: none                                                           *
+    *  EXPORT: none                                                           *
+    *  ***********************************************************************/
 
 	function displayFilter() {
 		var searchInput, searchValue, a, i;
