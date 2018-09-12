@@ -1,26 +1,72 @@
+<!-- searchbar.html
+  --  PURPOSE: Page
+  --  AUTHOR: Oliver Yeudall
+  --  LAST MODIFIED: 12/09/2018
+  --  NOTES: In order to get the layering working (where the search results
+  --         will display over other objects), each html element will need
+  --         a Z-index value. Z-index values are how modern websites indicate
+  --         to browsers which layer you want your element to be relative to
+  --         other elements in the page. For example, an element with a value
+  --         of 10 will be drawn in front of an element with a value of 7. In
+  --         order for this to work, the element must have two CSS properties:
+  --
+  --             position: relative;
+  --             z-index= X;
+  --
+  --         Where X is an integer number. Note that "position" is
+  --         COMPULSORY and z-index values will not work without it. For
+  --         example, in this test page, the search bar items has CSS 
+  --         properties like this:
+  --
+  --             .dropDownList {
+  --                 position: absolute;
+  --                 z-index: 30;
+  --             }
+  --
+  --         And the body text has properties like this:
+  --
+  --             body {
+  --                 background-color: white;
+  --
+  --             }
+  --             #displaybody {
+  --                 background: yellow;
+  --                 position: relative;
+  --                 z-index= 1;
+  --             }
+  --
+  --         This makes the search bar's drop down list appear in front of the
+  --         web page's body.
+  --
+  --
+  -->
+
+
+
 <head>
-	<link rel="stylesheet" type="text/css" href="searchstyle.css">
+    <link rel="stylesheet" type="text/css" href="searchstyle.css">
 </head>
 
 
- /* example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
+<!-- example from www.w3schools.com/howto/howto_js_filterdropdown.asp */ -->
 <div id="dropdownUI" class="UserInterfaceSearchScreen">
-	<input id="inputBox" type="text" placeholder="Enter search..." onkeyup="displayFilter()">
-	<div id="dropDownList" class="dropDownList">
+    <input id="inputBox" type="text" placeholder="Enter search..." onkeyup="displayFilter()">
+    <div id="dropDownList" class="dropDownList">
 
-		<a href="#apple">Apple</a>
-		<a href="#banana">Banana</a>
-		<a href="#carrot">Carrot</a>
-		<a href="#danish">Danish</a>
-		<a href="#eggplant">Eggplant</a>
-		<a href="#fritters">Fritters</a>
-		<a href="#garlic">Garlic</a>
-		<a href="#halloumi">Halloumi</a>
-		<a href="#ice">Ice</a>
-		<a href="#jalapeno">Jalapeno</a>
-	</div>
+        <a href="#apple">Apple</a>
+        <a href="#banana">Banana</a>
+        <a href="#carrot">Carrot</a>
+        <a href="#danish">Danish</a>
+        <a href="#eggplant">Eggplant</a>
+        <a href="#fritters">Fritters</a>
+        <a href="#garlic">Garlic</a>
+        <a href="#halloumi">Halloumi</a>
+        <a href="#ice">Ice</a>
+        <a href="#jalapeno">Jalapeno</a>
+    </div>
 
 </div>
+
 
 <body>
     <div id="displaybody">
@@ -34,6 +80,8 @@
 
     // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
     window.onload = pre_loader; // Hides the search items when the page is loaded
+
+
 
     /**************************************************************************
     *  Function: Event listener click event                                   *
@@ -54,7 +102,7 @@
                 clickFlag = true;
 
             }
-            
+
             targetElement = targetElement.parentNode;
         } while (targetElement);
 
@@ -79,7 +127,7 @@
     *  IMPORT: none                                                           *
     *  EXPORT: none                                                           *
     *  ***********************************************************************/
-  
+
     function pre_loader() {
         // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
 
@@ -94,8 +142,7 @@
     *  ***********************************************************************/
 
     function searchFilter() {
-        document.getElementById("dropDownList").style.display="block";
-        /*document.write("show");*/
+        document.getElementById("dropDownList").style.display = "block";
     }
 
 
@@ -107,8 +154,7 @@
     *  ***********************************************************************/
 
     function searchFilterBlur() {
-        document.getElementById("dropDownList").style.display="none";
-        /*document.write("hide");*/
+        document.getElementById("dropDownList").style.display = "none";
     }
 
 
@@ -119,25 +165,27 @@
     *  EXPORT: none                                                           *
     *  ***********************************************************************/
 
-	function displayFilter() {
-		var searchInput, searchValue, a, i;
+    function displayFilter() {
+        /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
 
-		searchInput = document.getElementById("inputBox");
+        var searchInput, searchValue, a, i;
 
-		searchValue = searchInput.value.toUpperCase();
+        searchInput = document.getElementById("inputBox");
 
-		div = document.getElementById("dropDownList");
+        searchValue = searchInput.value.toUpperCase();
 
-		a = div.getElementsByTagName("a");
+        div = document.getElementById("dropDownList");
 
-		for (i = 0; i < a.length; i++) {
-			if (a[i].innerHTML.toUpperCase().indexOf(searchValue) > -1) {
-				a[i].style.display = "";
-			}
-			else {
-				a[i].style.display = "none";
-			}
+        a = div.getElementsByTagName("a");
 
-		}
-	}
+        for (i = 0; i < a.length; i++) {
+            if (a[i].innerHTML.toUpperCase().indexOf(searchValue) > -1) {
+                a[i].style.display = "";
+            }
+            else {
+                a[i].style.display = "none";
+            }
+
+        }
+    }
 </script>
