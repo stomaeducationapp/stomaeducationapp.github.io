@@ -47,7 +47,7 @@ var reasoningContainer;
 var scoreContainer;
 var encouragementContainer;
 //Buttons
-var nextButt;
+var nextQButt;
 var retryButt;
 //Navigation buttons - techincally set and controlled in another js file - but variables here disabled/enable them so we grab them on quiz construction
 var returnButt;
@@ -80,15 +80,15 @@ const chapterLayout =
     <div id="answers"></div>
     <div id="reasoning"></div>
  </div >
+ <div id="qNav">
+    <div id="buttons">
+        <button class="quizButton" id="retryButt" disabled>Retry question</button>
+        <button class="quizButton" id="nextQButt" disabled>Next question</button>
+    </div>
  <div id="results">
     <div id="score"></div>
     <div id="encouragement"></div>
  </div>
- <div id="qNav">
-    <div id="buttons">
-        <button class="quizButton" id="retryButt" disabled>Retry question</button>
-        <button class="quizButton" id="nextButt" disabled>Next question</button>
-    </div>
  </div>`;
 
 //Variable to hold the maximum number of questions for this chapter in the database (for generating random numbers later)
@@ -121,7 +121,7 @@ var numCorrect;
  * 
  */
 
-const quizJSONFile = "/chapterQuiz/quizScript/questionList.json";
+const quizJSONFile = "/json/questionList.json";
 
 //Function declarations
 
@@ -167,10 +167,10 @@ function buildQuestion()
     retryButt.style.backgroundColor = "gray";
     retryButt.style.cursor = "not-allowed";
 
-    nextButt.disabled = true;
-    nextButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    nextButt.style.backgroundColor = "gray";
-    nextButt.style.cursor = "not-allowed";
+    nextQButt.disabled = true;
+    nextQButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    nextQButt.style.backgroundColor = "gray";
+    nextQButt.style.cursor = "not-allowed";
 
     continueButt.disabled = true;
     continueButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
@@ -238,7 +238,7 @@ function loadQuiz(chapter)
     encouragementContainer = document.getElementById("encouragement");
     //Buttons
     retryButt = document.getElementById("retryButt");
-    nextButt = document.getElementById("nextButt");
+    nextQButt = document.getElementById("nextQButt");
     //Set the end of quiz navaigation so we can disabled them later
     returnButt = document.getElementById("returnButt");
     continueButt = document.getElementById("continueButt");
@@ -248,7 +248,7 @@ function loadQuiz(chapter)
     //Once the user gets the answer wrong - once clicked reloads the question (since numCorrect is not incremented will rebuild same question) 
     retryButt.addEventListener("click", buildQuestion);
     //If the user gets the answer right - builds next question (since numCorrect incremented)
-    nextButt.addEventListener("click", buildQuestion);
+    nextQButt.addEventListener("click", buildQuestion);
 
     try
     {
@@ -397,10 +397,10 @@ function showResult()
             retryButt.style.cursor = "not-allowed";
 
             //Disable the next button - got it right
-            nextButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            nextButt.style.backgroundColor = "gray";
-            nextButt.disabled = true;  //Disable button press
-            nextButt.style.cursor = "not-allowed";
+            nextQButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            nextQButt.style.backgroundColor = "gray";
+            nextQButt.disabled = true;  //Disable button press
+            nextQButt.style.cursor = "not-allowed";
 
             //Enable continue to next quiz buttton
             continueButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
@@ -417,10 +417,10 @@ function showResult()
             retryButt.style.cursor = "not-allowed";
 
             //Enable the next button - got it right
-            nextButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
-            nextButt.style.backgroundColor = "#8FBBA5";
-            nextButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
-            nextButt.style.cursor = "pointer";
+            nextQButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
+            nextQButt.style.backgroundColor = "#8FBBA5";
+            nextQButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+            nextQButt.style.cursor = "pointer";
         }
 
 

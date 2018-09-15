@@ -16,15 +16,15 @@
  */
 
 #quiz {
-    height: 98%;
-    width: 98%;
+    height: 100%;
+    width: 100%;
     margin: auto;
     display: inline;
 }
 
 #chapterNav {
-    height: 98%;
-    width: 98%;
+    height: 100%;
+    width: 100%;
 }
 
 /* These buttons have modifers opposite from each other since they will appear side by side*/
@@ -70,4 +70,5 @@
     margin-bottom: 20px;
     display: inline-block;
     height: 100%;
+    width: 49%;
 }

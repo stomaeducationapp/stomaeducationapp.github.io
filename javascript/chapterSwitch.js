@@ -52,7 +52,7 @@
  * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
  * 
  */
-const chapterJSONFile = "chapters.json";
+const chapterJSONFile = "/json/chapters.json";
 
 //A html body for the error screens
 const headersBugScreen =
@@ -596,9 +596,9 @@ function displayQuiz(chapter, subchapter)
             selectChapter((chapter + 1), 0); //We simply take what chapter we are in and move on to the next one (if not at maxChapters)
         });
     }
-    else
+    else //We are at the end of the list of chapters and so disable the next button
     {
-        throw "CHAPTER BUTTON ERROR";
+        nextButt.disabled = true;
     }
 
 }
