@@ -66,7 +66,7 @@ var numCorrect;
 //gets its path from the linked HTML page rather than this document. The JSON file does not allow comments so it's comment block is located below
 /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 30/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 02/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
  * 
  * CLASS/FILE DESCRIPTION
  * The JSON acts as a mock database - which can be filled with arrays pertaining to the pool of questions available for that chapter
@@ -76,6 +76,7 @@ var numCorrect;
  * VERSION HISTORY
  * 30/08/2018 - Created and laid out to needs of the .js code and added the revisionText field (really long but all gibberish)
  * 02/09/2018 - Added titles to revisionText and some typo fixes
+ * 12/09/2018 - Updated to readd missing questions and reworked JSON array names/ordering to allow for dymanic chapter loading
  * 
  * REFERENCES
  * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
@@ -153,7 +154,7 @@ function buildQuestion()
  * OUTPUTS - none
  * PURPOSE - This is the method that loads the question list from a JSON file so that setQuestions can pick the random 10
  */
-function loadJSON()
+function loadJSON(chapter)
 {
 
     var xobj = new XMLHttpRequest(); //Create a request object to get the data from the JSON File
@@ -166,10 +167,23 @@ function loadJSON()
     {
         if (xobj.readyState == 4 /*&& xobj.status == "200" I have removed this check now since the status will not change on local tests - RE-ENABLE ON LIVE TESTS*/) //If the the request is DONE(readyState) and OK(status) 
         {
-            setQuestions(xobj.responseText);
+            setQuestions(chapter, xobj.responseText);
         }
     };
     xobj.send(null); //Send a null to the request to complete the transaction
+}
+
+/* FUNCTION INFORMATION
+ * NAME - loadQuiz
+ * INPUTS - none
+ * OUTPUTS - none
+ * PURPOSE - This is the method that loads the question list from a JSON file so that setQuestions can pick the random 10
+ */
+function loadQuiz()
+{
+
+
+
 }
 
 /* FUNCTION INFORMATION
@@ -179,7 +193,7 @@ function loadJSON()
  * PURPOSE - This is the method that randomly selected questions from a source by using Math.random to generate a number within a set
  *           bound and then pulling the question with that numerical id into the array to be returned
  */
-function setQuestions(response)
+function setQuestions(chapter, response)
 {
 
     var index; //Used to store the unique random number
@@ -211,7 +225,7 @@ function setQuestions(response)
         }
 
         indexes[ii] = index; //Assign it to the record for use in next iteration
-        myQuestions[ii] = questionList.chapterOne[index]; //Put the generated question in the loop - we access .chapterOne as multiple chapters can be contained within it
+        myQuestions[ii] = questionList.qPool[(chapter - 1)][index]; //Put the generated question in the loop - we -1 the chapter since JSON array is 0-based
 
         //HERE IS WHERE THE DATABASE IMPLEMENTATION COMES IN
         //Once we have the index (corresponds to the unique ID key of the databases chapter 1 questions table) we would send a query to retrieve that tuple
@@ -469,10 +483,12 @@ catch(bug) //It's a joke. I do that.
     {
         body.innerHTML = bugScreen + "<p>Problem parsing JSON input</p>";
     }
+    /* I have commeneted this out becuase the broswrs I have tested on report this exception type as not found - is only valid for some browser support
     else if (bug instanceof InvalidStateError) //XMLHTTPRequest retrieval error
     {
         body.innerHTML = bugScreen + "<p>Problem retrieving data from questions database</p>";
     }
+    */ 
     else if (bug instanceof RangeError) //An array/list went out of bounds
     {
         body.innerHTML = bugScreen + "<p>You're out of bounds - here be dragons</p>";
@@ -502,6 +518,16 @@ catch(bug) //It's a joke. I do that.
 retryButton.addEventListener("click", buildQuestion);
 //If the user gets the answer right - builds next question (since numCorrect incremented)
 nextButton.addEventListener("click", buildQuestion);
+
+//Listeners for when the user selects a particular chapter quiz
+cOneQuizButt.addEventListener('click', function ()
+{
+    loadQuiz(1);
+});
+cTwoQuizButt.addEventListener('click', function ()
+{
+    loadQuiz(2);
+});
 
 //If the user clicks go back to chapter select - go back to the quiz selector page
 returnButton.addEventListener("click", goBack);
