@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 24/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 03/09/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -20,6 +20,8 @@
  * 30/08/2018 - Updated to retrieve questions from a JSON file, redesigned layout to fit new decided style
  * 02/09/2018 - Updated code related to new layout - fixing bugs and uneeded lines 
  * 03/09/2018 - Added as much exception handling as I could find for this code and cleaned up more unused code
+ * 15/09/2018 - Made changes to transfer this code from chapterQuizX.html to being dymanically injected into the main page (integration) and rewroked layout of HTML strings
+ *              (made them multiline to increase editiability)
  */
 
 /* REFERENCES
@@ -33,25 +35,60 @@
 
 //Global file variable declarations here.
 
-//Thes are the ID variables we will use to access the html objects in the provided .html document
+//Thes are the ID variables we will use to access the html objects in the provided .html document - all variables since we access the quiz dynamically
+//Entire quiz div
+var quizContainer;
 //Chapter Section
-const informationContainer = document.getElementById("information");
+var informationContainer;
 //Question Section
-const quizTitleContainer = document.getElementById("qTitle");
-const answersContainer = document.getElementById("answers");
-const reasoningContainer = document.getElementById("reasoning");
-const scoreContainer = document.getElementById("score");
-const encouragementContainer = document.getElementById("encouragement");
+var quizTitleContainer;
+var answersContainer;
+var reasoningContainer;
+var scoreContainer;
+var encouragementContainer;
 //Buttons
-const returnButton = document.getElementById("returnButt");
-const retryButton = document.getElementById("retryButt");
-const nextButton = document.getElementById("nextButt");
-const continueButton = document.getElementById("continueButt");
+var returnButton;
+var retryButton;
+var nextButton;
+var continueButton;
 //Body - for error handling
-const body = document.getElementById("body");
+const bodyText = document.getElementById("home");
 
-//A html body for the error screen
-const bugScreen = "<p>Looks like an error has occured.<br />To try and fix the issue:<ul><li>Refresh the page</li><li>Close the window and reload</li><li>Try from a different browser - supported browsers include:<ul><li>Chrome (Version 68 and above)</li><li>Edge (Version 17 and above)</li><li>Opera (Version 55 and above)</li></ul></li></ul></p>";
+//A HTML body for the error screen
+const bugScreen =
+`<p>Looks like an error has occured.<br />
+ To try and fix the issue:
+ <ul>
+    <li>Refresh the page</li>
+    <li>Close the window and reload</li>
+    <li>Try from a different browser - supported browsers include:
+        <ul>
+            <li>Chrome (Version 68 and above)</li>
+            <li>Edge (Version 17 and above)</li>
+            <li>Opera (Version 55 and above)</li>
+        </ul>
+    </li>
+ </ul>
+ </p>`;
+
+//A HTML body for the quiz
+const chapterLayout =
+`<div id="information"></div>
+ <div id = "question">
+    <div id="qTitle"></div>
+    <div id="answers"></div>
+    <div id="reasoning"></div>
+ </div >
+ <div id="results">
+    <div id="score"></div>
+    <div id="encouragement"></div>
+ </div>
+ <div id="qNav">
+    <div id="buttons">
+        <button class="button" id="retryButt" disabled>Retry question</button>
+        <button class="button" id="nextButt" disabled>Next question</button>
+    </div>
+ </div>`;
 
 //Variable to hold the maximum number of questions for this chapter in the database (for generating random numbers later)
 const QMAX = 25;
@@ -110,7 +147,9 @@ function buildQuestion()
         //Add the choice and a button for user to select it as the answer
         answers.push
             (
-            '<div class="choices"> <input type="radio" name="question' + numCorrect + '" value="' + letter + '"> ' + letter +  ' : ' + currentQuestion.answers[letter] + '</div>'
+            `<div class="choices">
+                <input type="radio" name="question${numCorrect}" value="${letter}">${letter}:${currentQuestion.answers[letter]}
+             </div>`
             );
     }
 
@@ -150,7 +189,7 @@ function buildQuestion()
 
 /* FUNCTION INFORMATION
  * NAME - loadJSON
- * INPUTS - none
+ * INPUTS - chapter
  * OUTPUTS - none
  * PURPOSE - This is the method that loads the question list from a JSON file so that setQuestions can pick the random 10
  */
@@ -175,21 +214,79 @@ function loadJSON(chapter)
 
 /* FUNCTION INFORMATION
  * NAME - loadQuiz
- * INPUTS - none
+ * INPUTS - chapter
  * OUTPUTS - none
- * PURPOSE - This is the method that loads the question list from a JSON file so that setQuestions can pick the random 10
+ * PURPOSE - This is the method that sets the quiz code in motion upon event listener trigger
  */
-function loadQuiz()
+function loadQuiz(chapter)
 {
 
+    //First we need to inject the HTML we will be using for the quiz
+    //Lets grab the div that headers.html has set up for us
+    quizContainer = document.getElementById("quiz");
+    quizContainer.innerHTML = chapterLayout; //Chapter quiz HTML content;
 
+    //Now set set our HTML variables so we can easily modify the content dynamically
+    //Chapter Section
+    informationContainer = document.getElementById("information");
+    //Question Section
+    quizTitleContainer = document.getElementById("qTitle");
+    answersContainer = document.getElementById("answers");
+    reasoningContainer = document.getElementById("reasoning");
+    scoreContainer = document.getElementById("score");
+    encouragementContainer = document.getElementById("encouragement");
+    //Buttons
+    returnButton = document.getElementById("returnButt");
+    retryButton = document.getElementById("retryButt");
+
+    try
+    {
+        //We start but requesting the JSON to retrieve the question list
+        loadJSON(chapter);
+    }
+    catch (bug) //It's a joke. I do that.
+    {
+        //These exceptions are kept somwhat vague to decrease client knoweledge of page code (for security)
+        if (bug instanceof SyntaxError) //JSON parsing error
+        {
+            body.innerHTML = bugScreen + "<p>Problem parsing JSON input</p>";
+        }
+        /* I have commeneted this out becuase the broswrs I have tested on report this exception type as not found - is only valid for some browser support
+        else if (bug instanceof InvalidStateError) //XMLHTTPRequest retrieval error
+        {
+            body.innerHTML = bugScreen + "<p>Problem retrieving data from questions database</p>";
+        }
+        */
+        else if (bug instanceof RangeError) //An array/list went out of bounds
+        {
+            body.innerHTML = bugScreen + "<p>You're out of bounds - here be dragons</p>";
+        }
+        else if (bug instanceof TypeError) //A variable had a bad type/object function syntax used on it
+        {
+            body.innerHTML = bugScreen + "<p>A resource was that to be a type different to what it actually was (Scandalous :O)</p>";
+        }
+        else if (bug instanceof ReferenceError) //A object was derefenced badly
+        {
+            body.innerHTML = bugScreen + "<p>Problem accessing webpage resources</p>";
+        }
+        else if (bug instanceof InternalError) //Javascript engine error
+        {
+            body.innerHTML = bugScreen + "<p>Problem with javascript engine</p>";
+        }
+        //I do not catch URI/Eval Errors specifically since I do not use their respective functions in this code
+        //Everything else goes to an unknown error
+        else
+        {
+            body.innerHTML = bugScreen + "<p>An unknown error occured</p>";
+        }
+    }
 
 }
 
 /* FUNCTION INFORMATION
  * NAME - setQuestions
- * INPUTS - response (a JSON data object retrieved from the question list JSON file)
- * OUTPUTS - questions (Array of randomly selected questions from another source (Database/JSON/Object Array etc.))
+ * INPUTS - chapter response (a JSON data object retrieved from the question list JSON file)
+ * OUTPUTS - none
  * PURPOSE - This is the method that randomly selected questions from a source by using Math.random to generate a number within a set
  *           bound and then pulling the question with that numerical id into the array to be returned
  */
@@ -445,73 +542,6 @@ function showResult()
 
 }
 
-/* FUNCTION INFORMATION
- * NAME - goBack
- * INPUTS - none
- * OUTPUTS - none (navigates the user away from this page)
- * PURPOSE - This button event takes the user back to the main quiz select screen (substitute the main page when implemented)
- */
-function goBack()
-{
-    window.location.assign("../quizStart.html"); 
-}
-
-/* FUNCTION INFORMATION
- * NAME -goForward
- * INPUTS - none
- * OUTPUTS - none (navigates the user away from this page)
- * PURPOSE - This button event method takes to user to the next chapter quiz since this unlocks when we have completed the quiz
- */
-function goForward()
-{
-    //At current implementation no other chapter quizzes are fleshed out but we go there anyway
-    window.location.assign("chapterTwoQuiz.html");
-}
-
-
-//Code starts here
-
-try
-{
-    //We start but requesting the JSON to retrieve the question list
-    loadJSON();
-}
-catch(bug) //It's a joke. I do that.
-{
-    //These exceptions are kept somwhat vague to decrease client knoweledge of page code (for security)
-    if (bug instanceof SyntaxError) //JSON parsing error
-    {
-        body.innerHTML = bugScreen + "<p>Problem parsing JSON input</p>";
-    }
-    /* I have commeneted this out becuase the broswrs I have tested on report this exception type as not found - is only valid for some browser support
-    else if (bug instanceof InvalidStateError) //XMLHTTPRequest retrieval error
-    {
-        body.innerHTML = bugScreen + "<p>Problem retrieving data from questions database</p>";
-    }
-    */ 
-    else if (bug instanceof RangeError) //An array/list went out of bounds
-    {
-        body.innerHTML = bugScreen + "<p>You're out of bounds - here be dragons</p>";
-    }
-    else if (bug instanceof TypeError) //A variable had a bad type/object function syntax used on it
-    {
-        body.innerHTML = bugScreen + "<p>A resource was that to be a type different to what it actually was (Scandalous :O)</p>";
-    }
-    else if (bug instanceof ReferenceError) //A object was derefenced badly
-    {
-        body.innerHTML = bugScreen + "<p>Problem accessing webpage resources</p>";
-    }
-    else if (bug instanceof InternalError) //Javascript engine error
-    {
-        body.innerHTML = bugScreen + "<p>Problem with javascript engine</p>";
-    }
-    //I do not catch URI/Eval Errors specifically since I do not use their respective functions in this code
-    //Everything else goes to an unknown error
-    else
-    {
-        body.innerHTML = bugScreen + "<p>An unknown error occured</p>";
-    }
-}
 
 
 //Once the user gets the answer wrong - once clicked reloads the question (since numCorrect is not incremented will rebuild same question) 

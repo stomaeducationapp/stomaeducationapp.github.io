@@ -4,7 +4,7 @@
     [
       {
         "sectionHeader": "<h2>Chapter 1</h2>",
-        "sectionText": "<h3>Sections</h3> <p><ul><li>Pop Culture</li><li>Trick Questions</li><li>Medicine</li><li>Obviousness</li><li>Mythology</li></ul></p>"
+        "sectionText": "<h3>Sections</h3><p><ul><li>Pop Culture</li><li>Trick Questions</li><li>Medicine</li><li>Obviousness</li><li>Mythology</li></ul></p>"
       },
       {
         "sectionHeader": "<h2>Pop Culture</h2>",
@@ -29,8 +29,6 @@
 
     ],
 
-    "chapterTwo"
-    :
     [
       {
         "sectionHeader": "<h2>Chapter 2</h2>",

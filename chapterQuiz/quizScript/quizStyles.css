@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 25/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 03/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
  * 
  * CLASS/FILE DESCRIPTION
  * This is the design template file for the layout of all chapter quizzes, as they will be displayed the same, this holds the ovverides
@@ -13,6 +13,7 @@
  * 30/08/2018 - Updated to add new divs/sections to reflect new layout
  * 02/09/2018 - Changed modifiers to try and fix new layout bugs/added correct comment style
  * 03/09/2018 - Removed uneeded code
+ * 15/09/2018 - Updated to match new layout for chapter quiz inetgration
  * 
  * REFERENCES
  * The design choices were inspired/based on the one provided by https://www.sitepoint.com/simple-javascript-quiz/
@@ -20,38 +21,10 @@
  * 
  */
 
-body {
-    font-size: 20px;
-    font-family: sans-serif;
-    color: #464646;
-    background-color: #F2CFA5;
-}
-
-#quiz {
-    height: 98%;
-    width: 98%;
-    margin: auto;
-    display: inline;
-}
-
-#chapter {
-    display: inline-block;
-    width: 49%;
-    height: 97%;
-}
-
 #information {
-    display: inline-block;
-    /* font-family: "Antartida Rounded- Light"; - not a free font style, we implemeted in server use a license */
-}
-
-#chapterNav {
-    display: inline-block;
-    width: 68%;
 }
 
 #question {
-    display: inline-block;
     font-weight: 600;
     width: 49%;
     height: 98%;
@@ -61,9 +34,7 @@ body {
 #qTitle {
     background-color: #F3724C;
     font-weight: bolder;
-    display: inline-block;
     width: 100%;
-    /* font-family: "Caecillia LT Std 85 Heavy"; - not a free font style, we implemeted in server use a license */
 }
 
 #answers {
@@ -71,7 +42,6 @@ body {
     background-color: #F5CE67;
     display: table;
     width: 100%;
-    /* font-family: "Caecillia LT Std 55 Roman"; - not a free font style, we implemeted in server use a license */
 }
 
 .choices {
@@ -80,17 +50,14 @@ body {
 #reasoning {
     visibility: hidden;
     background-color: #D1DFD5;
-    display: inline-block;
     width: 100%;
 }
 
 #qNav {
-    display: inline-block;
     width: 98%;
 }
 
 #results {
-    display: inline-block;
     width: 49%;
 }
 

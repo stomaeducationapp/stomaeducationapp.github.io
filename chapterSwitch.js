@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 06/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 13/09/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -14,6 +14,7 @@
  * 07/09/2018 - Edited placeholder functions to use a draft version of final functionality
  * 09/09/2018 - Finalised draft functionailty for chapter content display - and added bookmark functionality to it
  * 13/09/2018 - Updated textArea ID so it works with new headers.html divs, added ability to clear all bookmarks and moved some HTML Sections other project memeber Case Rogers designed so they can be easily switched like chapters
+ * 15/09/2018 - Reworked some buttons/added new buttons to faciliate chapter quiz integration and reworked all HTML strings into multiline to allow for easier editiability
  */
 
 /* REFERENCES
@@ -53,9 +54,38 @@
 const jsonFile = "chapters.json";
 
 //A html body for the error screens
-const bugScreen = "<p>Looks like an error has occured.<br />To try and fix the issue:<ul><li>Refresh the page</li><li>Close the window and reload</li><li>Try from a different browser - supported browsers include:<ul><li>Chrome (Version 68 and above)</li><li>Edge (Version 17 and above)</li><li>Opera (Version 55 and above)</li></ul></li></ul></p>";
+const bugScreen =
+`<p>Looks like an error has occured.<br />
+ To try and fix the issue:
+ <ul>
+    <li>Refresh the page</li>
+    <li>Close the window and reload</li>
+    <li>Try from a different browser - supported browsers include:
+        <ul>
+            <li>Chrome (Version 68 and above)</li>
+            <li>Edge (Version 17 and above)</li>
+            <li>Opera (Version 55 and above)</li>
+        </ul>
+    </li>
+ </ul>
+ </p>`;
 //Modification to screen to add a additonal solution to fix if chapters loaded bad
-const chapterBugScreen = "<p>Looks like an error has occured.<br />To try and fix the issue:<ul><li>Try and load another chapter section and then retry</li><li>Refresh the page</li><li>Close the window and reload</li><li>Try from a different browser - supported browsers include:<ul><li>Chrome (Version 68 and above)</li><li>Edge (Version 17 and above)</li><li>Opera (Version 55 and above)</li></ul></li></ul></p>";
+const chapterBugScreen =
+`<p>Looks like an error has occured.<br />
+ To try and fix the issue:
+ <ul>
+    <li>Try and load another chapter section and then retry</li>
+    <li>Refresh the page</li>
+    <li>Close the window and reload</li>
+    <li>Try from a different browser - supported browsers include:
+        <ul>
+            <li>Chrome (Version 68 and above)</li>
+            <li>Edge (Version 17 and above)</li>
+            <li>Opera (Version 55 and above)</li>
+        </ul>
+    </li>
+ </ul>
+ </p>`;
 
 //Variables for storing all the data related to chapters (names, amount of sctions.chapters) for use in bookmarking
 //Allows for simple edits up here
@@ -99,20 +129,128 @@ var loaded;
 //The first section does not have a back button enabled - as of the current design a user can walk a whole chapter backwards and forwards but
 //not move from chapter to chapter, though this can be easily changed - same reasoning for finalSectionButt
 //The reason we have them included but disabled is to keep the button placement on the screen consistent (CSS Layout)
-const startSectionButt = '<div id="chapterNav" align="center"><button class="button" id="backButt" style="color:white;cursor:default" disabled><<</button><button class="button" id="nextButt">>></button></div>'; 
-const normalSectionButt = '<div id="chapterNav" align="center"><button class="button" id="backButt"><<</button><button class="button" id="nextButt">>></button></div>';
-const finalSectionButt = '<div id="chapterNav" align="center"><button class="button" id="backButt"><<</button><button class="button" id="nextButt" style="color:white;cursor:default" disabled>>></button></div>';
+const startSectionButt =
+`<div id="chapterNav" align="center">
+    <button class="button" id="backButt" style="color:white;cursor:default" disabled><<</button>
+    <button class="button" id="nextButt">>></button>
+ </div>`; 
+const normalSectionButt =
+`<div id="chapterNav" align="center">
+    <button class="button" id="backButt"><<</button>
+    <button class="button" id="nextButt">>></button>
+ </div>`;
+const finalSectionButt =
+`<div id="chapterNav" align="center">
+    <button class="button" id="backButt"><<</button>
+    <button class="button" id="nextButt" style="color:white;cursor:default" disabled>>></button>
+ </div>`;
 
 //HTML container for the mark as reread and important bookmark options
 //AT THE MOMENT THE WORDING IS THE ONLY THING KEEPING THIS AND THE ABOVE SECTIONS AS ALIGNED IN THE CENTER AS I CAN! - EDIT AT YOUR OWN PERIL!!!!!!!!
 //If you can style it better please try
-const additonalBookmarks = '<div id="markers" align="center"><button class="button" id="rereadButt">Click here to </br>mark "read again" </br>If you need </br>to read again</button><button class="button" id="importantButt">Click here to </br> mark "important!" </br> If you need </br> to refer back</button></div>';
+const additonalBookmarks =
+`<div id="markers" align="center">
+    <button class="button" id="rereadButt">Click here to </br>mark "read again" </br>
+                                           If you need </br>
+                                           to read again</button>
+    <button class="button" id="importantButt">Click here to </br>
+                                              mark "important!" </br>
+                                              If you need </br>
+                                              to refer back</button>
+ </div>`;
 
 //HTML Containers for help sections and corresponding button objects
-const tutorialPage = '<h1>Tutorial</h1><a class="link" href="#video">1. Skip to Play Video tutorial</a> <br><br><a class="link" href="#mark">2. Skip to Content Marking tutorial</a> <br><br><a class="link" href="#search">3. Skip to Search tutorial</a> <br><br><!--Play video tutorial info--><h2 id="video">Play A Video:</h2><p>First, browse for a particular piece of content in the sidebar.</p><img src="/HelpPageImages/sidebar.PNG" alt="Sidebar image" class="images" /><p>When you have found something you wish to view, select it.</p><img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" /><p>Proceed to interact with the controls to play, pause and navigate the video.Options to change volume and to move into full screen view are also available.</p><img src="/HelpPageImages/videoPlayer.PNG" alt="Video player image" class="images" /> <br><a href="#top">Return to top</a><!--Mark content tutorial info--><h2 id="mark" style="padding-top: 50px">Mark Content:</h2><p>First, navigate to the content you wish to mark.</p><img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" /><p>On the content page, press the star button located beside the title.</p><img src="/HelpPageImages/unmarkedContent.PNG" alt="Unmarked content image" class="images" /><p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p><img src="/HelpPageImages/markedContent.PNG" alt="Marked content image" class="images" /><br><a href="#top">Return to top</a><!--Searching tutorial info--><h2 id="search" style="padding-top: 50px">Search:</h2><p>From the start page, notice the search bar.</p><img src="/HelpPageImages/searchbar.PNG" alt="Searchbar image" class="images" /><p>Start typing something to search for and possible matches will appear.</p><img src="/HelpPageImages/searching.PNG" alt="Searching image" class="images" /><p>Select the content that you wish to view and it will be loaded into the page.</p><img src="/HelpPageImages/searchComplete.PNG" alt="Search complete image" class="images" /><br><a href="#top">Return to top</a>';
-const faqPage = '<h1>Frequently Asked Questions</h1><h3>What is an ileostomy stoma?</h3><p>An ileostomy stoma is an opening created between the small intestine and the abdominal wall for the evacuation of faeceswhen organ function is abnormal.</p><h3>Is a stoma surgery permanent?</h3><p>A stoma surgery may be permanent or temporary depending on the reason. You should be able to get information about yourcondition from your stoma therapy nurse.</p><h3>What do I do if I am having problems with my stoma?</h3><p>You should contact your stoma therapy nurse or general practitioner, or in case of emergencies your hospital’s emergency room.</p><h3>How is waste collected?</h3><p>Evacuated waste is collected in a bag connected to the stoma via an adhesive.</p><h3>Where can I get stoma bags from?</h3><p>Your stoma therapy nurse will assist you in finding the best location to acquire any appliances you require to maintain your health.It is always best to check with your nurse before purchasing/using new products to confirm it is what you need.</p><h3>How do I dispose of a used bag?</h3><p>If possible empty the contents into the toilet. Secure the appliance in a plastic bag and dispose in a regular rubbish bin.</p><h3>Should I tell people about my stoma?</h3><p>Whether or not you inform others about your stoma is completely up to you. Either way it is important to remember that you shouldnot be ashamed of your stoma surgery.</p><h3>Can I travel with a stoma?</h3><p>The presence of a stoma should not stop you from travelling, however it is recommended to always take a reasonable supply of stomabags with you, as availability can be uncertain.</p> <br><h3>Couldn&#39t find what you were looking for?</h3 > <p>Any further questions should be directed towards your registered stoma therapy nurse.</p> <br><p>FAQ adapted from:<a href="https://australianstoma.com.au/about-stoma/frequently-asked-questions/">australianstoma.com</a></p>';
-const contactsPage = '<h1>Contacts</h1><h2>XYZ Hospital</h2><p>Address: 123 ABC Street, Perth, WA</p><p>Phone: (08) 1111 1111</p><p>E-mail: XYZ@hospital.com</p><p>Fax: (08) 2222 2222</p><h2 style="padding-top: 30px">XYZ Emergency Room</h2><p>Address: 456 ABC Street, Perth, WA</p><p>Phone: (08) 3333 3333</p><h2 style="padding-top: 30px">Social Media</h2><p>Facebook: <a href="www.facebook.com/XYZ">www.facebook.com/XYZ </a></p><p>Twitter: <a href="www.twitter.com/XYZ">@XYZ_Hospital</a></p>';
-const settingsPage = '<h1>Settings</h1><p>Which setting do you want to change?</p><ul style="list-style:none"><li><button id="clearButt">Clear all bookmarks</button></li><!-- Unimplemented settings - DO LATER --><li>Increase font size</li><li>Decrease font size</li></ul>';
+const tutorialPage =
+`<h1>Tutorial</h1>
+    <a class="link" href="#video">1. Skip to Play Video tutorial</a>
+    </br></br>
+    <a class="link" href="#mark">2. Skip to Content Marking tutorial</a>
+    </br></br>
+    <a class="link" href="#search">3. Skip to Search tutorial</a>
+    </br></br>
+    <!--Play video tutorial info-->
+    <h2 id="video">Play A Video:</h2>
+        <p>First, browse for a particular piece of content in the sidebar.</p>
+        <img src="/HelpPageImages/sidebar.PNG" alt="Sidebar image" class="images" />
+        <p>When you have found something you wish to view, select it.</p>
+        <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" />
+        <p>Proceed to interact with the controls to play, pause and navigate the video.Options to change volume and to move into full screen view are also available.</p>
+        <img src="/HelpPageImages/videoPlayer.PNG" alt="Video player image" class="images" />
+        </br>
+        <a href="#top">Return to top</a>
+    <!--Mark content tutorial info-->
+    <h2 id="mark" style="padding-top: 50px">Mark Content:</h2>
+        <p>First, navigate to the content you wish to mark.</p>
+        <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" />
+        <p>On the content page, press the star button located beside the title.</p>
+        <img src="/HelpPageImages/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
+        <p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p>
+        <img src="/HelpPageImages/markedContent.PNG" alt="Marked content image" class="images" />
+        </br>
+        <a href="#top">Return to top</a>
+    <!--Searching tutorial info-->
+    <h2 id="search" style="padding-top: 50px">Search:</h2>
+        <p>From the start page, notice the search bar.</p>
+        <img src="/HelpPageImages/searchbar.PNG" alt="Searchbar image" class="images" />
+        <p>Start typing something to search for and possible matches will appear.</p>
+        <img src="/HelpPageImages/searching.PNG" alt="Searching image" class="images" />
+        <p>Select the content that you wish to view and it will be loaded into the page.</p>
+        <img src="/HelpPageImages/searchComplete.PNG" alt="Search complete image" class="images" />
+        </br>
+        <a href="#top">Return to top</a>`;
+const faqPage =
+`<h1>Frequently Asked Questions</h1>
+    <h3>What is an ileostomy stoma?</h3>
+        <p>An ileostomy stoma is an opening created between the small intestine and the abdominal wall for the evacuation of faeces when organ function is abnormal.</p>
+    <h3>Is a stoma surgery permanent?</h3>
+        <p>A stoma surgery may be permanent or temporary depending on the reason. You should be able to get information about yourcondition from your stoma therapy nurse.</p>
+    <h3>What do I do if I am having problems with my stoma?</h3>
+        <p>You should contact your stoma therapy nurse or general practitioner, or in case of emergencies your hospital’s emergency room.</p>
+    <h3>How is waste collected?</h3>
+        <p>Evacuated waste is collected in a bag connected to the stoma via an adhesive.</p>
+    <h3>Where can I get stoma bags from?</h3>
+        <p>Your stoma therapy nurse will assist you in finding the best location to acquire any appliances you require to maintain your health.It is always best to check with your nurse before purchasing/using new products to confirm it is what you need.</p>
+    <h3>How do I dispose of a used bag?</h3>
+        <p>If possible empty the contents into the toilet. Secure the appliance in a plastic bag and dispose in a regular rubbish bin.</p>
+    <h3>Should I tell people about my stoma?</h3>
+        <p>Whether or not you inform others about your stoma is completely up to you. Either way it is important to remember that you shouldnot be ashamed of your stoma surgery.</p>
+    <h3>Can I travel with a stoma?</h3>
+        <p>The presence of a stoma should not stop you from travelling, however it is recommended to always take a reasonable supply of stomabags with you, as availability can be uncertain.</p>
+        </br>
+    <h3>Couldn&#39t find what you were looking for?</h3>
+        <p>Any further questions should be directed towards your registered stoma therapy nurse.</p>
+        </br>
+        <p>FAQ adapted from:
+        <a href="https://australianstoma.com.au/about-stoma/frequently-asked-questions/">australianstoma.com</a>
+        </p>`;
+const contactsPage =
+`<h1>Contacts</h1>
+    <h2>XYZ Hospital</h2>
+        <p>Address: 123 ABC Street, Perth, WA</p>
+        <p>Phone: (08) 1111 1111</p>
+        <p>E-mail: XYZ@hospital.com</p>
+        <p>Fax: (08) 2222 2222</p>
+    <h2 style="padding-top: 30px">XYZ Emergency Room</h2>
+        <p>Address: 456 ABC Street, Perth, WA</p>
+        <p>Phone: (08) 3333 3333</p>
+    <h2 style="padding-top: 30px">Social Media</h2>
+        <p>Facebook: 
+            <a href="www.facebook.com/XYZ">www.facebook.com/XYZ </a>
+        </p>
+        <p>Twitter: 
+        <a href="www.twitter.com/XYZ">@XYZ_Hospital</a>
+        </p>`;
+const settingsPage =
+`<h1>Settings</h1>
+    <p>Which setting do you want to change?</p>
+    <ul style="list-style:none">
+        <li>
+            <button id="clearButt">Clear all bookmarks</button>
+        </li>
+        <!-- Unimplemented settings - DO LATER -->
+        <li>Increase font size</li>
+        <li>Decrease font size</li>
+    </ul>`;
 
 const tutorialButt = document.getElementById("tutorialButt");
 const faqButt = document.getElementById("faqButt");
@@ -132,12 +270,13 @@ var clearButt //Specific button to clear all bookamrks currently in localStorage
 
 //Buttons on the page - long because of large amount of chapters present in drop downs
 //Chapter 1
-chapterOneButton = document.getElementById("chapterOne");
-scPopButton = document.getElementById("scPop");
-scTrickOneButton = document.getElementById("scTrickOne");
-scMedButton = document.getElementById("scMed");
-scObvButton = document.getElementById("scObv");
-scMythButton = document.getElementById("scMyth");
+chapterOneButt = document.getElementById("chapterOne");
+scPopButt = document.getElementById("scPop");
+scTrickOneButt = document.getElementById("scTrickOne");
+scMedButt = document.getElementById("scMed");
+scObvButt = document.getElementById("scObv");
+scMythButt = document.getElementById("scMyth");
+cqOneButt = document.getElementById("cqOne");
 
 /* FUNCTION INFORMATION
  * NAME - loadChapter
@@ -149,7 +288,7 @@ function loadChapter(response, chapter, subchapter)
 {
     //Take a JSON file - parse it into the chapter array for use later
     var chapterList = JSON.parse(response);
-    chapterText = chapterList.chapterOne; //FOR DRAFT JUST LOAD FIRST CHAPTER
+    chapterText = chapterList.cPool[(chapter - 1)]; //Since array is 0-based -1 to get real chapter content
     loaded = true;
     displayChapter(chapter, subchapter);
 
@@ -491,15 +630,15 @@ settingsButt.addEventListener('click', function ()
 });
 
 //Chapter 1
-chapterOneButton.addEventListener('click', function ()
+chapterOneButt.addEventListener('click', function ()
 {
     selectChapter(1, 0);
 });
-scPopButton.addEventListener('click', function ()
+scPopButt.addEventListener('click', function ()
 {
     selectChapter(1, 1);
 });
-scTrickOneButton.addEventListener('click', function ()
+scTrickOneButt.addEventListener('click', function ()
 {
     selectChapter(1, 2);
 });
@@ -507,11 +646,11 @@ scMedButton.addEventListener('click', function ()
 {
     selectChapter(1, 3);
 });
-scObvButton.addEventListener('click', function ()
+scObvButt.addEventListener('click', function ()
 {
     selectChapter(1, 4);
 });
-scMythButton.addEventListener('click', function ()
+scMythButt.addEventListener('click', function ()
 {
     selectChapter(1, 5);
 });

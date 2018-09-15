@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 09/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 12/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
  * 
  * CLASS/FILE DESCRIPTION
  * This is the design template file for the layout of all additional divs inside the chapter text area in headers.html
@@ -8,11 +8,19 @@
  * VERSION HISTORY
  * 09/09/2018 - Created and placed first draft of button layout
  * 12/09/2018 - Fixed styling layout
+ * 15/09/2018 - Added additional stylings based on new chapter quiz integration
  * 
  * REFERENCES
  * Design options were learned/adapted from the many tutorials at https://www.w3schools.com
  * 
  */
+
+#quiz {
+    height: 98%;
+    width: 98%;
+    margin: auto;
+    display: inline;
+}
 
 #chapterNav {
     height: 98%;
