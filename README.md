@@ -1,29 +1,8 @@
-# README #
+# Steps for using the verification branch #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+- Make a pull request to the Verification branch(from your branch)
+- Merge all conflicts using visual studio
+- Make sure you make an alert on disord that you have merged your branch
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+- If you are the last person to merge into Verification, make a pull request from master for the final merge to master
+- DO NOT merge into master, that will be the job of Casey as a reviewer 
