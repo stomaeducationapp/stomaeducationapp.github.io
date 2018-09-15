@@ -1,3 +1,5 @@
+<!doctype html>
+<html>
 <!-- searchbar.html
   --  PURPOSE: Page
   --  AUTHOR: Oliver Yeudall
@@ -15,7 +17,7 @@
   --
   --         Where X is an integer number. Note that "position" is
   --         COMPULSORY and z-index values will not work if this property is
-  --         left undefined. For example, in this test page, the search bar 
+  --         left undefined. For example, in this test page, the search bar
   --         items has CSS properties like this:
   --
   --             .dropDownList {
@@ -48,144 +50,146 @@
 </head>
 
 
-<!-- example from www.w3schools.com/howto/howto_js_filterdropdown.asp */ -->
-<div id="dropdownUI" class="UserInterfaceSearchScreen">
-    <input id="inputBox" type="text" placeholder="Enter search..." onkeyup="displayFilter()">
-    <div id="dropDownList" class="dropDownList">
 
-        <a href="#apple">Apple</a>
-        <a href="#banana">Banana</a>
-        <a href="#carrot">Carrot</a>
-        <a href="#danish">Danish</a>
-        <a href="#eggplant">Eggplant</a>
-        <a href="#fritters">Fritters</a>
-        <a href="#garlic">Garlic</a>
-        <a href="#halloumi">Halloumi</a>
-        <a href="#ice">Ice</a>
-        <a href="#jalapeno">Jalapeno</a>
-    </div>
-
-</div>
 
 
 <body>
+    <!-- example from www.w3schools.com/howto/howto_js_filterdropdown.asp */ -->
+    <div id="dropdownUI" class="UserInterfaceSearchScreen">
+        <input id="inputBox" type="text" placeholder="Enter search...">
+        <div id="dropDownList" class="dropDownList" style="display: none;">
+            <a href="#apple">Apple</a>
+            <a href="#banana">Banana</a>
+            <a href="#carrot">Carrot</a>
+            <a href="#danish">Danish</a>
+            <a href="#eggplant">Eggplant</a>
+            <a href="#fritters">Fritters</a>
+            <a href="#garlic">Garlic</a>
+            <a href="#halloumi">Halloumi</a>
+            <a href="#ice">Ice</a>
+            <a href="#jalapeno">Jalapeno</a>
+        </div>
+
+    </div>
+
     <div id="displaybody">
         <h1> This is a test header</h1>
 
         <p> This is a test body to see if the search bar can be overlayed on the top of regular text</p>
     </div>
-</body>
-
-<script>
-
-    // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
-    window.onload = pre_loader; // Hides the search items when the page is loaded
 
 
+    <script type="text/javascript">
 
-    /**************************************************************************
-    *  Function: Event listener click event                                   *
-    *  Purpose: Detect the location of clicks relative to the search bar and  *
-    *           search items                                                  *
-    *  IMPORT: none                                                           *
-    *  EXPORT: none                                                           *
-    *  ***********************************************************************/
-    //Based on example from http://blustemy.io/detecting-a-click-outside-an-element-in-javascript/
-    document.addEventListener("click", (evt) => {
-        const flyoutElement = document.getElementById("dropdownUI");
-        var clickFlag = false;
-        let targetElement = evt.target;
+        /**************************************************************************
+        *  Function: Event listener click event                                   *
+        *  Purpose: Detect the location of clicks relative to the search bar and  *
+        *           search items                                                  *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+        //Based on example from http://blustemy.io/detecting-a-click-outside-an-element-in-javascript/
+        document.addEventListener("click", (evt) => {
+            const flyoutElement = document.getElementById("dropdownUI");
+            var clickFlag = false;
+            let targetElement = evt.target;
 
-        do {
-            if (targetElement == flyoutElement) {
-                // A click has been made in the search bar and associated items
-                clickFlag = true;
+            do {
+                if (targetElement == flyoutElement) {
+                    // A click has been made in the search bar and associated items
+                    clickFlag = true;
 
-            }
+                }
 
-            targetElement = targetElement.parentNode;
-        } while (targetElement);
+                targetElement = targetElement.parentNode;
+            } while (targetElement);
 
-        if (clickFlag) {
-            // Show search items
-            searchFilter();
-        }
-        else {
-            // Hide search items
-            searchFilterBlur();
-        }
-
-        clickFlag = false;
-
-        return;
-    });
-
-
-    /**************************************************************************
-    *  Function: pre_loader                                                   *
-    *  Purpose: Hides the search list before the page is loaded               *
-    *  IMPORT: none                                                           *
-    *  EXPORT: none                                                           *
-    *  ***********************************************************************/
-
-    function pre_loader() {
-        // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
-
-        document.getElementById("dropDownList").style.display = "none";
-    };
-
-    /**************************************************************************
-    *  Function: searchFilter                                                 *
-    *  Purpose: Enable the display of the current items in the search list    *
-    *  IMPORT: none                                                           *
-    *  EXPORT: none                                                           *
-    *  ***********************************************************************/
-
-    function searchFilter() {
-        document.getElementById("dropDownList").style.display = "block";
-    }
-
-
-    /**************************************************************************
-    *  Function: searchFilterBlur                                             *
-    *  Purpose: Disable and hide the current items in the search list         *
-    *  IMPORT: none                                                           *
-    *  EXPORT: none                                                           *
-    *  ***********************************************************************/
-
-    function searchFilterBlur() {
-        document.getElementById("dropDownList").style.display = "none";
-    }
-
-
-    /**************************************************************************
-    *  Function: displayFilter                                                *
-    *  Purpose: Alter the displayed search list based on user input           *
-    *  IMPORT: none                                                           *
-    *  EXPORT: none                                                           *
-    *  ***********************************************************************/
-
-    function displayFilter() {
-        /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
-
-        var searchInput, searchValue, a, i;
-
-        searchInput = document.getElementById("inputBox");
-
-        searchValue = searchInput.value.toUpperCase();
-
-        div = document.getElementById("dropDownList");
-
-        a = div.getElementsByTagName("a");
-
-        for (i = 0; i < a.length; i++) {
-            if (a[i].innerHTML.toUpperCase().indexOf(searchValue) > -1) {
-                a[i].style.display = "";
+            if (clickFlag) {
+                // Show search items
+                searchFilter();
             }
             else {
-                a[i].style.display = "none";
+                // Hide search items
+                searchFilterBlur();
+            }
+
+            clickFlag = false;
+
+            return;
+        });
+
+
+        /**************************************************************************
+        *  Function: searchFilter                                                 *
+        *  Purpose: Enable the display of the current items in the search list    *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+
+        function searchFilter() {
+            document.querySelector("#dropDownList").style.display = "block";
+        }
+
+
+        /**************************************************************************
+        *  Function: searchFilterBlur                                             *
+        *  Purpose: Disable and hide the current items in the search list         *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+
+        function searchFilterBlur() {
+            document.querySelector("#dropDownList").style.display = "none";
+        }
+
+
+        /**************************************************************************
+        *  Function: displayFilter                                                *
+        *  Purpose: Alter the displayed search list based on user input           *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+
+        function displayFilter() {
+            /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
+
+            var searchInput, div, a;
+
+            var searchValue = "";
+
+            searchInput = document.getElementById("inputBox");
+
+            searchValue = String(searchInput.value).trim().toUpperCase();
+
+            div = document.getElementById("dropDownList");
+
+            a = div.getElementsByTagName("a");
+
+            var foundMatch = false;
+
+            for (var i = 0; i < a.length; i++) {
+                if (String(a[i].innerHTML).trim().toUpperCase().indexOf(searchValue) > -1) {
+                    a[i].style.display = "";
+                    foundMatch = true;
+                }
+                else {
+                    a[i].style.display = "none";
+                }
+
+            }
+
+            if (foundMatch) {
+                searchFilter();
+            } else {
+                searchFilterBlur();
             }
 
         }
-    }
-</script>
+        
+        window.addEventListener('load', () => {
+            document.getElementById('inputBox').addEventListener("keyup", displayFilter);
+        });
+
+    </script>
+</body>
+</html>
