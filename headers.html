@@ -1,6 +1,6 @@
 ﻿<!-- AUTHOR INFORMATION
      CREATOR - Casey Rogers XX/XX/2018
-     LAST MODIFIED BY - Jeremy Dunnet 12/09/2018
+     LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
 -->
 
 <!-- CLASS/FILE DESCRIPTION
@@ -23,8 +23,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- All stylesheets related to styling parts of the webpage
+         Each one is seprated so that individual sections of the page can be styled seperately
+    -->
+    <link rel="stylesheet" href="/globalCSS/styles.css">
     <link rel="stylesheet" href="chapterNavStyles.css">
     <link rel="stylesheet" href="headerStyles.css">
+    <link rel="stylesheet" href="/chapterQuiz/quizScript/quizStyles.css">
 
     <!-- Broswer check for supported software/versions -->
     <script type="application/javascript" src="../globalErrorPages/browserTest.js"></script>
@@ -85,7 +90,7 @@
                     <a id="scAstro">Astrology</a>
                     <a id="scTime">Time</a>
                     <a id="scHist">History</a>
-                    <a href="chapterQuiz/quizzes/chapterOneQuiz.html">Chapter Quiz</a>
+                    <a id="cqTwo">Chapter Quiz</a>
                 </div>
 
                 <a href="#">Search</a>
@@ -261,6 +266,12 @@
         }
     </script>
 
+    <!-- This is all the seperate javascript files (to allow to functionaility to be divided)
+         This list is put into a load order as some script files may call functions of others
+         Be aware this means these files can see each others global constants etc. so they all need to be unique names
+         Insert new files in the correct order or page may fail to load
+    -->
+    <script type="application/javascript" src="/chapterQuiz/quizScript/quiz.js"></script>
     <script type="application/javascript" src="chapterSwitch.js"></script>
 </body>
 </html>

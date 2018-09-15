@@ -20,13 +20,13 @@
  * 30/08/2018 - Updated to retrieve questions from a JSON file, redesigned layout to fit new decided style
  * 02/09/2018 - Updated code related to new layout - fixing bugs and uneeded lines 
  * 03/09/2018 - Added as much exception handling as I could find for this code and cleaned up more unused code
- * 15/09/2018 - Made changes to transfer this code from chapterQuizX.html to being dymanically injected into the main page (integration) and rewroked layout of HTML strings
- *              (made them multiline to increase editiability)
+ * 15/09/2018 - Made changes to transfer this code from chapterQuizX.html to being dymanically injected into the main page (integration), rewroked layout of HTML strings
+ *              (made them multiline to increase editiability) and edited variable names to match shared space (with other js files) in headers.html
  */
 
 /* REFERENCES
  * All code/implementation was adapted/learned from the tutorial on JavaScript Quiz at https://www.sitepoint.com/simple-javascript-quiz/
- * The function loadJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
+ * The function loadQuizJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
  * Scroll up fucntionality was learned/adapted from https://stackoverflow.com/questions/19311301/how-to-scroll-back-to-the-top-of-page-on-button-click
  * Radio button listener code was learned/adpated from http://www.dynamicdrive.com/forums/showthread.php?74477-How-do-you-attach-an-event-listener-to-radio-button-using-javascript
  * Javascript exception handling learned/adapted from https://stackoverflow.com/questions/4467044/proper-way-to-catch-exception-from-json-parse
@@ -47,15 +47,16 @@ var reasoningContainer;
 var scoreContainer;
 var encouragementContainer;
 //Buttons
-var returnButton;
-var retryButton;
-var nextButton;
-var continueButton;
+var nextButt;
+var retryButt;
+//Navigation buttons - techincally set and controlled in another js file - but variables here disabled/enable them so we grab them on quiz construction
+var returnButt;
+var continueButt;
 //Body - for error handling
 const bodyText = document.getElementById("home");
 
 //A HTML body for the error screen
-const bugScreen =
+const quizBugScreen =
 `<p>Looks like an error has occured.<br />
  To try and fix the issue:
  <ul>
@@ -85,8 +86,8 @@ const chapterLayout =
  </div>
  <div id="qNav">
     <div id="buttons">
-        <button class="button" id="retryButt" disabled>Retry question</button>
-        <button class="button" id="nextButt" disabled>Next question</button>
+        <button class="quizButton" id="retryButt" disabled>Retry question</button>
+        <button class="quizButton" id="nextButt" disabled>Next question</button>
     </div>
  </div>`;
 
@@ -120,7 +121,7 @@ var numCorrect;
  * 
  */
 
-const jsonFile = "../quizScript/questionList.json";
+const quizJSONFile = "/chapterQuiz/quizScript/questionList.json";
 
 //Function declarations
 
@@ -161,20 +162,20 @@ function buildQuestion()
     answersContainer.innerHTML = answers.join("");
 
     //Set all buttons to disabled and hide their text
-    retryButton.disabled = true;
-    retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    retryButton.style.backgroundColor = "gray";
-    retryButton.style.cursor = "not-allowed";
+    retryButt.disabled = true;
+    retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    retryButt.style.backgroundColor = "gray";
+    retryButt.style.cursor = "not-allowed";
 
-    nextButton.disabled = true;
-    nextButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    nextButton.style.backgroundColor = "gray";
-    nextButton.style.cursor = "not-allowed";
+    nextButt.disabled = true;
+    nextButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    nextButt.style.backgroundColor = "gray";
+    nextButt.style.cursor = "not-allowed";
 
-    continueButton.disabled = true;
-    continueButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    continueButton.style.backgroundColor = "gray";
-    continueButton.style.cursor = "not-allowed";
+    continueButt.disabled = true;
+    continueButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    continueButt.style.backgroundColor = "gray";
+    continueButt.style.cursor = "not-allowed";
 
 
     //Now that the radio buttons are back on the page - let's set a event listener to activate when one is clicked
@@ -188,17 +189,17 @@ function buildQuestion()
 }
 
 /* FUNCTION INFORMATION
- * NAME - loadJSON
+ * NAME - loadQuizJSON
  * INPUTS - chapter
  * OUTPUTS - none
  * PURPOSE - This is the method that loads the question list from a JSON file so that setQuestions can pick the random 10
  */
-function loadJSON(chapter)
+function loadQuizJSON(chapter)
 {
 
     var xobj = new XMLHttpRequest(); //Create a request object to get the data from the JSON File
     xobj.overrideMimeType("application/json"); //Overide the deafult file type it is looking for to JSON
-    xobj.open("GET", jsonFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
+    xobj.open("GET", quizJSONFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
                                         //(while the rest of the code cannot function until code is loaded - sychronous requests are deprecated according to https://xhr.spec.whatwg.org/#the-open()-method)
                                         //We use GET as while POST more secure, GET is the only guaranteed method to work in all browsers
                                         //in current build - REVIEW WHEN MOVED TO FULL LIVE TESTING
@@ -236,48 +237,58 @@ function loadQuiz(chapter)
     scoreContainer = document.getElementById("score");
     encouragementContainer = document.getElementById("encouragement");
     //Buttons
-    returnButton = document.getElementById("returnButt");
-    retryButton = document.getElementById("retryButt");
+    retryButt = document.getElementById("retryButt");
+    nextButt = document.getElementById("nextButt");
+    //Set the end of quiz navaigation so we can disabled them later
+    returnButt = document.getElementById("returnButt");
+    continueButt = document.getElementById("continueButt");
+
+
+    //Now we can set these to have event listeners
+    //Once the user gets the answer wrong - once clicked reloads the question (since numCorrect is not incremented will rebuild same question) 
+    retryButt.addEventListener("click", buildQuestion);
+    //If the user gets the answer right - builds next question (since numCorrect incremented)
+    nextButt.addEventListener("click", buildQuestion);
 
     try
     {
         //We start but requesting the JSON to retrieve the question list
-        loadJSON(chapter);
+        loadQuizJSON(chapter);
     }
     catch (bug) //It's a joke. I do that.
     {
         //These exceptions are kept somwhat vague to decrease client knoweledge of page code (for security)
         if (bug instanceof SyntaxError) //JSON parsing error
         {
-            body.innerHTML = bugScreen + "<p>Problem parsing JSON input</p>";
+            body.innerHTML = quizBugScreen + "<p>Problem parsing JSON input</p>";
         }
         /* I have commeneted this out becuase the broswrs I have tested on report this exception type as not found - is only valid for some browser support
         else if (bug instanceof InvalidStateError) //XMLHTTPRequest retrieval error
         {
-            body.innerHTML = bugScreen + "<p>Problem retrieving data from questions database</p>";
+            body.innerHTML = quizBugScreen + "<p>Problem retrieving data from questions database</p>";
         }
         */
         else if (bug instanceof RangeError) //An array/list went out of bounds
         {
-            body.innerHTML = bugScreen + "<p>You're out of bounds - here be dragons</p>";
+            body.innerHTML = quizBugScreen + "<p>You're out of bounds - here be dragons</p>";
         }
         else if (bug instanceof TypeError) //A variable had a bad type/object function syntax used on it
         {
-            body.innerHTML = bugScreen + "<p>A resource was that to be a type different to what it actually was (Scandalous :O)</p>";
+            body.innerHTML = quizBugScreen + "<p>A resource was thought to be a type different to what it actually was (Scandalous :O)</p>";
         }
         else if (bug instanceof ReferenceError) //A object was derefenced badly
         {
-            body.innerHTML = bugScreen + "<p>Problem accessing webpage resources</p>";
+            body.innerHTML = quizBugScreen + "<p>Problem accessing webpage resources</p>";
         }
         else if (bug instanceof InternalError) //Javascript engine error
         {
-            body.innerHTML = bugScreen + "<p>Problem with javascript engine</p>";
+            body.innerHTML = quizBugScreen + "<p>Problem with javascript engine</p>";
         }
         //I do not catch URI/Eval Errors specifically since I do not use their respective functions in this code
         //Everything else goes to an unknown error
         else
         {
-            body.innerHTML = bugScreen + "<p>An unknown error occured</p>";
+            body.innerHTML = quizBugScreen + "<p>An unknown error occured</p>";
         }
     }
 
@@ -380,36 +391,36 @@ function showResult()
         {
 
             //Disable the retry button - no incorrect answer
-            retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            retryButton.style.backgroundColor = "gray";
-            retryButton.disabled = true;  //Disable button press
-            retryButton.style.cursor = "not-allowed";
+            retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            retryButt.style.backgroundColor = "gray";
+            retryButt.disabled = true;  //Disable button press
+            retryButt.style.cursor = "not-allowed";
 
             //Disable the next button - got it right
-            nextButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            nextButton.style.backgroundColor = "gray";
-            nextButton.disabled = true;  //Disable button press
-            nextButton.style.cursor = "not-allowed";
+            nextButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            nextButt.style.backgroundColor = "gray";
+            nextButt.disabled = true;  //Disable button press
+            nextButt.style.cursor = "not-allowed";
 
             //Enable continue to next quiz buttton
-            continueButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
-            continueButton.style.backgroundColor = "#8FBBA5";
-            continueButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
-            continueButton.style.cursor = "pointer";
+            continueButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
+            continueButt.style.backgroundColor = "#8FBBA5";
+            continueButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+            continueButt.style.cursor = "pointer";
         }
         else
         {
             //Disable the retry button - no incorrect answer
-            retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            retryButton.style.backgroundColor = "gray";
-            retryButton.disabled = true;  //Disable button press
-            retryButton.style.cursor = "not-allowed";
+            retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            retryButt.style.backgroundColor = "gray";
+            retryButt.disabled = true;  //Disable button press
+            retryButt.style.cursor = "not-allowed";
 
             //Enable the next button - got it right
-            nextButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
-            nextButton.style.backgroundColor = "#8FBBA5";
-            nextButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
-            nextButton.style.cursor = "pointer";
+            nextButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
+            nextButt.style.backgroundColor = "#8FBBA5";
+            nextButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+            nextButt.style.cursor = "pointer";
         }
 
 
@@ -474,10 +485,10 @@ function showResult()
         }*/
 
         //Enable the retry button - give a chance to try again
-        retryButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
-        retryButton.style.backgroundColor = "#8FBBA5";
-        retryButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
-        retryButton.style.cursor = "pointer";
+        retryButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
+        retryButt.style.backgroundColor = "#8FBBA5";
+        retryButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+        retryButt.style.cursor = "pointer";
 
     }
 
@@ -541,26 +552,3 @@ function showResult()
     }
 
 }
-
-
-
-//Once the user gets the answer wrong - once clicked reloads the question (since numCorrect is not incremented will rebuild same question) 
-retryButton.addEventListener("click", buildQuestion);
-//If the user gets the answer right - builds next question (since numCorrect incremented)
-nextButton.addEventListener("click", buildQuestion);
-
-//Listeners for when the user selects a particular chapter quiz
-cOneQuizButt.addEventListener('click', function ()
-{
-    loadQuiz(1);
-});
-cTwoQuizButt.addEventListener('click', function ()
-{
-    loadQuiz(2);
-});
-
-//If the user clicks go back to chapter select - go back to the quiz selector page
-returnButton.addEventListener("click", goBack);
-
-//If the user completes the quiz - we will take them to the next chapter quiz
-continueButton.addEventListener("click", goForward);

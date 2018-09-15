@@ -14,11 +14,12 @@
  * 07/09/2018 - Edited placeholder functions to use a draft version of final functionality
  * 09/09/2018 - Finalised draft functionailty for chapter content display - and added bookmark functionality to it
  * 13/09/2018 - Updated textArea ID so it works with new headers.html divs, added ability to clear all bookmarks and moved some HTML Sections other project memeber Case Rogers designed so they can be easily switched like chapters
- * 15/09/2018 - Reworked some buttons/added new buttons to faciliate chapter quiz integration and reworked all HTML strings into multiline to allow for easier editiability
+ * 15/09/2018 - Reworked some buttons/added new buttons to faciliate chapter quiz integration, reworked all HTML strings into multiline to allow for easier editiability
+ *              and edited variable names to match shared space (with other js files) in headers.html
  */
 
 /* REFERENCES
- * The function loadJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
+ * The function loadChapterJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
  * Javascript exception handling learned/adapted from https://stackoverflow.com/questions/4467044/proper-way-to-catch-exception-from-json-parse
  * Creating button listeners with imports adapted from https://stackoverflow.com/questions/9643311/pass-string-parameter-in-an-onclick-function
  * Scroll up fucntionality was learned/adapted from https://stackoverflow.com/questions/19311301/how-to-scroll-back-to-the-top-of-page-on-button-click
@@ -51,10 +52,10 @@
  * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
  * 
  */
-const jsonFile = "chapters.json";
+const chapterJSONFile = "chapters.json";
 
 //A html body for the error screens
-const bugScreen =
+const headersBugScreen =
 `<p>Looks like an error has occured.<br />
  To try and fix the issue:
  <ul>
@@ -101,11 +102,11 @@ function bookmark(name, text, marker)
 //Constant for the max number of sections a chapter has - used to prevent navigating to an unknown section
 const maxChapters = 2;
 //Constant for the max number of sections a chapter has
-const maxSections = 5;
+const maxSections = 6;
 //Constant array of all ids of chapters - to use as pageName variables
 const chapterIDs = [
-    ["chapterOne", "scPop", "scTrickOne", "scMed", "scObv", "scMyth"],
-    ["chapterTwo", "scTrickTwo", "scAnimal", "scAstro", "scTime", "scHist"]
+    ["chapterOne", "scPop", "scTrickOne", "scMed", "scObv", "scMyth", "cqOne"],
+    ["chapterTwo", "scTrickTwo", "scAnimal", "scAstro", "scTime", "scHist", "cqTwo"]
 ];
 //Constants for all bookmark symbols (added space to give space to original text)
 const unfinishedMark = " …";
@@ -121,7 +122,7 @@ for (ii = 0; ii < maxChapters; ii++) //Set each chapter to hold a number of book
 
 //Global for the current chapter in memory - acts as a cache so user can quickly move through subchapters
 //If they want to bounce around they need to wait to reload from the database
-var chapterText = new Array(6);
+var chapterText = new Array((maxChapters + 1));
 //This is used to check if we have already loaded this chapter - allow for faster loading
 var loaded;
 
@@ -131,18 +132,18 @@ var loaded;
 //The reason we have them included but disabled is to keep the button placement on the screen consistent (CSS Layout)
 const startSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="button" id="backButt" style="color:white;cursor:default" disabled><<</button>
-    <button class="button" id="nextButt">>></button>
+    <button class="chapterButton" id="backButt" style="color:white;cursor:default" disabled><<</button>
+    <button class="chapterButton" id="nextButt">>></button>
  </div>`; 
 const normalSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="button" id="backButt"><<</button>
-    <button class="button" id="nextButt">>></button>
+    <button class="chapterButton" id="backButt"><<</button>
+    <button class="chapterButton" id="nextButt">>></button>
  </div>`;
 const finalSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="button" id="backButt"><<</button>
-    <button class="button" id="nextButt" style="color:white;cursor:default" disabled>>></button>
+    <button class="chapterButton" id="backButt"><<</button>
+    <button class="chapterButton" id="nextButt" style="color:white;cursor:default" disabled>>></button>
  </div>`;
 
 //HTML container for the mark as reread and important bookmark options
@@ -150,10 +151,10 @@ const finalSectionButt =
 //If you can style it better please try
 const additonalBookmarks =
 `<div id="markers" align="center">
-    <button class="button" id="rereadButt">Click here to </br>mark "read again" </br>
+    <button class="chapterButton" id="rereadButt">Click here to </br>mark "read again" </br>
                                            If you need </br>
                                            to read again</button>
-    <button class="button" id="importantButt">Click here to </br>
+    <button class="chapterButton" id="importantButt">Click here to </br>
                                               mark "important!" </br>
                                               If you need </br>
                                               to refer back</button>
@@ -257,6 +258,14 @@ const faqButt = document.getElementById("faqButt");
 const contactsButt = document.getElementById("contactsButt");
 const settingsButt = document.getElementById("settingsButt");
 
+//HTML for Chapter quiz layout
+const quizLayout = 
+`<div id="quiz"></div>
+ <div id="chapterNav">
+    <button class="quizButton" id="returnButt">Back to start of chapter</button>
+    <button class="quizButton" id="continueButt" disabled>Continue to next chapter</button>
+ </div>`;
+
 //Main div where all chapter text is displayed - we use it constantly to inject into when chapters change
 const textArea = document.getElementById("home");
 //Special navigation button variables (These are initalized dynamically so they have no value now) - these are reused in every chapter so
@@ -277,6 +286,14 @@ scMedButt = document.getElementById("scMed");
 scObvButt = document.getElementById("scObv");
 scMythButt = document.getElementById("scMyth");
 cqOneButt = document.getElementById("cqOne");
+//Chapter 2
+chapterTwoButt = document.getElementById("chapterTwo");
+scTrickTwoButt = document.getElementById("scTrickTwo");
+scAnimalButt = document.getElementById("scAnimal");
+scAstroButt = document.getElementById("scAstro");
+scTimeButt = document.getElementById("scTime");
+scHistButt = document.getElementById("scHist");
+cqTwoButt = document.getElementById("cqTwo");
 
 /* FUNCTION INFORMATION
  * NAME - loadChapter
@@ -295,17 +312,17 @@ function loadChapter(response, chapter, subchapter)
 }
 
 /* FUNCTION INFORMATION
- * NAME - loadJSON
+ * NAME - loadChapterJSON
  * INPUTS - chapter, subchapter
  * OUTPUTS - none
  * PURPOSE - This is the method that loads the chapter text from a JSON file so that loadChpater can put it into memory
  */
-function loadJSON(chapter, subchapter)
+function loadChapterJSON(chapter, subchapter)
 {
 
     var xobj = new XMLHttpRequest(); //Create a request object to get the data from the JSON File
     xobj.overrideMimeType("application/json"); //Overide the deafult file type it is looking for to JSON
-    xobj.open("GET", jsonFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
+    xobj.open("GET", chapterJSONFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
     //(while the rest of the code cannot function until code is loaded - sychronous requests are deprecated according to https://xhr.spec.whatwg.org/#the-open()-method)
     //We use GET as while POST more secure, GET is the only guaranteed method to work in all browsers
     //in current build - REVIEW WHEN MOVED TO FULL LIVE TESTING
@@ -523,6 +540,70 @@ function displayChapter(chapter, subchapter)
 }
 
 /* FUNCTION INFORMATION
+ * NAME - displayQuiz
+ * INPUTS - chapter, subchapter
+ * OUTPUTS - none
+ * PURPOSE - This is the method that pushes the chapter quiz HTML into the center of the page - also performs sanity check on navigation buttons
+ */
+function displayQuiz(chapter, subchapter)
+{
+    var currentMark = chapterMarks[(chapter - 1)][subchapter]; //Get the bookmark object that corresponds to this chapter (-1 since chapter array is 0-based)
+    if (currentMark.symbol === null) //If there was no bookmark set
+    {
+        var name = currentMark.pageName;
+        (document.getElementById(name)).innerText = currentMark.pageText + unfinishedMark; //Set the bookmark to unfinished
+        currentMark.symbol = unfinishedMark; //Set reference object to new bookmark and restore in our array
+        chapterMarks[(chapter - 1)][subchapter] = currentMark; //For if user keeps reading during this session
+        window.localStorage.setItem(name, unfinishedMark); //Store in local storage so can be reloaded later
+    }
+
+    //Since everytime we want to display a new section - refocus the window to the top so the user always starts at the start of the page
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+
+    textArea.innerHTML = quizLayout;
+    //The chapter quiz uses the variables back/nextButt but their layout is different to represent the quiz being the bookend of the chapter
+    backButt = document.getElementById("returnButt");
+    if ((chapter - 1) >= 0) //Should never be - but just in case
+    {
+        backButt.addEventListener('click', function ()
+        {
+            selectChapter(chapter, 0); //A likely outcome of going back from the quiz is wanting to re read the chapter so we take the user all the way back to the start 
+        });
+    }
+    else
+    {
+        throw "CHAPTER BUTTON ERROR";
+    }
+    nextButt = document.getElementById("continueButt");
+    if ((chapter + 1) <= maxChapters)
+    {
+        nextButt.addEventListener('click', function ()
+        {
+            var currentMark = chapterMarks[(chapter - 1)][subchapter]; //Get the bookmark object that corresponds to this chapter (-1 since chapter array is 0-based)
+            if (currentMark.symbol === finishedMark) 
+            {
+                //If this quiz was already completed - ignore
+            }
+            else //We mark it complete
+            {
+                var name = currentMark.pageName;
+                (document.getElementById(name)).innerText = currentMark.pageText + finishedMark; //Set the bookmark to finished
+                currentMark.symbol = finishedMark; //Set reference object to new bookmark and restore in our array
+                chapterMarks[(chapter - 1)][subchapter] = currentMark; //For if user keeps reading during this session
+                window.localStorage.setItem(name, finishedMark); //Store in local storage so can be reloaded later
+            }
+
+            selectChapter((chapter + 1), 0); //We simply take what chapter we are in and move on to the next one (if not at maxChapters)
+        });
+    }
+    else
+    {
+        throw "CHAPTER BUTTON ERROR";
+    }
+
+}
+
+/* FUNCTION INFORMATION
  * NAME - selectChapter
  * INPUTS - subchapter, section
  * OUTPUTS - none
@@ -548,18 +629,18 @@ function selectChapter(chapter, subchapter)
     if (subchapter === 0) //If the user has clicked on the base header - we should load this chapter into memory
     {
         loaded = false; //Assume the user only clicks chapter base headers when the move to new chapters
-        loadJSON(chapter, subchapter);
+        loadChapterJSON(chapter, subchapter);
     }
     else     //Derefence array based on section - push into innerHTML
     {
-        if (loaded === true) //Double check it has - otherwise we call loadJSON to be safe
+        if (loaded === true) //Double check it has - otherwise we call loadChapterJSON to be safe
         {
             displayChapter(chapter, subchapter);
         }
         else
         {
             loaded = false;
-            loadJSON(chapter, subchapter);
+            loadChapterJSON(chapter, subchapter);
         }
     }
 
@@ -578,27 +659,27 @@ catch (bug) //It's a joke. I do that.
     }
     else if (bug instanceof SyntaxError) //JSON parsing error
     {
-        textArea.innerHTML = bugScreen + "<p>Problem parsing JSON input</p>";
+        textArea.innerHTML = headersBugScreen + "<p>Problem parsing JSON input</p>";
     }
     else if (bug instanceof RangeError) //An array/list went out of bounds
     {
-        textArea.innerHTML = bugScreen + "<p>You're out of bounds - here be dragons</p>";
+        textArea.innerHTML = headersBugScreen + "<p>You're out of bounds - here be dragons</p>";
     }
     else if (bug instanceof TypeError) //A variable had a bad type/object function syntax used on it
     {
-        textArea.innerHTML = bugScreen + "<p>A resource was that to be a type different to what it actually was (Scandalous :O)</p>";
+        textArea.innerHTML = headersBugScreen + "<p>A resource was thought to be a type different to what it actually was (Scandalous :O)</p>";
     }
     else if (bug instanceof ReferenceError) //A object was derefenced badly
     {
-        textArea.innerHTML = bugScreen + "<p>Problem accessing webpage resources</p>";
+        textArea.innerHTML = headersBugScreen + "<p>Problem accessing webpage resources</p>";
     }
     else if (bug instanceof InternalError) //Javascript engine error
     {
-        textArea.innerHTML = bugScreen + "<p>Problem with javascript engine</p>";
+        textArea.innerHTML = headersBugScreen + "<p>Problem with javascript engine</p>";
     }
     else //Was not an error type we expected to be thrown
     {
-        textArea.innerHTML = bugScreen + "<p>An unknown error occured</p>";
+        textArea.innerHTML = headersBugScreen + "<p>An unknown error occured</p>";
     }
 
 }
@@ -642,7 +723,7 @@ scTrickOneButt.addEventListener('click', function ()
 {
     selectChapter(1, 2);
 });
-scMedButton.addEventListener('click', function ()
+scMedButt.addEventListener('click', function ()
 {
     selectChapter(1, 3);
 });
@@ -653,4 +734,44 @@ scObvButt.addEventListener('click', function ()
 scMythButt.addEventListener('click', function ()
 {
     selectChapter(1, 5);
+});
+cqOneButt.addEventListener('click', function ()
+{
+    //Set up the HTML to inject the quiz into
+    displayQuiz(1, 6); //Use a subchapter so actual chapter subchapters lengthcan be fluid (chapter quiz is always the last though)
+    //Now we call quiz.js to actually inject the quiz
+    loadQuiz(1);
+});
+
+//Chapter 2
+chapterTwoButt.addEventListener('click', function ()
+{
+    selectChapter(2, 0);
+});
+scTrickTwoButt.addEventListener('click', function ()
+{
+    selectChapter(2, 1);
+});
+scAnimalButt.addEventListener('click', function ()
+{
+    selectChapter(2, 2);
+});
+scAstroButt.addEventListener('click', function ()
+{
+    selectChapter(2, 3);
+});
+scTimeButt.addEventListener('click', function ()
+{
+    selectChapter(2, 4);
+});
+scHistButt.addEventListener('click', function ()
+{
+    selectChapter(2, 5);
+});
+cqTwoButt.addEventListener('click', function ()
+{
+    //Set up the HTML to inject the quiz into
+    displayQuiz(2, 6); //Use a subchapter so actual chapter subchapters lengthcan be fluid (chapter quiz is always the last though)
+    //Now we call quiz.js to actually inject the quiz
+    loadQuiz(2);
 });
