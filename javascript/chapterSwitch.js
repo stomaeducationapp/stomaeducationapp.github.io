@@ -130,31 +130,33 @@ var loaded;
 //The first section does not have a back button enabled - as of the current design a user can walk a whole chapter backwards and forwards but
 //not move from chapter to chapter, though this can be easily changed - same reasoning for finalSectionButt
 //The reason we have them included but disabled is to keep the button placement on the screen consistent (CSS Layout)
+//They have weird placement of some >< so that the divs smash together on the screen
 const startSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt" style="color:white;cursor:default" disabled><<</button>
-    <button class="chapterButton" id="nextButt">>></button>
+    <button class="chapterButton" id="backButt" style="color:white;cursor:default" disabled><<</button
+    ><button class="chapterButton" id="nextButt">>></button>
  </div>`; 
 const normalSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt"><<</button>
-    <button class="chapterButton" id="nextButt">>></button>
+    <button class="chapterButton" id="backButt"><<</button
+    ><button class="chapterButton" id="nextButt">>></button>
  </div>`;
 const finalSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt"><<</button>
-    <button class="chapterButton" id="nextButt" style="color:white;cursor:default" disabled>>></button>
+    <button class="chapterButton" id="backButt"><<</button
+    ><button class="chapterButton" id="nextButt" style="color:white;cursor:default" disabled>>></button>
  </div>`;
 
 //HTML container for the mark as reread and important bookmark options
 //AT THE MOMENT THE WORDING IS THE ONLY THING KEEPING THIS AND THE ABOVE SECTIONS AS ALIGNED IN THE CENTER AS I CAN! - EDIT AT YOUR OWN PERIL!!!!!!!!
 //If you can style it better please try
+//They have weird placement of some >< so that the divs smash together on the screen
 const additonalBookmarks =
 `<div id="markers" align="center">
     <button class="chapterButton" id="rereadButt">Click here to </br>mark "read again" </br>
                                            If you need </br>
-                                           to read again</button>
-    <button class="chapterButton" id="importantButt">Click here to </br>
+                                           to read again</button
+    ><button class="chapterButton" id="importantButt">Click here to </br>
                                               mark "important!" </br>
                                               If you need </br>
                                               to refer back</button>
