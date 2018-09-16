@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+
+<!-- AUTHOR INFORMATION
+     CREATOR - Jeremy Dunnet 25/08/2018
+     LAST MODIFIED BY - Jeremy Dunnet 03/09/2018
+-->
+<!-- CLASS/FILE DESCRIPTION
+     This is the web page for the first chapter quiz - where a user can start the quiz, answer the questions and view their results
+     Afterwards - they can continue on (if they passed), reread (if they failed) or return to main menu (either result)
+-->
+<!-- VERSION HISTORY
+     25/08/2018 - Created page and added base fucntionality from reference below
+     29/08/2018 - Updated layout and comment style
+     30/08/2018 - Updated layout to new style
+     02/09/2018 - Updated to fix bugs in new layout
+     03/09/2018 - Updated to use browser checking and gave an id to body for exception handling
+-->
+<!-- REFERENCES
+     The base design was implemented from the provided design by https://www.sitepoint.com/simple-javascript-quiz/
+     A lot of basics/design learned/adapted from tutorials available from https://www.w3schools.com
+-->
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../quizScript/quizStyles.css">
+    <title>Chapter 1 Quiz</title>
+
+    <!-- Broswer check for supported software/versions -->
+    <script type="application/javascript" src="../../globalErrorPages/browserTest.js"></script>
+
+</head>
+<body id="body">
+
+    <div id="quiz">
+        <!-- This is the section where the chapter revision features are displayed -->
+        <div id="chapter">
+
+            <!-- This is where the chapter revision text is held for the user to refresh the content to answer the question -->
+            <div id="information"></div>
+            <!-- This is where we hold additional features for the chapter text -->
+            <div id="chapterNav">
+                <!-- This is the button we use to allow the use to return to main chapter select page -->
+                <button class="button" id="returnButt">Back to chapter select</button>
+                <!-- This is the button we dynamically change based on user result - disabled initially until they submit the quiz -->
+                <button class="button" id="continueButt" disabled>Continue to next chapter quiz</button>
+            </div>
+
+        </div>
+        <!-- The is the section where the question and related features are inserted -->
+        <div id="question">
+
+            <!-- This is where the question title (actual text that acks the question) will be displayed -->
+            <div id="qTitle"></div>
+            <!-- This is the section where the choices will be injected dynamically by the javascript file -->
+            <div id="answers"></div>
+            <!-- This is the section where the reasoning for the correct answer is put -->
+            <div id="reasoning"></div>
+
+            <!-- This is where we hold additional features for the question section -->
+            <div id="qNav">
+
+                <!-- This is where we hold the buttons pertaining to the questions -->
+                <div id="buttons">
+                    <!-- This is the button we dynamically change based on user result - disabled initially until they submit the quiz -->
+                    <button class="button" id="retryButt" disabled>Retry question</button>
+                    <!-- This is the button we dynamically change based on user result - disabled initially until they submit the quiz -->
+                    <button class="button" id="nextButt" disabled>Next question</button>
+                </div>
+                <!-- This is the section for providing results -->
+                <div id="results">
+                    <!-- This is the div we use to show the user's score -->
+                    <div id="score"></div>
+                    <!-- This section we provide encouragement lines to the user -->
+                    <div id="encouragement"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Run the javascript to handle the quiz -->
+    <script type="application/javascript" src="../quizScript/quiz.js"></script>
+
+</body>
+</html>
