@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 24/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 03/09/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -20,11 +20,13 @@
  * 30/08/2018 - Updated to retrieve questions from a JSON file, redesigned layout to fit new decided style
  * 02/09/2018 - Updated code related to new layout - fixing bugs and uneeded lines 
  * 03/09/2018 - Added as much exception handling as I could find for this code and cleaned up more unused code
+ * 15/09/2018 - Made changes to transfer this code from chapterQuizX.html to being dymanically injected into the main page (integration), rewroked layout of HTML strings
+ *              (made them multiline to increase editiability) and edited variable names to match shared space (with other js files) in headers.html
  */
 
 /* REFERENCES
  * All code/implementation was adapted/learned from the tutorial on JavaScript Quiz at https://www.sitepoint.com/simple-javascript-quiz/
- * The function loadJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
+ * The function loadQuizJSON and it's impact on the code was learned/adpated from https://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
  * Scroll up fucntionality was learned/adapted from https://stackoverflow.com/questions/19311301/how-to-scroll-back-to-the-top-of-page-on-button-click
  * Radio button listener code was learned/adpated from http://www.dynamicdrive.com/forums/showthread.php?74477-How-do-you-attach-an-event-listener-to-radio-button-using-javascript
  * Javascript exception handling learned/adapted from https://stackoverflow.com/questions/4467044/proper-way-to-catch-exception-from-json-parse
@@ -33,25 +35,61 @@
 
 //Global file variable declarations here.
 
-//Thes are the ID variables we will use to access the html objects in the provided .html document
+//Thes are the ID variables we will use to access the html objects in the provided .html document - all variables since we access the quiz dynamically
+//Entire quiz div
+var quizContainer;
 //Chapter Section
-const informationContainer = document.getElementById("information");
+var informationContainer;
 //Question Section
-const quizTitleContainer = document.getElementById("qTitle");
-const answersContainer = document.getElementById("answers");
-const reasoningContainer = document.getElementById("reasoning");
-const scoreContainer = document.getElementById("score");
-const encouragementContainer = document.getElementById("encouragement");
+var quizTitleContainer;
+var answersContainer;
+var reasoningContainer;
+var scoreContainer;
+var encouragementContainer;
 //Buttons
-const returnButton = document.getElementById("returnButt");
-const retryButton = document.getElementById("retryButt");
-const nextButton = document.getElementById("nextButt");
-const continueButton = document.getElementById("continueButt");
+var nextQButt;
+var retryButt;
+//Navigation buttons - techincally set and controlled in another js file - but variables here disabled/enable them so we grab them on quiz construction
+var returnButt;
+var continueButt;
 //Body - for error handling
-const body = document.getElementById("body");
+const bodyText = document.getElementById("home");
 
-//A html body for the error screen
-const bugScreen = "<p>Looks like an error has occured.<br />To try and fix the issue:<ul><li>Refresh the page</li><li>Close the window and reload</li><li>Try from a different browser - supported browsers include:<ul><li>Chrome (Version 68 and above)</li><li>Edge (Version 17 and above)</li><li>Opera (Version 55 and above)</li></ul></li></ul></p>";
+//A HTML body for the error screen
+const quizBugScreen =
+`<p>Looks like an error has occured.<br />
+ To try and fix the issue:
+ <ul>
+    <li>Refresh the page</li>
+    <li>Close the window and reload</li>
+    <li>Try from a different browser - supported browsers include:
+        <ul>
+            <li>Chrome (Version 68 and above)</li>
+            <li>Edge (Version 17 and above)</li>
+            <li>Opera (Version 55 and above)</li>
+        </ul>
+    </li>
+ </ul>
+ </p>`;
+
+//A HTML body for the quiz
+const chapterLayout =
+`<div id="information"></div>
+ <div id = "question">
+    <div id="qTitle"></div>
+    <div id="answers"></div>
+    <div id="reasoning"></div>
+ </div >
+ <div id="qNav">
+    <div id="buttons">
+        <button class="quizButton" id="retryButt" disabled>Retry question</button>
+        <button class="quizButton" id="nextQButt" disabled>Next question</button>
+    </div>
+ <div id="results">
+    <div id="score"></div>
+    <div id="encouragement"></div>
+ </div>
+ </div>`;
 
 //Variable to hold the maximum number of questions for this chapter in the database (for generating random numbers later)
 const QMAX = 25;
@@ -66,7 +104,7 @@ var numCorrect;
 //gets its path from the linked HTML page rather than this document. The JSON file does not allow comments so it's comment block is located below
 /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 30/08/2018
- * LAST MODIFIED BY - Jeremy Dunnet 02/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
  * 
  * CLASS/FILE DESCRIPTION
  * The JSON acts as a mock database - which can be filled with arrays pertaining to the pool of questions available for that chapter
@@ -76,13 +114,14 @@ var numCorrect;
  * VERSION HISTORY
  * 30/08/2018 - Created and laid out to needs of the .js code and added the revisionText field (really long but all gibberish)
  * 02/09/2018 - Added titles to revisionText and some typo fixes
+ * 12/09/2018 - Updated to readd missing questions and reworked JSON array names/ordering to allow for dymanic chapter loading
  * 
  * REFERENCES
  * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
  * 
  */
 
-const jsonFile = "../quizScript/questionList.json";
+const quizJSONFile = "/json/questionList.json";
 
 //Function declarations
 
@@ -109,7 +148,9 @@ function buildQuestion()
         //Add the choice and a button for user to select it as the answer
         answers.push
             (
-            '<div class="choices"> <input type="radio" name="question' + numCorrect + '" value="' + letter + '"> ' + letter +  ' : ' + currentQuestion.answers[letter] + '</div>'
+            `<div class="choices">
+                <input type="radio" name="question${numCorrect}" value="${letter}">${letter}:${currentQuestion.answers[letter]}
+             </div>`
             );
     }
 
@@ -121,20 +162,20 @@ function buildQuestion()
     answersContainer.innerHTML = answers.join("");
 
     //Set all buttons to disabled and hide their text
-    retryButton.disabled = true;
-    retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    retryButton.style.backgroundColor = "gray";
-    retryButton.style.cursor = "not-allowed";
+    retryButt.disabled = true;
+    retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    retryButt.style.backgroundColor = "gray";
+    retryButt.style.cursor = "not-allowed";
 
-    nextButton.disabled = true;
-    nextButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    nextButton.style.backgroundColor = "gray";
-    nextButton.style.cursor = "not-allowed";
+    nextQButt.disabled = true;
+    nextQButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    nextQButt.style.backgroundColor = "gray";
+    nextQButt.style.cursor = "not-allowed";
 
-    continueButton.disabled = true;
-    continueButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    continueButton.style.backgroundColor = "gray";
-    continueButton.style.cursor = "not-allowed";
+    continueButt.disabled = true;
+    continueButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+    continueButt.style.backgroundColor = "gray";
+    continueButt.style.cursor = "not-allowed";
 
 
     //Now that the radio buttons are back on the page - let's set a event listener to activate when one is clicked
@@ -148,17 +189,17 @@ function buildQuestion()
 }
 
 /* FUNCTION INFORMATION
- * NAME - loadJSON
- * INPUTS - none
+ * NAME - loadQuizJSON
+ * INPUTS - chapter
  * OUTPUTS - none
  * PURPOSE - This is the method that loads the question list from a JSON file so that setQuestions can pick the random 10
  */
-function loadJSON()
+function loadQuizJSON(chapter)
 {
 
     var xobj = new XMLHttpRequest(); //Create a request object to get the data from the JSON File
     xobj.overrideMimeType("application/json"); //Overide the deafult file type it is looking for to JSON
-    xobj.open("GET", jsonFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
+    xobj.open("GET", quizJSONFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
                                         //(while the rest of the code cannot function until code is loaded - sychronous requests are deprecated according to https://xhr.spec.whatwg.org/#the-open()-method)
                                         //We use GET as while POST more secure, GET is the only guaranteed method to work in all browsers
                                         //in current build - REVIEW WHEN MOVED TO FULL LIVE TESTING
@@ -166,20 +207,101 @@ function loadJSON()
     {
         if (xobj.readyState == 4 /*&& xobj.status == "200" I have removed this check now since the status will not change on local tests - RE-ENABLE ON LIVE TESTS*/) //If the the request is DONE(readyState) and OK(status) 
         {
-            setQuestions(xobj.responseText);
+            setQuestions(chapter, xobj.responseText);
         }
     };
     xobj.send(null); //Send a null to the request to complete the transaction
 }
 
 /* FUNCTION INFORMATION
+ * NAME - loadQuiz
+ * INPUTS - chapter
+ * OUTPUTS - none
+ * PURPOSE - This is the method that sets the quiz code in motion upon event listener trigger
+ */
+function loadQuiz(chapter)
+{
+
+    //First we need to inject the HTML we will be using for the quiz
+    //Lets grab the div that headers.html has set up for us
+    quizContainer = document.getElementById("quiz");
+    quizContainer.innerHTML = chapterLayout; //Chapter quiz HTML content;
+
+    //Now set set our HTML variables so we can easily modify the content dynamically
+    //Chapter Section
+    informationContainer = document.getElementById("information");
+    //Question Section
+    quizTitleContainer = document.getElementById("qTitle");
+    answersContainer = document.getElementById("answers");
+    reasoningContainer = document.getElementById("reasoning");
+    scoreContainer = document.getElementById("score");
+    encouragementContainer = document.getElementById("encouragement");
+    //Buttons
+    retryButt = document.getElementById("retryButt");
+    nextQButt = document.getElementById("nextQButt");
+    //Set the end of quiz navaigation so we can disabled them later
+    returnButt = document.getElementById("returnButt");
+    continueButt = document.getElementById("continueButt");
+
+
+    //Now we can set these to have event listeners
+    //Once the user gets the answer wrong - once clicked reloads the question (since numCorrect is not incremented will rebuild same question) 
+    retryButt.addEventListener("click", buildQuestion);
+    //If the user gets the answer right - builds next question (since numCorrect incremented)
+    nextQButt.addEventListener("click", buildQuestion);
+
+    try
+    {
+        //We start but requesting the JSON to retrieve the question list
+        loadQuizJSON(chapter);
+    }
+    catch (bug) //It's a joke. I do that.
+    {
+        //These exceptions are kept somwhat vague to decrease client knoweledge of page code (for security)
+        if (bug instanceof SyntaxError) //JSON parsing error
+        {
+            body.innerHTML = quizBugScreen + "<p>Problem parsing JSON input</p>";
+        }
+        /* I have commeneted this out becuase the broswrs I have tested on report this exception type as not found - is only valid for some browser support
+        else if (bug instanceof InvalidStateError) //XMLHTTPRequest retrieval error
+        {
+            body.innerHTML = quizBugScreen + "<p>Problem retrieving data from questions database</p>";
+        }
+        */
+        else if (bug instanceof RangeError) //An array/list went out of bounds
+        {
+            body.innerHTML = quizBugScreen + "<p>You're out of bounds - here be dragons</p>";
+        }
+        else if (bug instanceof TypeError) //A variable had a bad type/object function syntax used on it
+        {
+            body.innerHTML = quizBugScreen + "<p>A resource was thought to be a type different to what it actually was (Scandalous :O)</p>";
+        }
+        else if (bug instanceof ReferenceError) //A object was derefenced badly
+        {
+            body.innerHTML = quizBugScreen + "<p>Problem accessing webpage resources</p>";
+        }
+        else if (bug instanceof InternalError) //Javascript engine error
+        {
+            body.innerHTML = quizBugScreen + "<p>Problem with javascript engine</p>";
+        }
+        //I do not catch URI/Eval Errors specifically since I do not use their respective functions in this code
+        //Everything else goes to an unknown error
+        else
+        {
+            body.innerHTML = quizBugScreen + "<p>An unknown error occured</p>";
+        }
+    }
+
+}
+
+/* FUNCTION INFORMATION
  * NAME - setQuestions
- * INPUTS - response (a JSON data object retrieved from the question list JSON file)
- * OUTPUTS - questions (Array of randomly selected questions from another source (Database/JSON/Object Array etc.))
+ * INPUTS - chapter response (a JSON data object retrieved from the question list JSON file)
+ * OUTPUTS - none
  * PURPOSE - This is the method that randomly selected questions from a source by using Math.random to generate a number within a set
  *           bound and then pulling the question with that numerical id into the array to be returned
  */
-function setQuestions(response)
+function setQuestions(chapter, response)
 {
 
     var index; //Used to store the unique random number
@@ -211,7 +333,7 @@ function setQuestions(response)
         }
 
         indexes[ii] = index; //Assign it to the record for use in next iteration
-        myQuestions[ii] = questionList.chapterOne[index]; //Put the generated question in the loop - we access .chapterOne as multiple chapters can be contained within it
+        myQuestions[ii] = questionList.qPool[(chapter - 1)][index]; //Put the generated question in the loop - we -1 the chapter since JSON array is 0-based
 
         //HERE IS WHERE THE DATABASE IMPLEMENTATION COMES IN
         //Once we have the index (corresponds to the unique ID key of the databases chapter 1 questions table) we would send a query to retrieve that tuple
@@ -269,36 +391,36 @@ function showResult()
         {
 
             //Disable the retry button - no incorrect answer
-            retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            retryButton.style.backgroundColor = "gray";
-            retryButton.disabled = true;  //Disable button press
-            retryButton.style.cursor = "not-allowed";
+            retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            retryButt.style.backgroundColor = "gray";
+            retryButt.disabled = true;  //Disable button press
+            retryButt.style.cursor = "not-allowed";
 
             //Disable the next button - got it right
-            nextButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            nextButton.style.backgroundColor = "gray";
-            nextButton.disabled = true;  //Disable button press
-            nextButton.style.cursor = "not-allowed";
+            nextQButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            nextQButt.style.backgroundColor = "gray";
+            nextQButt.disabled = true;  //Disable button press
+            nextQButt.style.cursor = "not-allowed";
 
             //Enable continue to next quiz buttton
-            continueButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
-            continueButton.style.backgroundColor = "#8FBBA5";
-            continueButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
-            continueButton.style.cursor = "pointer";
+            continueButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
+            continueButt.style.backgroundColor = "#8FBBA5";
+            continueButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+            continueButt.style.cursor = "pointer";
         }
         else
         {
             //Disable the retry button - no incorrect answer
-            retryButton.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            retryButton.style.backgroundColor = "gray";
-            retryButton.disabled = true;  //Disable button press
-            retryButton.style.cursor = "not-allowed";
+            retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
+            retryButt.style.backgroundColor = "gray";
+            retryButt.disabled = true;  //Disable button press
+            retryButt.style.cursor = "not-allowed";
 
             //Enable the next button - got it right
-            nextButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
-            nextButton.style.backgroundColor = "#8FBBA5";
-            nextButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
-            nextButton.style.cursor = "pointer";
+            nextQButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
+            nextQButt.style.backgroundColor = "#8FBBA5";
+            nextQButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+            nextQButt.style.cursor = "pointer";
         }
 
 
@@ -363,10 +485,10 @@ function showResult()
         }*/
 
         //Enable the retry button - give a chance to try again
-        retryButton.style.color = "#464646";  //Change the colors back to the "normal" button settings
-        retryButton.style.backgroundColor = "#8FBBA5";
-        retryButton.disabled = false;  //Remove the lock on the button and return cursor to standard as well
-        retryButton.style.cursor = "pointer";
+        retryButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
+        retryButt.style.backgroundColor = "#8FBBA5";
+        retryButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
+        retryButt.style.cursor = "pointer";
 
     }
 
@@ -430,81 +552,3 @@ function showResult()
     }
 
 }
-
-/* FUNCTION INFORMATION
- * NAME - goBack
- * INPUTS - none
- * OUTPUTS - none (navigates the user away from this page)
- * PURPOSE - This button event takes the user back to the main quiz select screen (substitute the main page when implemented)
- */
-function goBack()
-{
-    window.location.assign("../quizStart.html"); 
-}
-
-/* FUNCTION INFORMATION
- * NAME -goForward
- * INPUTS - none
- * OUTPUTS - none (navigates the user away from this page)
- * PURPOSE - This button event method takes to user to the next chapter quiz since this unlocks when we have completed the quiz
- */
-function goForward()
-{
-    //At current implementation no other chapter quizzes are fleshed out but we go there anyway
-    window.location.assign("chapterTwoQuiz.html");
-}
-
-
-//Code starts here
-
-try
-{
-    //We start but requesting the JSON to retrieve the question list
-    loadJSON();
-}
-catch(bug) //It's a joke. I do that.
-{
-    //These exceptions are kept somwhat vague to decrease client knoweledge of page code (for security)
-    if (bug instanceof SyntaxError) //JSON parsing error
-    {
-        body.innerHTML = bugScreen + "<p>Problem parsing JSON input</p>";
-    }
-    else if (bug instanceof InvalidStateError) //XMLHTTPRequest retrieval error
-    {
-        body.innerHTML = bugScreen + "<p>Problem retrieving data from questions database</p>";
-    }
-    else if (bug instanceof RangeError) //An array/list went out of bounds
-    {
-        body.innerHTML = bugScreen + "<p>You're out of bounds - here be dragons</p>";
-    }
-    else if (bug instanceof TypeError) //A variable had a bad type/object function syntax used on it
-    {
-        body.innerHTML = bugScreen + "<p>A resource was that to be a type different to what it actually was (Scandalous :O)</p>";
-    }
-    else if (bug instanceof ReferenceError) //A object was derefenced badly
-    {
-        body.innerHTML = bugScreen + "<p>Problem accessing webpage resources</p>";
-    }
-    else if (bug instanceof InternalError) //Javascript engine error
-    {
-        body.innerHTML = bugScreen + "<p>Problem with javascript engine</p>";
-    }
-    //I do not catch URI/Eval Errors specifically since I do not use their respective functions in this code
-    //Everything else goes to an unknown error
-    else
-    {
-        body.innerHTML = bugScreen + "<p>An unknown error occured</p>";
-    }
-}
-
-
-//Once the user gets the answer wrong - once clicked reloads the question (since numCorrect is not incremented will rebuild same question) 
-retryButton.addEventListener("click", buildQuestion);
-//If the user gets the answer right - builds next question (since numCorrect incremented)
-nextButton.addEventListener("click", buildQuestion);
-
-//If the user clicks go back to chapter select - go back to the quiz selector page
-returnButton.addEventListener("click", goBack);
-
-//If the user completes the quiz - we will take them to the next chapter quiz
-continueButton.addEventListener("click", goForward);
