@@ -33,7 +33,7 @@
 //A const name for the corresponding JSON file we will use to simulate a request to a database
 /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 06/06/2018
- * LAST MODIFIED BY - Jeremy Dunnet 09/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 17/09/2018
  * 
  * CLASS/FILE DESCRIPTION
  * The JSON acts as a mock database - which can be filled with arrays pertaining to the pool of text available for that chapter
@@ -47,6 +47,7 @@
  * 06/09/2018 - Created the first version of chapters and subchapters
  * 07/09/2018 - Fixed some typos and added the splash screen for each chapter
  * 09/09/2018 - Fixed some more typos
+ * 17/09/2018 - Added some placeholders for Media Playback integration
  * 
  * REFERENCES
  * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
