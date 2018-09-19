@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 06/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 19/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -16,6 +16,7 @@
  * 13/09/2018 - Updated textArea ID so it works with new headers.html divs, added ability to clear all bookmarks and moved some HTML Sections other project memeber Case Rogers designed so they can be easily switched like chapters
  * 15/09/2018 - Reworked some buttons/added new buttons to faciliate chapter quiz integration, reworked all HTML strings into multiline to allow for easier editiability
  *              and edited variable names to match shared space (with other js files) in headers.html
+ * 19/09/2015 - Edited help page image paths so they load properly
  */
 
 /* REFERENCES
@@ -33,7 +34,7 @@
 //A const name for the corresponding JSON file we will use to simulate a request to a database
 /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 06/06/2018
- * LAST MODIFIED BY - Jeremy Dunnet 17/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 19/09/2018
  * 
  * CLASS/FILE DESCRIPTION
  * The JSON acts as a mock database - which can be filled with arrays pertaining to the pool of text available for that chapter
@@ -48,9 +49,11 @@
  * 07/09/2018 - Fixed some typos and added the splash screen for each chapter
  * 09/09/2018 - Fixed some more typos
  * 17/09/2018 - Added some placeholders for Media Playback integration
+ * 19/09/2018 - Added full media tags
  * 
  * REFERENCES
  * All tutorials on setup and design of simple JSON files was adapted/learned from https://www.w3schools.com
+ * How to encode html tags into JSON learned from https://www.thorntech.com/2012/07/4-things-you-must-do-when-putting-html-in-json/
  * 
  */
 const chapterJSONFile = "/json/chapters.json";
