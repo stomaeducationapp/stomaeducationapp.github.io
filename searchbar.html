@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<!-- searchbar.html
+  --  PURPOSE: Page
+  --  AUTHOR: Oliver Yeudall
+  --  LAST MODIFIED: 12/09/2018
+  --  NOTES: In order to get the layering working (where the search results
+  --         will display over other objects), each html element will need
+  --         a Z-index value. Z-index values are how modern websites indicate
+  --         to browsers which layer you want your element to be relative to
+  --         other elements in the page. For example, an element with a value
+  --         of 10 will be drawn in front of an element with a value of 7. In
+  --         order for this to work, the element must have two CSS properties:
+  --
+  --             position: relative;
+  --             z-index= X;
+  --
+  --         Where X is an integer number. Note that "position" is
+  --         COMPULSORY and z-index values will not work if this property is
+  --         left undefined. For example, in this test page, the search bar
+  --         items has CSS properties like this:
+  --
+  --             .dropDownList {
+  --                 position: absolute;
+  --                 z-index: 30;
+  --             }
+  --
+  --         And the body text has properties like this:
+  --
+  --             body {
+  --                 background-color: white;
+  --
+  --             }
+  --             #displaybody {
+  --                 background: yellow;
+  --                 position: relative;
+  --                 z-index= 1;
+  --             }
+  --
+  --         This makes the search bar's drop down list appear in front of the
+  --         web page's body.
+  --
+  --
+  -->
+
+
+
+<head>
+    <link rel="stylesheet" type="text/css" href="searchstyle.css">
+</head>
+
+
+
+
+
+<body>
+    <!-- example from www.w3schools.com/howto/howto_js_filterdropdown.asp */ -->
+    <div id="dropdownUI" class="UserInterfaceSearchScreen">
+        <input id="inputBox" type="text" placeholder="Enter search...">
+        <div id="dropDownList" class="dropDownList" style="display: none;">
+            <a href="#apple">Apple</a>
+            <a href="#banana">Banana</a>
+            <a href="#carrot">Carrot</a>
+            <a href="#danish">Danish</a>
+            <a href="#eggplant">Eggplant</a>
+            <a href="#fritters">Fritters</a>
+            <a href="#garlic">Garlic</a>
+            <a href="#halloumi">Halloumi</a>
+            <a href="#ice">Ice</a>
+            <a href="#jalapeno">Jalapeno</a>
+        </div>
+
+    </div>
+
+    <div id="displaybody">
+        <h1> This is a test header</h1>
+
+        <p> This is a test body to see if the search bar can be overlayed on the top of regular text</p>
+    </div>
+
+
+    <script type="text/javascript">
+
+        /**************************************************************************
+        *  Function: Event listener click event                                   *
+        *  Purpose: Detect the location of clicks relative to the search bar and  *
+        *           search items                                                  *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+        //Based on example from http://blustemy.io/detecting-a-click-outside-an-element-in-javascript/
+        document.addEventListener("click", function(evt) {
+            var flyoutElement = document.getElementById("dropdownUI");
+            var clickFlag = false;
+            //let targetElement = evt.target;
+            var targetElement = evt.target;
+
+            do {
+                if (targetElement == flyoutElement) {
+                    // A click has been made in the search bar and associated items
+                    clickFlag = true;
+
+                }
+
+                targetElement = targetElement.parentNode;
+            } while (targetElement);
+
+            if (clickFlag) {
+                // Show search items
+                searchFilter();
+            }
+            else {
+                // Hide search items
+                searchFilterBlur();
+            }
+
+            clickFlag = false;
+
+            return;
+        });
+
+
+        /**************************************************************************
+        *  Function: searchFilter                                                 *
+        *  Purpose: Enable the display of the current items in the search list    *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+
+        function searchFilter() {
+            document.querySelector("#dropDownList").style.display = "block";
+        }
+
+
+        /**************************************************************************
+        *  Function: searchFilterBlur                                             *
+        *  Purpose: Disable and hide the current items in the search list         *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+
+        function searchFilterBlur() {
+            document.querySelector("#dropDownList").style.display = "none";
+        }
+
+
+        /**************************************************************************
+        *  Function: displayFilter                                                *
+        *  Purpose: Alter the displayed search list based on user input           *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+
+        function displayFilter() {
+            /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
+
+            var searchInput, div, a;
+
+            var searchValue = "";
+
+            searchInput = document.getElementById("inputBox");
+
+            searchValue = String(searchInput.value).trim().toUpperCase();
+
+            div = document.getElementById("dropDownList");
+
+            a = div.getElementsByTagName("a");
+
+            var foundMatch = false;
+
+            for (var i = 0; i < a.length; i++) {
+                if (String(a[i].innerHTML).trim().toUpperCase().indexOf(searchValue) > -1) {
+                    a[i].style.display = "";
+                    foundMatch = true;
+                }
+                else {
+                    a[i].style.display = "none";
+                }
+
+            } 
+
+            if (foundMatch) {
+                searchFilter();
+            } else {
+                searchFilterBlur();
+            }
+
+        }
+        
+        window.addEventListener('load', function() {
+            document.getElementById('inputBox').addEventListener("keyup", displayFilter);
+        });
+
+    </script>
+</body>
+</html>
