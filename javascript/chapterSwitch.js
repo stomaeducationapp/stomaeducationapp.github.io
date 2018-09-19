@@ -175,31 +175,31 @@ const tutorialPage =
     <!--Play video tutorial info-->
     <h2 id="video">Play A Video:</h2>
         <p>First, browse for a particular piece of content in the sidebar.</p>
-        <img src="/HelpPageImages/sidebar.PNG" alt="Sidebar image" class="images" />
+        <img src="/media/images/sidebar.PNG" alt="Sidebar image" class="images" />
         <p>When you have found something you wish to view, select it.</p>
-        <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" />
+        <img src="/media/images/videoSelect.PNG" alt="Video select image" class="images" />
         <p>Proceed to interact with the controls to play, pause and navigate the video.Options to change volume and to move into full screen view are also available.</p>
-        <img src="/HelpPageImages/videoPlayer.PNG" alt="Video player image" class="images" />
+        <img src="/media/images/videoPlayer.PNG" alt="Video player image" class="images" />
         </br>
         <a href="#top">Return to top</a>
     <!--Mark content tutorial info-->
     <h2 id="mark" style="padding-top: 50px">Mark Content:</h2>
         <p>First, navigate to the content you wish to mark.</p>
-        <img src="/HelpPageImages/videoSelect.PNG" alt="Video select image" class="images" />
+        <img src="/media/images/videoSelect.PNG" alt="Video select image" class="images" />
         <p>On the content page, press the star button located beside the title.</p>
-        <img src="/HelpPageImages/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
+        <img src="/media/images/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
         <p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p>
-        <img src="/HelpPageImages/markedContent.PNG" alt="Marked content image" class="images" />
+        <img src="/media/images/markedContent.PNG" alt="Marked content image" class="images" />
         </br>
         <a href="#top">Return to top</a>
     <!--Searching tutorial info-->
     <h2 id="search" style="padding-top: 50px">Search:</h2>
         <p>From the start page, notice the search bar.</p>
-        <img src="/HelpPageImages/searchbar.PNG" alt="Searchbar image" class="images" />
+        <img src="/media/images/searchbar.PNG" alt="Searchbar image" class="images" />
         <p>Start typing something to search for and possible matches will appear.</p>
-        <img src="/HelpPageImages/searching.PNG" alt="Searching image" class="images" />
+        <img src="/media/images/searching.PNG" alt="Searching image" class="images" />
         <p>Select the content that you wish to view and it will be loaded into the page.</p>
-        <img src="/HelpPageImages/searchComplete.PNG" alt="Search complete image" class="images" />
+        <img src="/media/images/searchComplete.PNG" alt="Search complete image" class="images" />
         </br>
         <a href="#top">Return to top</a>`;
 const faqPage =
