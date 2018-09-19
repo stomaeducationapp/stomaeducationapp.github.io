@@ -16,7 +16,7 @@
  * 13/09/2018 - Updated textArea ID so it works with new headers.html divs, added ability to clear all bookmarks and moved some HTML Sections other project memeber Case Rogers designed so they can be easily switched like chapters
  * 15/09/2018 - Reworked some buttons/added new buttons to faciliate chapter quiz integration, reworked all HTML strings into multiline to allow for easier editiability
  *              and edited variable names to match shared space (with other js files) in headers.html
- * 19/09/2015 - Edited help page image paths so they load properly
+ * 19/09/2015 - Edited help page image paths so they load properly - and fixed busg related to quiz buttons and chapter tab selection
  */
 
 /* REFERENCES
@@ -148,7 +148,7 @@ const normalSectionButt =
 const finalSectionButt =
 `<div id="chapterNav" align="center">
     <button class="chapterButton" id="backButt"><<</button
-    ><button class="chapterButton" id="nextButt" style="color:white;cursor:default" disabled>>></button>
+    ><button class="chapterButton" id="nextButt">Quiz</button>
  </div>`;
 
 //HTML container for the mark as reread and important bookmark options
@@ -446,10 +446,10 @@ function displayChapter(chapter, subchapter)
             throw "CHAPTER BUTTON ERROR"; //This is the custom exception for the chapterBugScreen
         }
     }
-    else if (subchapter === maxSections) //This is the last page of the chapter
+    else if (subchapter === (maxSections - 1)) //This is the last page of the chapter (before the quiz)
     {
         textArea.innerHTML = chapterText[subchapter].sectionHeader + chapterText[subchapter].sectionText + finalSectionButt + additonalBookmarks;
-        //Since we know this section only has a back button set it's listener up
+        //Set up the back button listener
         backButt = document.getElementById("backButt");
         if ((subchapter - 1) >= 0)
         {
@@ -462,6 +462,40 @@ function displayChapter(chapter, subchapter)
         {
             throw "CHAPTER BUTTON ERROR";
         }
+        textArea.innerHTML = chapterText[subchapter].sectionHeader + chapterText[subchapter].sectionText + finalSectionButt + additonalBookmarks;
+        //Set up the next button listener
+        //Since we know this section only has a next button set it's listener up
+        nextButt = document.getElementById("nextButt");
+        if ((subchapter + 1) <= maxSections)
+        {
+            nextButt.addEventListener('click', function ()
+            {
+                var currentMark = chapterMarks[(chapter - 1)][subchapter]; //Get the bookmark object that corresponds to this chapter (-1 since chapter array is 0-based)
+                if (currentMark.symbol === importantMark) //If marked as important - leave as is
+                {
+                    //We capture this and do nothing so users can leave chapters marked as important (need to remember where this is)
+                    //So they can continue to refer back to it
+                }
+                else //We set it to done
+                {
+                    var name = currentMark.pageName;
+                    (document.getElementById(name)).innerText = currentMark.pageText + finishedMark; //Set the bookmark to finished
+                    currentMark.symbol = finishedMark; //Set reference object to new bookmark and restore in our array
+                    chapterMarks[(chapter - 1)][subchapter] = currentMark; //For if user keeps reading during this session
+                    window.localStorage.setItem(name, finishedMark); //Store in local storage so can be reloaded later
+                }
+                //Set up the HTML to inject the quiz into
+                displayQuiz(chapter, subchapter); //Use a subchapter so actual chapter subchapters lengthcan be fluid (chapter quiz is always the last though)
+                //Now we call quiz.js to actually inject the quiz
+                loadQuiz(chapter);
+            });
+        }
+        else
+        {
+            throw "CHAPTER BUTTON ERROR"; //This is the custom exception for the chapterBugScreen
+        }
+
+
     }
     else //In the middle
     {
@@ -566,6 +600,11 @@ function displayQuiz(chapter, subchapter)
     //Since everytime we want to display a new section - refocus the window to the top so the user always starts at the start of the page
     document.body.scrollTop = document.documentElement.scrollTop = 0;
 
+    if (loaded === false) //No other chapter content loaded
+    {
+        loadChapterJSON(chapter, subchapter); //Call loadJSON to ensure that chapter content is loaded
+    }
+
     textArea.innerHTML = quizLayout;
     //The chapter quiz uses the variables back/nextButt but their layout is different to represent the quiz being the bookend of the chapter
     backButt = document.getElementById("returnButt");
@@ -631,23 +670,13 @@ function selectChapter(chapter, subchapter)
     //Since everytime we want to display a new chapter section - refocus the window to the top so the user always starts at the start of the page
     document.body.scrollTop = document.documentElement.scrollTop = 0;
 
-    //Check if chapter has been loaded yet
-    if (subchapter === 0) //If the user has clicked on the base header - we should load this chapter into memory
+    if (loaded === true) //If the JSON has been loaded - just display what is in memory
     {
-        loaded = false; //Assume the user only clicks chapter base headers when the move to new chapters
-        loadChapterJSON(chapter, subchapter);
+        displayChapter(chapter, subchapter); //This only happens when from a button - direct user call to this function
     }
-    else     //Derefence array based on section - push into innerHTML
+    else //User clicked a tab
     {
-        if (loaded === true) //Double check it has - otherwise we call loadChapterJSON to be safe
-        {
-            displayChapter(chapter, subchapter);
-        }
-        else
-        {
-            loaded = false;
-            loadChapterJSON(chapter, subchapter);
-        }
+        loadChapterJSON(chapter, subchapter); //Load chapter content from the JSON
     }
 
 }
@@ -719,30 +748,37 @@ settingsButt.addEventListener('click', function ()
 //Chapter 1
 chapterOneButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(1, 0);
 });
 scPopButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(1, 1);
 });
 scTrickOneButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(1, 2);
 });
 scMedButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(1, 3);
 });
 scObvButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(1, 4);
 });
 scMythButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(1, 5);
 });
 cqOneButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     //Set up the HTML to inject the quiz into
     displayQuiz(1, 6); //Use a subchapter so actual chapter subchapters lengthcan be fluid (chapter quiz is always the last though)
     //Now we call quiz.js to actually inject the quiz
@@ -752,30 +788,37 @@ cqOneButt.addEventListener('click', function ()
 //Chapter 2
 chapterTwoButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(2, 0);
 });
 scTrickTwoButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(2, 1);
 });
 scAnimalButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(2, 2);
 });
 scAstroButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(2, 3);
 });
 scTimeButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(2, 4);
 });
 scHistButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(2, 5);
 });
 cqTwoButt.addEventListener('click', function ()
 {
+    loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     //Set up the HTML to inject the quiz into
     displayQuiz(2, 6); //Use a subchapter so actual chapter subchapters lengthcan be fluid (chapter quiz is always the last though)
     //Now we call quiz.js to actually inject the quiz
