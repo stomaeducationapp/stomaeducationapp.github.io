@@ -462,9 +462,8 @@ function displayChapter(chapter, subchapter)
         {
             throw "CHAPTER BUTTON ERROR";
         }
-        textArea.innerHTML = chapterText[subchapter].sectionHeader + chapterText[subchapter].sectionText + finalSectionButt + additonalBookmarks;
+
         //Set up the next button listener
-        //Since we know this section only has a next button set it's listener up
         nextButt = document.getElementById("nextButt");
         if ((subchapter + 1) <= maxSections)
         {
