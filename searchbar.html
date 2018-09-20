@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <!-- searchbar.html
   --  PURPOSE: Page
@@ -47,6 +47,8 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="searchstyle.css">
+    <meta charset="utf-8" />
+    <title></title>
 </head>
 
 
@@ -154,19 +156,17 @@
         function displayFilter() {
             /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
 
-            var rawUserInput, searchInput, div, a;
+            var rawUserInput, div, a;
 
             var searchValue = "";
 
             rawUserInput = document.getElementById("inputBox");
 
-            console.log(rawUserInput);
+            console.log(rawUserInput.value);
 
-            searchInput = sanitiseSearch(rawUserInput);
+            searchValue = String(sanitiseSearch(rawUserInput.value)).trim().toUpperCase();
 
-            console.log(searchInput);
-
-            searchValue = String(searchInput.value).trim().toUpperCase();
+            console.log(searchValue);
 
             div = document.getElementById("dropDownList");
 
