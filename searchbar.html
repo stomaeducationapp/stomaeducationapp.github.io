@@ -154,13 +154,17 @@
         function displayFilter() {
             /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
 
-            var rawUserInput, div, a;
+            var rawUserInput, searchInput, div, a;
 
             var searchValue = "";
 
             rawUserInput = document.getElementById("inputBox");
 
+            console.log(rawUserInput);
+
             searchInput = sanitiseSearch(rawUserInput);
+
+            console.log(searchInput);
 
             searchValue = String(searchInput.value).trim().toUpperCase();
 
@@ -196,7 +200,8 @@
 
         /**************************************************************************
         *  Function: sanitiseSearch                                               *
-        *  Purpose: Sanitize user input                                           *
+        *  Purpose: Sanitize user input for non alphanumeric characters,          *
+        *           whitespace characters and length                              *
         *  IMPORT: inTxt                                                          *
         *  EXPORT: outTxt                                                         *
         *  AUTHOR: Ethan Bell                                                     *
@@ -221,8 +226,6 @@
             //
 
             return outTxt;
-        }
-
         }
 
     </script>
