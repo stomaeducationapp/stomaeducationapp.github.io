@@ -154,11 +154,13 @@
         function displayFilter() {
             /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
 
-            var searchInput, div, a;
+            var rawUserInput, div, a;
 
             var searchValue = "";
 
-            searchInput = document.getElementById("inputBox");
+            rawUserInput = document.getElementById("inputBox");
+
+            searchInput = sanitiseSearch(rawUserInput);
 
             searchValue = String(searchInput.value).trim().toUpperCase();
 
