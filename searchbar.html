@@ -191,6 +191,38 @@
             document.getElementById('inputBox').addEventListener("keyup", displayFilter);
         });
 
+
+        /**************************************************************************
+        *  Function: sanitiseSearch                                               *
+        *  Purpose: Sanitize user input                                           *
+        *  IMPORT: inTxt                                                          *
+        *  EXPORT: outTxt                                                         *
+        *  AUTHOR: Ethan Bell                                                     *
+        *  DATE MODIFIED: 20/09/2018                                              *
+        *  ***********************************************************************/
+
+        /* This function sanitises user input via an imported string and returns the sanitised input */
+        function sanitiseSearch(inTxt) {
+            var outTxt, maxLen;
+            maxLen = 12;
+
+            //regex to remove all non alphanumeric or whitespace characters
+            outTxt = inTxt.replace(/[^0-9a-zA-Z ]/g, "");
+
+            //only accept strings less than maxLen characters
+            if (outTxt.length > maxLen) {
+                outTxt = outTxt.slice(0, maxLen);
+            }
+
+            //
+            //Add new rules here if necessary in future
+            //
+
+            return outTxt;
+        }
+
+        }
+
     </script>
 </body>
 </html>
