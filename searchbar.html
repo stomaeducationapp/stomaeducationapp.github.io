@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <!-- searchbar.html
   --  PURPOSE: Page
   --  AUTHOR: Oliver Yeudall
-  --  LAST MODIFIED: 12/09/2018
+  --  LAST MODIFIED: 20/09/2018
   --  NOTES: In order to get the layering working (where the search results
   --         will display over other objects), each html element will need
   --         a Z-index value. Z-index values are how modern websites indicate
@@ -47,6 +47,8 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="searchstyle.css">
+    <meta charset="utf-8" />
+    <title></title>
 </head>
 
 
@@ -154,13 +156,17 @@
         function displayFilter() {
             /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
 
-            var searchInput, div, a;
+            var rawUserInput, div, a;
 
             var searchValue = "";
 
-            searchInput = document.getElementById("inputBox");
+            rawUserInput = document.getElementById("inputBox");
 
-            searchValue = String(searchInput.value).trim().toUpperCase();
+            console.log(rawUserInput.value);
+
+            searchValue = String(sanitiseSearch(rawUserInput.value)).trim().toUpperCase();
+
+            console.log(searchValue);
 
             div = document.getElementById("dropDownList");
 
@@ -190,6 +196,37 @@
         window.addEventListener('load', function() {
             document.getElementById('inputBox').addEventListener("keyup", displayFilter);
         });
+
+
+        /**************************************************************************
+        *  Function: sanitiseSearch                                               *
+        *  Purpose: Sanitize user input for non alphanumeric characters,          *
+        *           whitespace characters and length                              *
+        *  IMPORT: inTxt                                                          *
+        *  EXPORT: outTxt                                                         *
+        *  AUTHOR: Ethan Bell                                                     *
+        *  DATE MODIFIED: 20/09/2018                                              *
+        *  ***********************************************************************/
+
+        /* This function sanitises user input via an imported string and returns the sanitised input */
+        function sanitiseSearch(inTxt) {
+            var outTxt, maxLen;
+            maxLen = 12;
+
+            //regex to remove all non alphanumeric or whitespace characters
+            outTxt = inTxt.replace(/[^0-9a-zA-Z ]/g, "");
+
+            //only accept strings less than maxLen characters
+            if (outTxt.length > maxLen) {
+                outTxt = outTxt.slice(0, maxLen);
+            }
+
+            //
+            //Add new rules here if necessary in future
+            //
+
+            return outTxt;
+        }
 
     </script>
 </body>
