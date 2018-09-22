@@ -21,50 +21,9 @@
  * Replace regex learned from https://stackoverflow.com/questions/16576983/replace-multiple-characters-in-one-replace-call
  * Triggering click events from code learned from https://stackoverflow.com/questions/14156327/how-to-call-a-code-behinds-button-click-event-using-javascript
  * Using data-* attritube learned from https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
+ * Passing into an event the tags info learned from https://stackoverflow.com/questions/20868907/javascript-get-element-id-from-event
  * And many tutorials/documentation from https://www.w3schools.com 
  */
-
-
-/**************************************************************************
-*  Function: Event listener click event                                   *
-*  Purpose: Detect the location of clicks relative to the search bar and  *
-*           search items                                                  *
-*  IMPORT: none                                                           *
-*  EXPORT: none                                                           *
-*  ***********************************************************************/
-/*document.addEventListener("click", function (evt)
-{
-    var flyoutElement = document.getElementById("dropdownUI");
-    var clickFlag = false;
-    var targetElement = evt.target;
-
-    do
-    {
-        if (targetElement == flyoutElement)
-        {
-            // A click has been made in the search bar and associated items
-            clickFlag = true;
-
-        }
-
-        targetElement = targetElement.parentNode;
-    } while (targetElement);
-
-    if (clickFlag)
-    {
-        // Show search items
-        searchFilter();
-    }
-    else
-    {
-        // Hide search items
-        searchFilterBlur();
-    }
-
-    clickFlag = false;
-
-    return;
-}); */
 
 
 /**************************************************************************
@@ -85,8 +44,12 @@ function searchFilter(matches)
 
         items[ii].addEventListener('click', function ()
         {
+
             relatedID = this.dataset.targetId;
             relatedAnchor = document.getElementById(relatedID);
+            parentID = relatedAnchor.dataset.parentId;
+            parentAnchor = document.getElementById(parentID);
+            parentAnchor.click();
             relatedAnchor.click();
         });
 
@@ -140,33 +103,35 @@ function displayFilter()
 
     var foundMatch = false;
 
-    //Loop through all found elements
-    for (var ii = 0; ii < a.length; ii++)
+    if (searchValue === "") //If no input (first click or deletion of previous search terms) don't show anything
     {
-        //If the tag contains the input in the search bar
-        if (String(a[ii].innerHTML).trim().toUpperCase().indexOf(searchValue) > -1)
+    }
+    else
+    {
+        //Loop through all found anchors
+        for (var ii = 0; ii < a.length; ii++)
         {
-            //a[ii].style.display = ""; //Remove any existing display values (hidden/none) so that it is visible
 
-            foundMatch = true;
+            //If the tag contains the input in the search bar
+            if (String(a[ii].innerHTML).trim().toUpperCase().indexOf(searchValue) > -1)
+            {
+                foundMatch = true;
 
-            //Assemble all the needed values from our found match
-            //ID
-            termID = a[ii].id;
-            //Innertext (minus any bookmarks so it looks clean)
-            resultText = (a[ii].innerText).replace("/…|✔|!|⋆/g", "");
+                //Assemble all the needed values from our found match
+                //ID
+                termID = a[ii].clas;
+                //Innertext (minus any bookmarks so it looks clean)
+                resultText = (a[ii].innerText).replace(/[…✔!⋆]/g, "");
 
-            //Create a div to contain our result - allows easier styling
-            //The div contains the acnhor we will use in searchFilter to load the chapter provided
-            result = '<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a>';
+                //Create a div to contain our result - allows easier styling
+                //The div contains the acnhor we will use in searchFilter to load the chapter provided
+                result = '<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a>';
 
-            matches.push(result); //Add found tag to list of matches
+                matches.push(result); //Add found tag to list of matches
+
+            }
+
         }
-        else
-        {
-            //a[ii].style.display = "none"; //Hide this element from search results
-        }
-
     }
 
     //A match was found - display all the items found, otherwise show an empty box
