@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 06/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 19/09/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 22/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -17,6 +17,7 @@
  * 15/09/2018 - Reworked some buttons/added new buttons to faciliate chapter quiz integration, reworked all HTML strings into multiline to allow for easier editiability
  *              and edited variable names to match shared space (with other js files) in headers.html
  * 19/09/2015 - Edited help page image paths so they load properly - and fixed busg related to quiz buttons and chapter tab selection
+ * 22/09/2018 - Fixed a few bugs and altered click listener for chapter splash screens
  */
 
 /* REFERENCES
@@ -313,7 +314,7 @@ function loadChapter(response, chapter, subchapter)
     var chapterList = JSON.parse(response);
     chapterText = chapterList.cPool[(chapter - 1)]; //Since array is 0-based -1 to get real chapter content
     loaded = true;
-    if (subchapter != maxChapters) //This was called by a non-quiz button
+    if (subchapter != maxSections) //This was called by a non-quiz button
     {
         displayChapter(chapter, subchapter);
     }
