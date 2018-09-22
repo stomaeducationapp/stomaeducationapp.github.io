@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="displaybody">
+        <h1> This is a test header</h1>
+
+        <p> This is a test body to see if terms can be searched for and an popup automatically defines the term. For example, stoma is a term, as is ileostomy.</p>
+    </div>
+
+
+    <script type="text/javascript">
+
+
+
+        /**************************************************************************
+        *  Function: addPopupTags                                                 *
+        *  Purpose: Add tags to the text body to enable the popup functionality   *
+        *           on mouseover                                                  *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+
+        function addPopupTags() {
+            /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
+
+            var textBody, div, a;
+
+            var searchValue = "";
+
+            textBody = document.getElementById("displayBody");
+
+            console.log(String(textBody.value));
+
+
+        }
+
+
+        /**************************************************************************
+        *  Function: drawPopup                                                    *
+        *  Purpose: Add tags to the text body to enable the popup functionality   *
+        *           on mouseover                                                  *
+        *  IMPORT: none                                                           *
+        *  EXPORT: none                                                           *
+        *  ***********************************************************************/
+
+        function drawPopup() {
+
+        }
+
+
+        window.addEventListener('load', function () {
+            addPopupTags();
+        });
+
+
+    </script>
+</body>
+</html>
