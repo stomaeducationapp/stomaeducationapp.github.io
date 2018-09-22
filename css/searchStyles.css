@@ -1,40 +1,26 @@
-body {
-	background-color: white;
 
-}
-#displaybody {
-    background: yellow;
-    position: relative;
-    z-index: 1;
-}
-
-
-h1 {
-    color: purple;
-    margin-left: 50px;
-}
-
-.dropdownUI {
-	display: inline-block;
-}
-
-.searchList {
+#searchList {
     position: absolute;
+    border: 1px solid #ddd;
     z-index: 30;
 }
 
-.searchList a {
+#searchList div {
     background-color: #f6f6f6;
     min-width: 230px;
-    border: 1px solid #ddd;
-    
+    border: 1px solid ;
+    display: inline-block;
     color: black;
     padding: 12px 16px;
     text-decoration: none;
 }
 
-.dropDownList a:hover{
-    background-color: bisque;
+#searchList a {
+    cursor: pointer;
+}
+
+.definitions {
+    background-color: yellow;
 }
 
 .hide {display: none;}

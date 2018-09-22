@@ -313,7 +313,11 @@ function loadChapter(response, chapter, subchapter)
     var chapterList = JSON.parse(response);
     chapterText = chapterList.cPool[(chapter - 1)]; //Since array is 0-based -1 to get real chapter content
     loaded = true;
-    displayChapter(chapter, subchapter);
+    if (subchapter != maxChapters) //This was called by a non-quiz button
+    {
+        displayChapter(chapter, subchapter);
+    }
+    //Otherwise we want to display the quiz - not the chapter info
 
 }
 
@@ -601,7 +605,7 @@ function displayQuiz(chapter, subchapter)
 
     if (loaded === false) //No other chapter content loaded
     {
-        loadChapterJSON(chapter, subchapter); //Call loadJSON to ensure that chapter content is loaded
+        loadChapterJSON(chapter, subchapter); //Call loadJSON and load splash screen to to ensure that chapter content is loaded
     }
 
     textArea.innerHTML = quizLayout;
@@ -747,6 +751,9 @@ settingsButt.addEventListener('click', function ()
 //Chapter 1
 chapterOneButt.addEventListener('click', function ()
 {
+    dropDown = document.getElementsByClassName("cOne"); //Get the associated dropdown menu icon and click it
+    dropDown[0].click(); 
+
     loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(1, 0);
 });
@@ -787,6 +794,9 @@ cqOneButt.addEventListener('click', function ()
 //Chapter 2
 chapterTwoButt.addEventListener('click', function ()
 {
+    dropDown = document.getElementsByClassName("cOne"); //Get the associated dropdown menu icon and click it
+    dropDown[0].click(); 
+
     loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
     selectChapter(2, 0);
 });

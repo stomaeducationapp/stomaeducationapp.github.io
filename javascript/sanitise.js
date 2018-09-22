@@ -27,7 +27,7 @@
 function sanitiseSearch(inTxt)
 {
     var outTxt, maxLen;
-    maxLen = 26; //Tjis is based on the longest (CURRENTLY) available search tag + 3 for different word choice
+    maxLen = 15; //This is based on the longest (CURRENTLY) available search tag + 3 for different word choice
 
     //regex to remove all non alphanumeric or whitespace characters
     outTxt = inTxt.replace(/[^0-9a-zA-Z ]/g, "");

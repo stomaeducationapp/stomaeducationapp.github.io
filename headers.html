@@ -69,50 +69,45 @@
             <div id="sideNav" class="sidenav">
 
                 <!-- chapter 1 dropdown-->
-                <!-- Each class attribute in the drop down menu scX indicates tags that the search bar can look for to enable easy
-                     site navigation
-                -->
-                <button class="dropdown-btn" id="chapterOne">
-                    Chapter 1
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-container">
-                    <a data-parent-id="chapterOne" class="Urine Colour Odour Urinary Output" id="scPop">Pop Culture</a>
-                    <a data-parent-id="chapterOne" class="Ileum Duodenum Jejunum " id="scTrickOne">Trick Questions</a>
-                    <a data-parent-id="chapterOne" class="Raw Spicy Foods Low Fibre Diet" id="scMed">Medicine</a>
-                    <a data-parent-id="chapterOne" class="Osmosis Anastomosis Electrolyte" id="scObv">Obviousness</a>
-                    <a data-parent-id="chapterOne" class="Ileostomy Stoma Ostomy Peristomal Skin Bag Pouch" id="scMyth">Mythology</a>
-                    <a data-parent-id="chapterOne" class="Quiz Urine Colour Odour Urinary Output Ileum Duodenum Jejunum Raw Spicy Foods Low Fibre Diet Osmosis Anastomosis Electrolyte Ileostomy Stoma Ostomy Peristomal Skin Bag Pouch" id="cqOne">Chapter Quiz</a>
+                <button id="chapterOne">Chapter 1</button>
+                <button class="dropdown-btn cOne" style="display: inline-block">▼</button>
+                <div class="dropdown-container cOne">
+                    <a data-parent-id="cOne" data-search-tags="Urine Colour Odour Urinary Output" id="scPop">Pop Culture</a>
+                    <a data-parent-id="cOne" data-search-tags="Ileum Duodenum Jejunum " id="scTrickOne">Trick Questions</a>
+                    <a data-parent-id="cOne" data-search-tags="Raw Spicy Foods Low Fibre Diet" id="scMed">Medicine</a>
+                    <a data-parent-id="cOne" data-search-tags="Osmosis Anastomosis Electrolyte" id="scObv">Obviousness</a>
+                    <a data-parent-id="cOne" data-search-tags="Ileostomy Stoma Ostomy Peristomal Skin Bag Pouch" id="scMyth">Mythology</a>
+                    <a data-parent-id="cOne" data-search-tags="Quiz Urine Colour Odour Urinary Output Ileum Duodenum Jejunum Raw Spicy Foods Low Fibre Diet Osmosis Anastomosis Electrolyte Ileostomy Stoma Ostomy Peristomal Skin Bag Pouch" id="cqOne">Chapter One Quiz</a>
                 </div>
+                <br />
                 <!--chapter 2 dropdown-->
-                <button class="dropdown-btn" id="chapterTwo">
-                    Chapter 2
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-container">
-                    <a data-parent-id="chapterTwo" class="Stoma Output Consistency Volume Day Pouch Bag Measuring Inflation" id="scTrickTwo">Trick Questions</a>
-                    <a data-parent-id="chapterTwo" class="Tissue Turgor" id="scAnimal">Animals</a>
-                    <a data-parent-id="chapterTwo" class="Medication Absorption Slow Release Combination Symptoms" id="scAstro">Astrology</a>
-                    <a data-parent-id="chapterTwo" class="Dehydration Nutrients Fibre Low Diet Rehydration Fluid Intake Oral Electrolyte Drinks Soluble" id="scTime">Time</a>
-                    <a data-parent-id="chapterTwo" class="Gut Transition Time Abdomen Faeces Peristalses Flatus" id="scHist">History</a>
-                    <a data-parent-id="chapterTwo" class="Quiz Stoma Output Consistency Volume Day Pouch Bag Measuring Inflation Tissue Turgor Medication Absorption Slow Release Combination Symptoms Dehydration Nutrients Fibre Low Diet Rehydration Fluid Intake Oral Electrolyte Drinks Soluble Gut Transition Time Abdomen Faeces Peristalses Flatus" id="cqTwo">Chapter Quiz</a>
+                <button id="chapterTwo">Chapter 2</button>
+                <button class="dropdown-btn cTwo" style="display: inline-block">▼</button>
+                <div class="dropdown-container cTwo">
+                    <a data-parent-id="cTwo" data-search-tags="Stoma Output Consistency Volume Day Pouch Bag Measuring Inflation" id="scTrickTwo">Trick Questions</a>
+                    <a data-parent-id="cTwo" data-search-tags="Tissue Turgor" id="scAnimal">Animals</a>
+                    <a data-parent-id="cTwo" data-search-tags="Medication Absorption Slow Release Combination Symptoms" id="scAstro">Astrology</a>
+                    <a data-parent-id="cTwo" data-search-tags="Dehydration Nutrients Fibre Low Diet Rehydration Fluid Intake Oral Electrolyte Drinks Soluble" id="scTime">Time</a>
+                    <a data-parent-id="cTwo" data-search-tags="Gut Transition Time Abdomen Faeces Peristalses Flatus" id="scHist">History</a>
+                    <a data-parent-id="cTwo" data-search-tags="Quiz Stoma Output Consistency Volume Day Pouch Bag Measuring Inflation Tissue Turgor Medication Absorption Slow Release Combination Symptoms Dehydration Nutrients Fibre Low Diet Rehydration Fluid Intake Oral Electrolyte Drinks Soluble Gut Transition Time Abdomen Faeces Peristalses Flatus" id="cqTwo">Chapter Two Quiz</a>
                 </div>
-
-                <a href="#">Search</a>
+                <br />
             </div>
+            <a>Search</a>
             <input id="searchBar" type="text" placeholder="Enter search...">
             <div id="searchList" class="dropDownList" style="display: none;">
             </div>
         </div>
+    </div>
 
     <script>
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
+        var ii;
 
-        for (i = 0; i < dropdown.length; i++)
+        for (ii = 0; ii < dropdown.length; ii++)
         {
-            dropdown[i].addEventListener("click", function ()
+            dropdown[ii].addEventListener("click", function ()
             {
                 this.classList.toggle("active");
                 var dropdownContent = this.nextElementSibling;

@@ -22,6 +22,7 @@
  * Triggering click events from code learned from https://stackoverflow.com/questions/14156327/how-to-call-a-code-behinds-button-click-event-using-javascript
  * Using data-* attritube learned from https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
  * Passing into an event the tags info learned from https://stackoverflow.com/questions/20868907/javascript-get-element-id-from-event
+ * Indexof learned from https://www.w3schools.com/jsref/jsref_indexof.asp
  * And many tutorials/documentation from https://www.w3schools.com 
  */
 
@@ -35,6 +36,9 @@
 
 function searchFilter(matches)
 {
+    var ddButtPos = 0;
+    var ddContentPos = 1;
+
     results = document.getElementById("searchList");
     results.innerHTML = matches.join("");
 
@@ -47,10 +51,22 @@ function searchFilter(matches)
 
             relatedID = this.dataset.targetId;
             relatedAnchor = document.getElementById(relatedID);
+
             parentID = relatedAnchor.dataset.parentId;
-            parentAnchor = document.getElementById(parentID);
-            parentAnchor.click();
+            parentAnchor = document.getElementsByClassName(parentID);
+
+            if ((parentAnchor[ddContentPos].style.display) === "block") //If the dropdown is already displayed
+            {
+                //Don't close the dropdown
+            }
+            else
+            {
+                parentAnchor[ddButtPos].click();
+            }
+
             relatedAnchor.click();
+
+            searchFilterBlur(); //Clear the search overlay from screen
         });
 
     }
@@ -68,7 +84,7 @@ function searchFilter(matches)
 
 function searchFilterBlur()
 {
-    document.querySelector("#dropDownList").style.display = "none";
+    document.querySelector("#searchList").style.display = "none";
 }
 
 
@@ -83,14 +99,28 @@ function displayFilter()
 {
 
     var rawUserInput, div, a;
-    var searchValue = "";
+    var searchValues = [];
     var matches = []; //An empty array of found matches
 
     //Get the box with the user's input
     rawUserInput = document.getElementById("searchBar");
 
     //Get input text, sanitise and convert to upper case - IN CURRENT IMPLEMENTATION CASE DOES NOT ALTER RESULTS
-    searchValue = String(sanitiseSearch(rawUserInput.value)).trim().toUpperCase();
+    rawValues = (rawUserInput.value).split(" "); //Since a user could have typed multiple words - we break it up to 
+    for (ii = 0; ii < rawValues.length; ii++)
+    {
+        sanitisedValue = (sanitiseSearch(rawValues[ii]).trim().toUpperCase()); //Sanitise each word before consider it for search
+        if (sanitisedValue === "") 
+        {
+            //We don't want empty strings
+        }
+        else
+        {
+            searchValues.push(sanitisedValue);
+        }
+            
+    }
+
     //CONSIDER
     //Just obtaining the value if there is a difference between terms with case variance (proper names, acronyms etc.)
 
@@ -102,9 +132,11 @@ function displayFilter()
     a = div.getElementsByTagName("a");
 
     var foundMatch = false;
+    var currentMatch = false;
 
-    if (searchValue === "") //If no input (first click or deletion of previous search terms) don't show anything
+    if (searchValues.indexOf("") === 0)
     {
+        //If no input (first click or deletion of previous search terms) don't show anything (index of 0 means first set)
     }
     else
     {
@@ -112,24 +144,43 @@ function displayFilter()
         for (var ii = 0; ii < a.length; ii++)
         {
 
-            //If the tag contains the input in the search bar
-            if (String(a[ii].innerHTML).trim().toUpperCase().indexOf(searchValue) > -1)
+            //Get all the search tags within this anchor
+            tagList = (a[ii].dataset.searchTags).toUpperCase();
+
+            for (jj = 0; jj < searchValues.length; jj++)
             {
-                foundMatch = true;
 
-                //Assemble all the needed values from our found match
-                //ID
-                termID = a[ii].clas;
-                //Innertext (minus any bookmarks so it looks clean)
-                resultText = (a[ii].innerText).replace(/[…✔!⋆]/g, "");
+                //If the list of tags contains the search value
+                if ( tagList.includes(searchValues[jj]) )
+                {
+                    if (currentMatch)
+                    {
+                        //If we already found this anchor during the loop - don't add it again
+                    }
+                    else //If this is the first time this anchor matched our search
+                    {
+                        foundMatch = true;
+                        currentMatch = true; //Say we found one for the current anchor 
 
-                //Create a div to contain our result - allows easier styling
-                //The div contains the acnhor we will use in searchFilter to load the chapter provided
-                result = '<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a>';
+                        //Assemble all the needed values from our found match
+                        //ID
+                        termID = a[ii].id;
+                        //Innertext (minus any bookmarks so it looks clean)
+                        resultText = (a[ii].innerText).replace(/[…✔!⋆]/g, "");
 
-                matches.push(result); //Add found tag to list of matches
+                        //Create a div to contain our result - allows easier styling
+                        //The div contains the acnhor we will use in searchFilter to load the chapter provided
+                        result = '<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a> </div>';
+
+                        matches.push(result); //Add found tag to list of matches
+                    }
+
+
+                }
 
             }
+
+            currentMatch = false; //Since we have finished with the current anchor - reset matching for the next one
 
         }
     }
