@@ -66,7 +66,7 @@
     <div class="row">
         <div class="leftcolumn">
             <!-- encapsulate the side navigation bar-->
-            <div class="sidenav">
+            <div id="sideNav" class="sidenav">
 
                 <!-- chapter 1 dropdown-->
                 <button class="dropdown-btn" id="chapterOne">
@@ -97,27 +97,10 @@
 
                 <a href="#">Search</a>
             </div>
+            <input id="searchBar" type="text" placeholder="Enter search...">
+            <div id="searchList" class="dropDownList" style="display: none;">
+            </div>
         </div>
-    </div>
-
-    <!-- example from www.w3schools.com/howto/howto_js_filterdropdown.asp */ -->
-    <div id="dropdownUI" class="UserInterfaceSearchScreen">
-        <input id="inputBox" type="text" placeholder="Enter search..." onkeyup="displayFilter()">
-        <div id="dropDownList" class="dropDownList">
-
-            <a href="#apple">Apple</a>
-            <a href="#banana">Banana</a>
-            <a href="#carrot">Carrot</a>
-            <a href="#danish">Danish</a>
-            <a href="#eggplant">Eggplant</a>
-            <a href="#fritters">Fritters</a>
-            <a href="#garlic">Garlic</a>
-            <a href="#halloumi">Halloumi</a>
-            <a href="#ice">Ice</a>
-            <a href="#jalapeno">Jalapeno</a>
-        </div>
-
-    </div>
 
     <script>
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */

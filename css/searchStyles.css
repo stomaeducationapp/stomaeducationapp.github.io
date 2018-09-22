@@ -5,7 +5,7 @@ body {
 #displaybody {
     background: yellow;
     position: relative;
-    z-index= 1;
+    z-index: 1;
 }
 
 
@@ -18,12 +18,12 @@ h1 {
 	display: inline-block;
 }
 
-.dropDownList {
+.searchList {
     position: absolute;
     z-index: 30;
 }
 
-.dropDownList a {
+.searchList a {
     background-color: #f6f6f6;
     min-width: 230px;
     border: 1px solid #ddd;
