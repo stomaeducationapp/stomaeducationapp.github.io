@@ -26,33 +26,75 @@
  * And many tutorials/documentation from https://www.w3schools.com 
  */
 
+/**************************************************************************
+*  Function: Event listener click event                                   *
+*  Purpose: Detect the location of clicks relative to the search bar and  *
+*           search items                                                  *
+*  IMPORT: none                                                           *
+*  EXPORT: none                                                           *
+*  ***********************************************************************/
+//Based on example from http://blustemy.io/detecting-a-click-outside-an-element-in-javascript/
+document.addEventListener("click", function (evt)
+{
+    var flyoutElement = document.getElementById("dropdownUI");
+    var clickFlag = false;
+    //let targetElement = evt.target;
+    var targetElement = evt.target;
+
+    do
+    {
+        if (targetElement == flyoutElement)
+        {
+            // A click has been made in the search bar and associated items
+            clickFlag = true;
+
+        }
+
+        targetElement = targetElement.parentNode;
+    } while (targetElement);
+
+    if (clickFlag)
+    {
+        // Show search items
+        searchFilter();
+    }
+    else
+    {
+        // Hide search items
+        searchFilterBlur();
+    }
+
+    clickFlag = false;
+
+    return;
+});
 
 /**************************************************************************
 *  Function: searchFilter                                                 *
 *  Purpose: Enable the display of the current items in the search list    *
-*  IMPORT: none                                                           *
+*  IMPORT: matches (all the HTML elements that matched)                   *
 *  EXPORT: none                                                           *
 *  ***********************************************************************/
 
 function searchFilter(matches)
 {
-    var ddButtPos = 0;
-    var ddContentPos = 1;
+    var ddButtPos = 0; //These are the positions in the array of classList for the drop down button and content
+    var ddContentPos = 1; //Allows easy refoactoring up here
 
-    results = document.getElementById("searchList");
-    results.innerHTML = matches.join("");
+    results = document.getElementById("searchList"); //Get the div we are going to put all our results in
+    results.innerHTML = matches.join(""); //Chuck in all the new elements
 
-    items = document.getElementsByClassName("searchItem");
+    items = document.getElementsByClassName("searchItem"); //Go through each element to update listeners
     for (ii = 0; ii < items.length; ii++)
     {
 
         items[ii].addEventListener('click', function ()
         {
 
-            relatedID = this.dataset.targetId;
+            relatedID = this.dataset.targetId; //Find the related chapter tab of the matched term
             relatedAnchor = document.getElementById(relatedID);
 
-            parentID = relatedAnchor.dataset.parentId;
+            parentID = relatedAnchor.dataset.parentId; //Find the parent dropdown header of the matched term
             parentAnchor = document.getElementsByClassName(parentID);
 
             if ((parentAnchor[ddContentPos].style.display) === "block") //If the dropdown is already displayed
@@ -61,17 +103,17 @@ function searchFilter(matches)
             }
             else
             {
-                parentAnchor[ddButtPos].click();
+                parentAnchor[ddButtPos].click(); //Open the dropdown - so user can see where they are
             }
 
-            relatedAnchor.click();
+            relatedAnchor.click(); //Load teh chapter contents the user searched for
 
-            searchFilterBlur(); //Clear the search overlay from screen
+            searchFilterBlur(); //Clear the search overlay from screen - so it doesn't block user's view of new content
         });
 
     }
 
-    document.querySelector("#searchList").style.display = "block";
+    document.querySelector("#searchList").style.display = "block"; //Make sure list displays nicely
 }
 
 
@@ -99,7 +141,7 @@ function displayFilter()
 {
 
     var rawUserInput, div, a;
-    var searchValues = [];
+    var searchValues = []; //Empty array of potential user input search terms
     var matches = []; //An empty array of found matches
 
     //Get the box with the user's input
@@ -131,8 +173,9 @@ function displayFilter()
     //Since we use anchor tags to store the chapter tabs - we can strip out all uneeded HTML tags so our loop is as short as possible
     a = div.getElementsByTagName("a");
 
-    var foundMatch = false;
+    var foundMatch = false; //Since we are starting the search - assume we found nothing
     var currentMatch = false;
+    var defMatch = false;
 
     if (searchValues.indexOf("") === 0)
     {
@@ -153,24 +196,48 @@ function displayFilter()
                 //If the list of tags contains the search value
                 if ( tagList.includes(searchValues[jj]) )
                 {
-                    if (currentMatch)
+
+                    if (currentMatch && defMatch)
                     {
-                        //If we already found this anchor during the loop - don't add it again
+                        //If we already found this anchor and a definition term during the loop - don't add it again
                     }
-                    else //If this is the first time this anchor matched our search
+                    else //If this is the first time this anchor matched our search or this could be a definition tag
                     {
+                        if (!currentMatch) //If we haven't found a match yet
+                        {
+                            currentMatch = true; //Say we found one for the current anchor 
+                            //Assemble all the needed values from our found match
+                            //ID
+                            termID = a[ii].id;
+                            //Innertext (minus any bookmarks so it looks clean)
+                            resultText = (a[ii].innerText).replace(/[…✔!⋆]/g, "");
+
+                            //Create a div to contain our result - allows easier styling
+                            //The div contains the acnhor we will use in searchFilter to load the chapter provided
+                            result = '<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a> </div>';
+
+                        }
+
+                        if (!defMatch) //If no definition has been found yet
+                        {
+                            if (tagList.includes((searchValues[jj] + "*DEFINE*"))) //Check and see if this term is a defined one
+                            {
+                                defMatch = true; //Say we found one for the current anchor 
+                                //Assemble all the needed values from our found match
+                                //ID
+                                termID = a[ii].id;
+                                //Innertext (minus any bookmarks so it looks clean)
+                                resultText = (a[ii].innerText).replace(/[…✔!⋆]/g, "");
+
+                                //Create a div to contain our result - allows easier styling
+                                //The div contains the acnhor we will use in searchFilter to load the chapter provided
+                                result = '<div class="searchResult"> <a class="searchItem definitions" data-target-id="' + termID + '">' + resultText + '</a> </div>';
+                            }
+
+                        }
+
+
                         foundMatch = true;
-                        currentMatch = true; //Say we found one for the current anchor 
-
-                        //Assemble all the needed values from our found match
-                        //ID
-                        termID = a[ii].id;
-                        //Innertext (minus any bookmarks so it looks clean)
-                        resultText = (a[ii].innerText).replace(/[…✔!⋆]/g, "");
-
-                        //Create a div to contain our result - allows easier styling
-                        //The div contains the acnhor we will use in searchFilter to load the chapter provided
-                        result = '<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a> </div>';
 
                         matches.push(result); //Add found tag to list of matches
                     }
@@ -181,6 +248,7 @@ function displayFilter()
             }
 
             currentMatch = false; //Since we have finished with the current anchor - reset matching for the next one
+            defMatch = false;
 
         }
     }

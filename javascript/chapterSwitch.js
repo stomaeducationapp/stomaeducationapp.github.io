@@ -644,9 +644,24 @@ function displayQuiz(chapter, subchapter)
             selectChapter((chapter + 1), 0); //We simply take what chapter we are in and move on to the next one (if not at maxChapters)
         });
     }
-    else //We are at the end of the list of chapters and so disable the next button
+    else //We are at the end of the list of chapters and so at this point just mark the quiz complete
     {
-        nextButt.disabled = true;
+        nextButt.addEventListener('click', function ()
+        {
+            var currentMark = chapterMarks[(chapter - 1)][subchapter]; //Get the bookmark object that corresponds to this chapter (-1 since chapter array is 0-based)
+            if (currentMark.symbol === finishedMark) 
+            {
+                //If this quiz was already completed - ignore
+            }
+            else //We mark it complete
+            {
+                var name = currentMark.pageName;
+                (document.getElementById(name)).innerText = currentMark.pageText + finishedMark; //Set the bookmark to finished
+                currentMark.symbol = finishedMark; //Set reference object to new bookmark and restore in our array
+                chapterMarks[(chapter - 1)][subchapter] = currentMark; //For if user keeps reading during this session
+                window.localStorage.setItem(name, finishedMark); //Store in local storage so can be reloaded later
+            }
+        });
     }
 
 }
@@ -794,7 +809,7 @@ cqOneButt.addEventListener('click', function ()
 //Chapter 2
 chapterTwoButt.addEventListener('click', function ()
 {
-    dropDown = document.getElementsByClassName("cOne"); //Get the associated dropdown menu icon and click it
+    dropDown = document.getElementsByClassName("cTwo"); //Get the associated dropdown menu icon and click it
     dropDown[0].click(); 
 
     loaded = false; //We assume since the user has clicked a tab button - that they are switching out of a previous chapter - safe so we always load chapter content correctly
