@@ -1,6 +1,6 @@
 ﻿<!-- AUTHOR INFORMATION
      CREATOR - Casey Rogers XX/XX/2018
-     LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
+     LAST MODIFIED BY - Jeremy Dunnet 22/09/2018
 -->
 
 <!-- CLASS/FILE DESCRIPTION
@@ -14,6 +14,7 @@
      09/09/2018 (JD) - Updated to link to new stylesheet for chapter text elements and removed chapter three to ensure javascript works for current setup
      12/09/2018 (CR + JD) - Added new top nav buttons for navigation, as well as linking to help page
      15/09/2018 (JD) - Updated to use new links/names for chapter quiz integration
+     22/09/2018 (JD) - Updated to use new script/css for search bar and sanitision integration, and removed old unused code
 -->
 
 <!-- REFERENCES
@@ -30,6 +31,7 @@
     <link rel="stylesheet" href="/css/chapterNavStyles.css">
     <link rel="stylesheet" href="/css/headerStyles.css">
     <link rel="stylesheet" href="/css/quizStyles.css">
+    <link rel="stylesheet" href="/css/searchStyles.css">
 
     <!-- Broswer check for supported software/versions -->
     <script type="application/javascript" src="/globalErrorPages/browserTest.js"></script>
@@ -117,133 +119,6 @@
 
     </div>
 
-
-    <script>
-
-        // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
-        window.onload = pre_loader; // Hides the search items when the page is loaded
-
-
-
-        /**************************************************************************
-        *  Function: Event listener click event                                   *
-        *  Purpose: Detect the location of clicks relative to the search bar and  *
-        *           search items                                                  *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-        //Based on example from http://blustemy.io/detecting-a-click-outside-an-element-in-javascript/
-        document.addEventListener("click", (evt) =>
-        {
-            const flyoutElement = document.getElementById("dropdownUI");
-            var clickFlag = false;
-            let targetElement = evt.target;
-
-            do
-            {
-                if (targetElement == flyoutElement)
-                {
-                    // A click has been made in the search bar and associated items
-                    clickFlag = true;
-
-                }
-
-                targetElement = targetElement.parentNode;
-            } while (targetElement);
-
-            if (clickFlag)
-            {
-                // Show search items
-                searchFilter();
-            }
-            else
-            {
-                // Hide search items
-                searchFilterBlur();
-            }
-
-            clickFlag = false;
-
-            return;
-        });
-
-
-        /**************************************************************************
-        *  Function: pre_loader                                                   *
-        *  Purpose: Hides the search list before the page is loaded               *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function pre_loader()
-        {
-            // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
-
-            document.getElementById("dropDownList").style.display = "none";
-        };
-
-        /**************************************************************************
-        *  Function: searchFilter                                                 *
-        *  Purpose: Enable the display of the current items in the search list    *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function searchFilter()
-        {
-            document.getElementById("dropDownList").style.display = "block";
-        }
-
-
-        /**************************************************************************
-        *  Function: searchFilterBlur                                             *
-        *  Purpose: Disable and hide the current items in the search list         *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function searchFilterBlur()
-        {
-            document.getElementById("dropDownList").style.display = "none";
-        }
-
-
-        /**************************************************************************
-        *  Function: displayFilter                                                *
-        *  Purpose: Alter the displayed search list based on user input           *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function displayFilter()
-        {
-            /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
-
-            var searchInput, searchValue, a, i;
-
-            searchInput = document.getElementById("inputBox");
-
-            searchValue = searchInput.value.toUpperCase();
-
-            div = document.getElementById("dropDownList");
-
-            a = div.getElementsByTagName("a");
-
-            for (i = 0; i < a.length; i++)
-            {
-                if (a[i].innerHTML.toUpperCase().indexOf(searchValue) > -1)
-                {
-                    a[i].style.display = "";
-                }
-                else
-                {
-                    a[i].style.display = "none";
-                }
-
-            }
-        }
-    </script>
-
     <script>
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -271,6 +146,8 @@
          Be aware this means these files can see each others global constants etc. so they all need to be unique names
          Insert new files in the correct order or page may fail to load
     -->
+    <script type="application/javascript" src="/javascript/sanitise.js"></script>
+    <script type="application/javascript" src="/javascript/search.js"></script>
     <script type="application/javascript" src="/javascript/quiz.js"></script>
     <script type="application/javascript" src="/javascript/chapterSwitch.js"></script>
 </body>
