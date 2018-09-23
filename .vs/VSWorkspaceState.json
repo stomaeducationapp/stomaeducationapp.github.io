@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\json",
-    "\\media",
-    "\\Sanitisation",
-    "\\Tests"
+    "\\json"
   ],
-  "SelectedNode": "\\searchbar.html",
+  "SelectedNode": "\\json\\chapters.json",
   "PreviewInSolutionExplorer": false
 }
