@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -10,14 +10,114 @@
     <div id="displaybody">
         <h1> This is a test header</h1>
 
-        <p> This is a test body to see if terms can be searched for and an popup automatically defines the term. For example, stoma is a term, as is ileostomy.</p>
+        <p>
+            This is a test body to see if terms can be searched for and an popup automatically defines the 
+            term. For example, <span id="bodyTerm" onmouseover=drawPopup("stoma")>stoma</span> is a term, as is ileostomy.
+        </p>
     </div>
 
 
     <script type="text/javascript">
 
+        // JSON file and error handling based off of Jeremy's work in the quiz javascript
+        const defsJSONFile = "/json/definitions.json";
+
+        const definitionsBugScreen =
+            `<p>Looks like an error has occured.<br />
+                To try and fix the issue:
+                <ul>
+                <li>Refresh the page</li>
+                <li>Close the window and reload</li>
+                <li>Try from a different browser - supported browsers include:
+                <ul>
+                    <li>Chrome (Version 68 and above)</li>
+                    <li>Edge (Version 17 and above)</li>
+                    <li>Opera (Version 55 and above)</li>
+                </ul>
+                </li>
+                </ul>
+              </p>`;
+
+        /* FUNCTION INFORMATION
+         * NAME - loadDefinitionsJSON
+         * INPUTS - callback
+         * OUTPUTS - none
+         * PURPOSE - This is the method that loads the question list from a 
+         *           JSON file so that setQuestions can pick the random 10
+         * ORIGINAL AUTHOR - Jeremy Dunnet
+         * MODIFIED BY - Oliver Yeudall
+         */
+        function loadDefinitionsJSON(callback) {
+
+            var xobj = new XMLHttpRequest(); //Create a request object to get the data from the JSON File
+            xobj.overrideMimeType("application/json"); //Overide the deafult file type it is looking for to JSON
+            xobj.open("GET", defsJSONFile, true); //Give the name of our file (it is located locally) and tell it to load asynchronously
+            //(while the rest of the code cannot function until code is loaded - sychronous requests are deprecated according to https://xhr.spec.whatwg.org/#the-open()-method)
+            //We use GET as while POST more secure, GET is the only guaranteed method to work in all browsers
+            //in current build - REVIEW WHEN MOVED TO FULL LIVE TESTING
+            xobj.onreadystatechange = function () //What event listener activates when the task is done
+            {
+                if (xobj.readyState == 4 /*&& xobj.status == "200" I have removed this check now since the status will not change on local tests - RE-ENABLE ON LIVE TESTS*/) //If the the request is DONE(readyState) and OK(status) 
+                {
+                    addPopupTags(xobj.responseText);
+                }
+            };
+            xobj.send(null); //Send a null to the request to complete the transaction
+        }
 
 
+         /* FUNCTION INFORMATION
+         * NAME - loadDefinitions
+         * INPUTS - none
+         * OUTPUTS - none
+         * PURPOSE - This is the method that attempts to load the definitions
+         *           handles any errors
+         * ORIGINAL AUTHOR - Jeremy Dunnet
+         * MODIFIED BY - Oliver Yeudall
+         */
+
+        function loadDefinitions() {
+
+            try {
+                //We start but requesting the JSON to retrieve the question list
+                loadDefinitionsJSON();
+            }
+            catch (bug) //It's a joke. I do that.
+            {
+                //These exceptions are kept somwhat vague to decrease client knoweledge of page code (for security)
+                if (bug instanceof SyntaxError) //JSON parsing error
+                {
+                    document.body.innerHTML = definitionsBugScreen + "<p>Problem parsing JSON input</p>";
+                }
+                /* I have commeneted this out becuase the broswrs I have tested on report this exception type as not found - is only valid for some browser support
+                else if (bug instanceof InvalidStateError) //XMLHTTPRequest retrieval error
+                {
+                    document.body.innerHTML = definitionsBugScreen + "<p>Problem retrieving data from questions database</p>";
+                }
+                */
+                else if (bug instanceof RangeError) //An array/list went out of bounds
+                {
+                    document.body.innerHTML = definitionsBugScreen + "<p>You're out of bounds - here be dragons</p>";
+                }
+                else if (bug instanceof TypeError) //A variable had a bad type/object function syntax used on it
+                {
+                    document.body.innerHTML = definitionsBugScreen + "<p>A resource was thought to be a type different to what it actually was (Scandalous :O)</p>";
+                }
+                else if (bug instanceof ReferenceError) //A object was derefenced badly
+                {
+                    document.body.innerHTML = definitionsBugScreen + "<p>Problem accessing webpage resources</p>";
+                }
+                else if (bug instanceof InternalError) //Javascript engine error
+                {
+                    document.body.innerHTML = definitionsBugScreen + "<p>Problem with javascript engine</p>";
+                }
+                //I do not catch URI/Eval Errors specifically since I do not use their respective functions in this code
+                //Everything else goes to an unknown error
+                else {
+                    document.body.innerHTML = definitionsBugScreen + "<p>An unknown error occured</p>";
+                }
+            }
+        }
         /**************************************************************************
         *  Function: addPopupTags                                                 *
         *  Purpose: Add tags to the text body to enable the popup functionality   *
@@ -26,7 +126,7 @@
         *  EXPORT: none                                                           *
         *  ***********************************************************************/
 
-        function addPopupTags() {
+        function addPopupTags(response) {
             /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
 
             var textBody, div, a;
@@ -34,8 +134,6 @@
             var searchValue = "";
 
             textBody = document.getElementById("displayBody");
-
-            console.log(String(textBody.value));
 
 
         }
@@ -49,12 +147,28 @@
         *  EXPORT: none                                                           *
         *  ***********************************************************************/
 
-        function drawPopup() {
+        function drawPopup(popupID) {
+            var popup = document.getElementById(String(popupID));
+            var defDescription;
 
+            console.log("mouseOverEvent");
+            defDescription = getDescription();
+
+            popup.classList.toggle("show");
         }
 
+        function getDescription(){
+            var outDescription, desDatabase;
+
+            console.log(popUpTerms);
+
+            outDescription = "test";
+
+            return outDescription;
+        }
 
         window.addEventListener('load', function () {
+            loadDefinitions();
             addPopupTags();
         });
 
