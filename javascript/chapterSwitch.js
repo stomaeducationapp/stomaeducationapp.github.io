@@ -57,7 +57,7 @@
  * How to encode html tags into JSON learned from https://www.thorntech.com/2012/07/4-things-you-must-do-when-putting-html-in-json/
  * 
  */
-const chapterJSONFile = "/json/chapters.json";
+const chapterJSONFile = "./json/chapters.json";
 
 //A html body for the error screens
 const headersBugScreen =

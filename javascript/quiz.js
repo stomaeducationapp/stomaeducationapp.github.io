@@ -121,7 +121,7 @@ var numCorrect;
  * 
  */
 
-const quizJSONFile = "/json/questionList.json";
+const quizJSONFile = "./json/questionList.json";
 
 //Function declarations
 
