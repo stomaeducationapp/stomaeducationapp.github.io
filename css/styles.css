@@ -19,17 +19,28 @@
 body {
 }
 
+
+.header {
+    padding: 30px; /* some padding */
+    background: white; 
+}
+
+.cuttoff_bar {
+    padding: 15px; /* some padding */
+    background: chocolate;
+}
+
+
 /* Style the top navigation bar */
 .topnav {
     overflow: hidden;
-    background-color: aliceblue;
+    background-color: none;
 }
 
     /* Style the topnav links */
     .topnav a {
         float: left;
         display: block;
-        color: aqua;
         text-align: center;
         padding: 14px 16px;
         text-decoration: none;
@@ -37,8 +48,6 @@ body {
 
         /* Change color on hover */
         .topnav a:hover {
-            background-color: aquamarine;
-            color: blue;
         }
 
 /* right column column */
@@ -75,7 +84,7 @@ body {
 
     /* On mouse-over */
     .sidenav a:hover, .dropdown-btn:hover {
-        /*colour can be added here*/
+        color: grey;
     }
 
 /* Main content */
@@ -114,14 +123,15 @@ body, html {
 
 .navbar {
     overflow: hidden;
-    background-color: #333;
-    font-family: Arial, Helvetica, sans-serif;
+    background-color: antiquewhite;
+    /*commented out fints do not exist for visual studio, but are appart of sjog style guide*/
+    font-family: /*Antartida, Caecilia, Kostic serif,*/ Verdana; /*Stone sans-serif;*/
 }
 
     .navbar a {
         float: left;
-        font-size: 16px;
-        color: bisque;
+        font-size: 12px;
+        color: black;
         text-align: center;
         padding: 14px 16px;
         text-decoration: none;
@@ -134,7 +144,7 @@ body, html {
 
     /*colour of the text for the Dropdown button*/
     .dropdown .dropbtn {
-        font-size: 16px;
+        font-size: 12px;
         border: none;
         outline: none;
         color: black;
