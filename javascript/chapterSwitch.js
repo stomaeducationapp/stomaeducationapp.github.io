@@ -136,40 +136,50 @@ var loaded;
 //not move from chapter to chapter, though this can be easily changed - same reasoning for finalSectionButt
 //The reason we have them included but disabled is to keep the button placement on the screen consistent (CSS Layout)
 //They have weird placement of some >< so that the divs smash together on the screen
+//<div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 const startSectionButt =
-`<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt" style="color:white;cursor:default" disabled><<</button
-    ><button class="chapterButton" id="nextButt">>></button>
+`<div id="chapterNav" align="left" style="padding-left: 17px">
+    <img id="backButt" src="./media/NavigationArrows/left-arrow.png" disabled/>
+    <img id="nextButt" src="./media/NavigationArrows/right-arrow.png" title="Click here to go the first chapter"/>
  </div>`; 
 const normalSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt"><<</button
-    ><button class="chapterButton" id="nextButt">>></button>
+    <img id="backButt" src="./media/NavigationArrows/left-arrow.png" title="Click here to go to previous chapter"/>
+    <img id="nextButt" src="./media/NavigationArrows/right-arrow.png" title="Click here to go to the next chapter"/>
  </div>`;
 const finalSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt"><<</button
-    ><button class="chapterButton" id="nextButt">Quiz</button>
+    <img id="backButt" src="./media/NavigationArrows/left-arrow.png" title="click here to go back to the previous chapter"/>
+    <button class="chapterButton" id="nextButt">Quiz</button>
  </div>`;
 
 //HTML container for the mark as reread and important bookmark options
 //AT THE MOMENT THE WORDING IS THE ONLY THING KEEPING THIS AND THE ABOVE SECTIONS AS ALIGNED IN THE CENTER AS I CAN! - EDIT AT YOUR OWN PERIL!!!!!!!!
 //If you can style it better please try
 //They have weird placement of some >< so that the divs smash together on the screen
+//<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+//<div>Icons made by <a href="https://www.flaticon.com/authors/elegant-themes" title="Elegant Themes">Elegant Themes</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 const additonalBookmarks =
 `<div id="markers" align="center">
-    <button class="chapterButton" id="rereadButt">Click here to </br>mark "read again" </br>
-                                           If you need </br>
-                                           to read again</button
-    ><button class="chapterButton" id="importantButt">Click here to </br>
-                                              mark "important!" </br>
-                                              If you need </br>
-                                              to refer back</button>
+    <img id="rereadButt" src="./media/BookmarkIcons/open-book.png" title="Click here to mark 'read again' If you need to read again"/>
+    <img id="importantButt" src="./media/BookmarkIcons/exclamation-button.png" title="Click here to mark 'important!' If you need to refer back"/>
+
  </div>`;
+
+//This is for the first page of the chapter since the allignment is to the left
+const additonalBookmarks_2 =
+    `<div id="markers" align="left">
+    <img id="rereadButt" src="./media/BookmarkIcons/open-book.png" title="Click here to mark 'read again' If you need to read again"/>
+    <img id="importantButt" src="./media/BookmarkIcons/exclamation-button.png" title="Click here to mark 'important!' If you need to refer back"/>
+
+ </div>`;
+
 
 //HTML Containers for help sections and corresponding button objects
 const tutorialPage =
-`<h1>Tutorial</h1>
+    `<div id="tutorial-layout"
+<br>
+    <h1>Tutorial</h1>
     <a class="link" href="#video">1. Skip to Play Video tutorial</a>
     </br></br>
     <a class="link" href="#mark">2. Skip to Content Marking tutorial</a>
@@ -179,33 +189,34 @@ const tutorialPage =
     <!--Play video tutorial info-->
     <h2 id="video">Play A Video:</h2>
         <p>First, browse for a particular piece of content in the sidebar.</p>
-        <img src="/media/images/sidebar.PNG" alt="Sidebar image" class="images" />
+        <img src="./media/images/sidebar.PNG" alt="Sidebar image" class="images" />
         <p>When you have found something you wish to view, select it.</p>
-        <img src="/media/images/videoSelect.PNG" alt="Video select image" class="images" />
+        <img src="./media/images/videoSelect.PNG" alt="Video select image" class="images" />
         <p>Proceed to interact with the controls to play, pause and navigate the video.Options to change volume and to move into full screen view are also available.</p>
-        <img src="/media/images/videoPlayer.PNG" alt="Video player image" class="images" />
+        <img src="./media/images/videoPlayer.PNG" alt="Video player image" class="images" />
         </br>
         <a href="#top">Return to top</a>
     <!--Mark content tutorial info-->
     <h2 id="mark" style="padding-top: 50px">Mark Content:</h2>
         <p>First, navigate to the content you wish to mark.</p>
-        <img src="/media/images/videoSelect.PNG" alt="Video select image" class="images" />
+        <img src="./media/images/videoSelect.PNG" alt="Video select image" class="images" />
         <p>On the content page, press the star button located beside the title.</p>
-        <img src="/media/images/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
+        <img src="./media/images/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
         <p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p>
-        <img src="/media/images/markedContent.PNG" alt="Marked content image" class="images" />
+        <img src="./media/images/markedContent.PNG" alt="Marked content image" class="images" />
         </br>
         <a href="#top">Return to top</a>
     <!--Searching tutorial info-->
     <h2 id="search" style="padding-top: 50px">Search:</h2>
         <p>From the start page, notice the search bar.</p>
-        <img src="/media/images/searchbar.PNG" alt="Searchbar image" class="images" />
+        <img src="./media/images/searchbar.PNG" alt="Searchbar image" class="images" />
         <p>Start typing something to search for and possible matches will appear.</p>
-        <img src="/media/images/searching.PNG" alt="Searching image" class="images" />
+        <img src="./media/images/searching.PNG" alt="Searching image" class="images" />
         <p>Select the content that you wish to view and it will be loaded into the page.</p>
-        <img src="/media/images/searchComplete.PNG" alt="Search complete image" class="images" />
+        <img src="./media/images/searchComplete.PNG" alt="Search complete image" class="images" />
         </br>
-        <a href="#top">Return to top</a>`;
+        <a href="#top">Return to top</a>
+</div>`;
 const faqPage =
 `<h1>Frequently Asked Questions</h1>
     <h3>What is an ileostomy stoma?</h3>
@@ -422,7 +433,7 @@ function displayChapter(chapter, subchapter)
 
     if (subchapter === 0) //This is the start of the chapter
     {
-        textArea.innerHTML = chapterText[subchapter].sectionHeader + chapterText[subchapter].sectionText + startSectionButt + additonalBookmarks;
+        textArea.innerHTML = chapterText[subchapter].sectionHeader + chapterText[subchapter].sectionText + startSectionButt + additonalBookmarks_2;
         //Since we know this section only has a next button set it's listener up
         nextButt = document.getElementById("nextButt");
         if ((subchapter + 1) <= maxSections)

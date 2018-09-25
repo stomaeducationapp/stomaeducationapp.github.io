@@ -29,6 +29,9 @@
     text-decoration: none;
 }
 
+#searchBar {
+width: 68.5%;
+}
 #searchList a {
     cursor: pointer;
 }

@@ -15,6 +15,7 @@
  * 
  */
 
+
 #quiz {
     height: 100%;
     width: 100%;
@@ -27,35 +28,36 @@
     width: 100%;
 }
 
+
 /* These buttons have modifers opposite from each other since they will appear side by side*/
 #nextButt {
-    border: 1px black;
-    border-style: none none none solid;
     text-align: left;
 }
 
-#backButt {
-    border: 1px black;
-    border-style: none solid none none;
+
+    #backButt {
     text-align: right;
 }
 
 #markers {
-    height: 98%;
-    width: 98%;
+    margin-bottom: 100px;
+    margin-top: 20px;
 }
 
 /* These buttons have modifers opposite from each other since they will appear side by side*/
 #importantButt {
-    border: 1px black;
-    border-style: none none none solid;
-    text-align: left;
+
+    height: 50px;
+
 }
 
 #rereadButt {
-    border: 1px black;
-    border-style: none solid none none;
-    text-align: right;
+
+    height: 50px;
+}
+
+#tutorial-layout {
+    font-size: 14px;
 }
 
 .chapterButton {
@@ -67,7 +69,7 @@
     color: #464646;
     padding: 20px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
     display: inline-block;
     height: 100%;
 }
