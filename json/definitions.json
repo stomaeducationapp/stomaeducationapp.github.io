@@ -1,15 +1,24 @@
 {
-  "popUpTerms": [
-    [
+    "popUpTerms": [
         {
-            "term": "ileostomy",
-            "definition": "A surgical operation"
+            "length": 3
         },
         {
+            "id": "defIleostomy",
+            "term": "ileostomy",
+            "definition": "A surgical operation."
+        },
+        {
+            "id": "defStoma",
             "term": "stoma",
-            "definition": "A surgically implanted hole"
+            "definition": "A surgically implanted hole."
+        },
+        {
+            "id": "defThe",
+            "term": "the",
+            "definition": "An indefinite article."
         }
-    ]
 
-  ]
+
+    ]
 }
