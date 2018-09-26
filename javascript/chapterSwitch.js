@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 06/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 22/09/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 26/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -18,6 +18,7 @@
  *              and edited variable names to match shared space (with other js files) in headers.html
  * 19/09/2015 - Edited help page image paths so they load properly - and fixed busg related to quiz buttons and chapter tab selection
  * 22/09/2018 - Fixed a few bugs and altered click listener for chapter splash screens
+ * 26/09/2018 - Updated to use new fucntions related to popups
  */
 
 /* REFERENCES
@@ -28,6 +29,7 @@
  * How to get just text out of a HTML element learned/adapted from https://stackoverflow.com/questions/19030742/difference-between-innertext-and-innerhtml
  * How to use localStorage learned/adpated from https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
  * Javascript 2D array syntax learned from https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
+ * How to scroll to a particular element learned from https://www.w3schools.com/jsref/met_element_scrollintoview.asp
  * And many tutorials/documentation from https://www.w3schools.com 
  */
 
@@ -600,6 +602,8 @@ function displayChapter(chapter, subchapter)
 
     });
 
+    loadDefinitions(); //We call this fucntion to load any definitions that may be present on the page
+
 }
 
 /* FUNCTION INFORMATION
@@ -726,11 +730,16 @@ function selectChapter(chapter, subchapter)
  * OUTPUTS - none
  * PURPOSE - This is the method that changes window focus to given definition tag
  */
-/*function findDefinition(ID)
+function findDefinition(ID)
 {
+    while (!loaded)
+    {
+        //Until Chapter content loaded wait
+    }
+
     defineAnchor = document.getElementById(ID);
-    defineAnchor.scrollIntoView()
-}*/
+    defineAnchor.scrollIntoView();
+}
 
 try
 {

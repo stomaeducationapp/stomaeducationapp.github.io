@@ -73,3 +73,8 @@
     display: inline-block;
     height: 100%;
 }
+
+.defineSpan {
+    text-decoration: underline;
+    color: red;
+}

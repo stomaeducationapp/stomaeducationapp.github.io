@@ -124,7 +124,7 @@ function searchFilter(matches, defines)
             relatedID = this.dataset.targetId; //Find the related chapter tab of the matched term
             relatedAnchor = document.getElementById(relatedID);
 
-            //defTagID = this.dataset.defineID; //Find the anchor ID of the definition
+            defTagID = this.dataset.defineId; //Find the anchor ID of the definition
 
             parentID = relatedAnchor.dataset.parentId; //Find the parent dropdown header of the matched term
             parentAnchor = document.getElementsByClassName(parentID);
@@ -139,7 +139,7 @@ function searchFilter(matches, defines)
             }
 
             relatedAnchor.click(); //Load the chapter contents the user searched for
-            //findDefintion(defTagID); //Call chapterSwitch to change window focus to anchor
+            findDefinition(defTagID); //Call chapterSwitch to change window focus to anchor
 
             searchFilterBlur(); //Clear the search overlay from screen - so it doesn't block user's view of new content
         });
@@ -287,7 +287,7 @@ function displayFilter()
                                         //termID pf parent - so we know what chapter to open
                                         termID = a[ii].id;
                                         //defineID - since the popup tags have a naming convention we create what is should be so we can locate it later
-                                        defineID = (searchValues[jj] + "Definition");
+                                        defineID = ("def" + searchValues[jj]);
                                         //Name of term - since we sanitised teh input prevously we don't need to check now
                                         resultText = searchValues[jj];
 
