@@ -19,7 +19,7 @@
     z-index: 30;
 }
 
-#searchList div {
+.searchResult {
     background-color: #f6f6f6;
     min-width: 230px;
     border: 1px solid ;
@@ -35,8 +35,11 @@ width: 68.5%;
 #searchList a {
     cursor: pointer;
 }
+#defineMatches {
+    padding-bottom: 20px;
+}
 
-/* Allow us to highlight the chapter with the definition of the given term */
+/* Allow us to highlight the divs with the definition of the given term */
 .definitions {
     background-color: yellow;
 }

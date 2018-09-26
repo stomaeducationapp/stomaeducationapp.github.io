@@ -60,7 +60,7 @@ body {
 /* tutorial column */
 .content {
     float: right;
-    padding-right: 400px;
+    padding-right: 300px;
 
 }
 
@@ -196,6 +196,7 @@ body, html {
         outline: auto;
         outline-width: 1px;
         outline-color: burlywood;
+        cursor: pointer;
     }
 
 .dropdown {

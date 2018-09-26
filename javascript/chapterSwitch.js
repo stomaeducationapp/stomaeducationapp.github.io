@@ -57,7 +57,7 @@
  * How to encode html tags into JSON learned from https://www.thorntech.com/2012/07/4-things-you-must-do-when-putting-html-in-json/
  * 
  */
-const chapterJSONFile = "./json/chapters.json";
+const chapterJSONFile = "/json/chapters.json";
 
 //A html body for the error screens
 const headersBugScreen =
@@ -139,17 +139,17 @@ var loaded;
 //<div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 const startSectionButt =
 `<div id="chapterNav" align="left" style="padding-left: 17px">
-    <img id="backButt" src="./media/NavigationArrows/left-arrow.png" disabled/>
-    <img id="nextButt" src="./media/NavigationArrows/right-arrow.png" title="Click here to go the first chapter"/>
+    <img id="backButt" src="/media/NavigationArrows/left-arrow.png" disabled/>
+    <img id="nextButt" src="/media/NavigationArrows/right-arrow.png" title="Click here to go the first chapter"/>
  </div>`; 
 const normalSectionButt =
 `<div id="chapterNav" align="center">
-    <img id="backButt" src="./media/NavigationArrows/left-arrow.png" title="Click here to go to previous chapter"/>
-    <img id="nextButt" src="./media/NavigationArrows/right-arrow.png" title="Click here to go to the next chapter"/>
+    <img id="backButt" src="/media/NavigationArrows/left-arrow.png" title="Click here to go to previous chapter"/>
+    <img id="nextButt" src="/media/NavigationArrows/right-arrow.png" title="Click here to go to the next chapter"/>
  </div>`;
 const finalSectionButt =
 `<div id="chapterNav" align="center">
-    <img id="backButt" src="./media/NavigationArrows/left-arrow.png" title="click here to go back to the previous chapter"/>
+    <img id="backButt" src="/media/NavigationArrows/left-arrow.png" title="click here to go back to the previous chapter"/>
     <button class="chapterButton" id="nextButt">Quiz</button>
  </div>`;
 
@@ -161,21 +161,33 @@ const finalSectionButt =
 //<div>Icons made by <a href="https://www.flaticon.com/authors/elegant-themes" title="Elegant Themes">Elegant Themes</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 const additonalBookmarks =
 `<div id="markers" align="center">
-    <img id="rereadButt" src="./media/BookmarkIcons/open-book.png" title="Click here to mark 'read again' If you need to read again"/>
-    <img id="importantButt" src="./media/BookmarkIcons/exclamation-button.png" title="Click here to mark 'important!' If you need to refer back"/>
+    <img id="rereadButt" src="/media/BookmarkIcons/open-book.png" title="Click here to mark 'read again' If you need to read again"/>
+    <img id="importantButt" src="/media/BookmarkIcons/exclamation-button.png" title="Click here to mark 'important!' If you need to refer back"/>
 
  </div>`;
 
 //This is for the first page of the chapter since the allignment is to the left
 const additonalBookmarks_2 =
     `<div id="markers" align="left">
-    <img id="rereadButt" src="./media/BookmarkIcons/open-book.png" title="Click here to mark 'read again' If you need to read again"/>
-    <img id="importantButt" src="./media/BookmarkIcons/exclamation-button.png" title="Click here to mark 'important!' If you need to refer back"/>
+    <img id="rereadButt" src="/media/BookmarkIcons/open-book.png" title="Click here to mark 'read again' If you need to read again"/>
+    <img id="importantButt" src="/media/BookmarkIcons/exclamation-button.png" title="Click here to mark 'important!' If you need to refer back"/>
 
  </div>`;
 
 
-//HTML Containers for help sections and corresponding button objects
+//HTML Containers for top navigation bar sections and corresponding button objects - These are constant so we define here so we can reload when page changes to chapter content
+const homePage = 
+    `<h1>This is the Main Screen</h1>
+     <p>Select a content header to get started!</p>`;
+const newsPage =
+    `<h1>This is the News page</h1>
+     <p>Here you can find:
+        <ul>
+        <li>Important announcements</li>
+        <li>Website changes</li>
+        <li>News concerning the subject matter</li>
+        </ul>
+     </p>`;
 const tutorialPage =
     `<div id="tutorial-layout"
 <br>
@@ -222,6 +234,23 @@ const tutorialPage =
         </br>
         <a href="#top">Return to top</a>
 </div>`;
+const contactsPage =
+    `<h1>Contacts</h1>
+    <h2>XYZ Hospital</h2>
+        <p>Address: 123 ABC Street, Perth, WA</p>
+        <p>Phone: (08) 1111 1111</p>
+        <p>E-mail: XYZ@hospital.com</p>
+        <p>Fax: (08) 2222 2222</p>
+    <h2 style="padding-top: 30px">XYZ Emergency Room</h2>
+        <p>Address: 456 ABC Street, Perth, WA</p>
+        <p>Phone: (08) 3333 3333</p>
+    <h2 style="padding-top: 30px">Social Media</h2>
+        <p>Facebook: 
+            <a href="www.facebook.com/XYZ">www.facebook.com/XYZ </a>
+        </p>
+        <p>Twitter: 
+        <a href="www.twitter.com/XYZ">@XYZ_Hospital</a>
+        </p>`;
 const faqPage =
 `<h1>Frequently Asked Questions</h1>
     <h3>What is an ileostomy stoma?</h3>
@@ -247,39 +276,13 @@ const faqPage =
         <p>FAQ adapted from:
         <a href="https://australianstoma.com.au/about-stoma/frequently-asked-questions/">australianstoma.com</a>
         </p>`;
-const contactsPage =
-`<h1>Contacts</h1>
-    <h2>XYZ Hospital</h2>
-        <p>Address: 123 ABC Street, Perth, WA</p>
-        <p>Phone: (08) 1111 1111</p>
-        <p>E-mail: XYZ@hospital.com</p>
-        <p>Fax: (08) 2222 2222</p>
-    <h2 style="padding-top: 30px">XYZ Emergency Room</h2>
-        <p>Address: 456 ABC Street, Perth, WA</p>
-        <p>Phone: (08) 3333 3333</p>
-    <h2 style="padding-top: 30px">Social Media</h2>
-        <p>Facebook: 
-            <a href="www.facebook.com/XYZ">www.facebook.com/XYZ </a>
-        </p>
-        <p>Twitter: 
-        <a href="www.twitter.com/XYZ">@XYZ_Hospital</a>
-        </p>`;
-const settingsPage =
-`<h1>Settings</h1>
-    <p>Which setting do you want to change?</p>
-    <ul style="list-style:none">
-        <li>
-            <button id="clearButt">Clear all bookmarks</button>
-        </li>
-        <!-- Unimplemented settings - DO LATER -->
-        <li>Increase font size</li>
-        <li>Decrease font size</li>
-    </ul>`;
 
+const homeButt = document.getElementById("homeButt");
+const newButt = document.getElementById("newsButt");
 const tutorialButt = document.getElementById("tutorialButt");
 const faqButt = document.getElementById("faqButt");
 const contactsButt = document.getElementById("contactsButt");
-const settingsButt = document.getElementById("settingsButt");
+const clearBookButt = document.getElementById("clearBookButt"); //Deals with clearing all bookmarks
 
 //HTML for Chapter quiz layout
 const quizLayout = 
@@ -658,6 +661,7 @@ function displayQuiz(chapter, subchapter)
                 window.localStorage.setItem(name, finishedMark); //Store in local storage so can be reloaded later
             }
 
+            loaded = false; //Since we are moving on to another chapter - we need to make sure the site loads the next chapter set
             selectChapter((chapter + 1), 0); //We simply take what chapter we are in and move on to the next one (if not at maxChapters)
         });
     }
@@ -716,6 +720,18 @@ function selectChapter(chapter, subchapter)
 
 }
 
+/* FUNCTION INFORMATION
+ * NAME - findDefinition
+ * INPUTS - ID
+ * OUTPUTS - none
+ * PURPOSE - This is the method that changes window focus to given definition tag
+ */
+/*function findDefinition(ID)
+{
+    defineAnchor = document.getElementById(ID);
+    defineAnchor.scrollIntoView()
+}*/
+
 try
 {
     loadBookmarks(); //Load all intial bookmarks
@@ -756,7 +772,15 @@ catch (bug) //It's a joke. I do that.
 
 //Button listeners for when the user moves chapters/subchapters - pass the value for the chapter + subchapter they tag
 
-//Buttons to go to help pages
+//Buttons to go to top nav bar pages
+homeButt.addEventListener('click', function ()
+{
+    textArea.innerHTML = homePage;
+});
+newsButt.addEventListener('click', function ()
+{
+    textArea.innerHTML = newsPage;
+});
 tutorialButt.addEventListener('click', function ()
 {
     textArea.innerHTML = tutorialPage;
@@ -769,15 +793,9 @@ contactsButt.addEventListener('click', function ()
 {
     textArea.innerHTML = contactsPage;
 });
-settingsButt.addEventListener('click', function ()
+clearBookButt.addEventListener('click', function ()
 {
-    textArea.innerHTML = settingsPage;
-    clearButt = document.getElementById("clearButt"); //Find newly injected button and set a listener
-    clearButt.addEventListener('click', function ()
-    {
-        clearBookmarks();
-    });
-
+    clearBookmarks();
 });
 
 //Chapter 1

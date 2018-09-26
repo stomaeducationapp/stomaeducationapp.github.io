@@ -72,23 +72,25 @@ document.addEventListener("click", function (evt)
 /**************************************************************************
 *  Function: searchFilter                                                 *
 *  Purpose: Enable the display of the current items in the search list    *
-*  IMPORT: matches (all the HTML elements that matched)                   *
+*  IMPORT: matches, defines (all the HTML elements that matched)          *
 *  EXPORT: none                                                           *
 *  ***********************************************************************/
 
-function searchFilter(matches)
+function searchFilter(matches, defines)
 {
     var ddButtPos = 0; //These are the positions in the array of classList for the drop down button and content
-    var ddContentPos = 1; //Allows easy refoactoring up here
+    var ddContentPos = 1; //Allows easy refactoring up here
 
-    results = document.getElementById("searchList"); //Get the div we are going to put all our results in
-    results.innerHTML = matches.join(""); //Chuck in all the new elements
+    defineResults = document.getElementById("defineMatches"); //Get the div we are going to put all our definition matches in
+    defineResults.innerHTML = defines.join(""); //Chuck in all the new elements
+    termResults = document.getElementById("termMatches"); //Get the div we are going to put all our search term results in
+    termResults.innerHTML = matches.join(""); //Chuck in all the new elements
 
-    items = document.getElementsByClassName("searchItem"); //Go through each element to update listeners
-    for (ii = 0; ii < items.length; ii++)
+    termItems = document.getElementsByClassName("searchItem"); //Go through each term match element to update listeners
+    for (ii = 0; ii < termItems.length; ii++)
     {
 
-        items[ii].addEventListener('click', function ()
+        termItems[ii].addEventListener('click', function ()
         {
 
             relatedID = this.dataset.targetId; //Find the related chapter tab of the matched term
@@ -107,6 +109,37 @@ function searchFilter(matches)
             }
 
             relatedAnchor.click(); //Load teh chapter contents the user searched for
+
+            searchFilterBlur(); //Clear the search overlay from screen - so it doesn't block user's view of new content
+        });
+
+    }
+    defineItems = document.getElementsByClassName("defineItem"); //Go through each define match element to update listeners
+    for (ii = 0; ii < defineItems.length; ii++)
+    {
+
+        defineItems[ii].addEventListener('click', function ()
+        {
+
+            relatedID = this.dataset.targetId; //Find the related chapter tab of the matched term
+            relatedAnchor = document.getElementById(relatedID);
+
+            //defTagID = this.dataset.defineID; //Find the anchor ID of the definition
+
+            parentID = relatedAnchor.dataset.parentId; //Find the parent dropdown header of the matched term
+            parentAnchor = document.getElementsByClassName(parentID);
+
+            if ((parentAnchor[ddContentPos].style.display) === "block") //If the dropdown is already displayed
+            {
+                //Don't close the dropdown
+            }
+            else
+            {
+                parentAnchor[ddButtPos].click(); //Open the dropdown - so user can see where they are
+            }
+
+            relatedAnchor.click(); //Load the chapter contents the user searched for
+            //findDefintion(defTagID); //Call chapterSwitch to change window focus to anchor
 
             searchFilterBlur(); //Clear the search overlay from screen - so it doesn't block user's view of new content
         });
@@ -143,6 +176,7 @@ function displayFilter()
     var rawUserInput, div, a;
     var searchValues = []; //Empty array of potential user input search terms
     var matches = []; //An empty array of found matches
+    var defines = []; //An empty array of found definitions
 
     //Get the box with the user's input
     rawUserInput = document.getElementById("searchBar");
@@ -175,7 +209,6 @@ function displayFilter()
 
     var foundMatch = false; //Since we are starting the search - assume we found nothing
     var currentMatch = false;
-    var defMatch = false;
 
     if (searchValues.indexOf("") === 0)
     {
@@ -187,42 +220,46 @@ function displayFilter()
         for (var ii = 0; ii < a.length; ii++)
         {
 
-            //Get all the search tags within this anchor
-            tagList = (a[ii].dataset.searchTags).toUpperCase();
-
-            for (jj = 0; jj < searchValues.length; jj++)
+            //Get all the search tags and definition tags within this anchor
+            if ((a[ii].dataset.searchTags) === "") //There are no tags
             {
+                tagList = null; //Set a marker so we can skip searching later
+            }
+            else
+            {
+                tagList = (a[ii].dataset.searchTags).toUpperCase();
+            }
+            if ((a[ii].dataset.defTags) === "") //There are no define tags
+            {
+                defineList = null; //Set a marker so we can skip define searching later
+            }
+            else
+            {
+                defineList = ((a[ii].dataset.defTags).toUpperCase()).split(" "); //Since we want to check each tag - split them into an array
+            }
 
-                //If the list of tags contains the search value
-                if ( tagList.includes(searchValues[jj]) )
+            if (tagList === null)
+            {
+                //Don't search this anchor
+            }
+            else
+            {
+                for (jj = 0; jj < searchValues.length; jj++)
                 {
 
-                    if (currentMatch && defMatch)
+                    //If the list of tags contains the search value
+                    if (tagList.includes(searchValues[jj]))
                     {
-                        //If we already found this anchor and a definition term during the loop - don't add it again
-                    }
-                    else //If this is the first time this anchor matched our search or this could be a definition tag
-                    {
-                        if (!currentMatch) //If we haven't found a match yet
+
+                        if (currentMatch)
                         {
-                            currentMatch = true; //Say we found one for the current anchor 
-                            //Assemble all the needed values from our found match
-                            //ID
-                            termID = a[ii].id;
-                            //Innertext (minus any bookmarks so it looks clean)
-                            resultText = (a[ii].innerText).replace(/[…✔!⋆]/g, "");
-
-                            //Create a div to contain our result - allows easier styling
-                            //The div contains the acnhor we will use in searchFilter to load the chapter provided
-                            result = '<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a> </div>';
-
+                            //If we already found this anchor - don't add it again to the list of found chapters
                         }
-
-                        if (!defMatch) //If no definition has been found yet
+                        else //If this is the first time this anchor matched our search or this could be a definition tag
                         {
-                            if (tagList.includes((searchValues[jj] + "*DEFINE*"))) //Check and see if this term is a defined one
+                            if (!currentMatch) //If we haven't found a match yet
                             {
-                                defMatch = true; //Say we found one for the current anchor 
+                                currentMatch = true; //Say we found one for the current anchor 
                                 //Assemble all the needed values from our found match
                                 //ID
                                 termID = a[ii].id;
@@ -231,24 +268,48 @@ function displayFilter()
 
                                 //Create a div to contain our result - allows easier styling
                                 //The div contains the acnhor we will use in searchFilter to load the chapter provided
-                                result = '<div class="searchResult"> <a class="searchItem definitions" data-target-id="' + termID + '">' + resultText + '</a> </div>';
+                                matches.push(('<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a> </div>'));
+
+                            }
+                            if (defineList === null)
+                            {
+                                //Don't search for a define match
+                            }
+                            else
+                            {
+                                for (kk = 0; kk < defineList.length; kk++) //Now we need to check it's a define tag
+                                {
+                                    if (defineList[kk] === searchValues[jj]) //We used exact match (===) to find out if these strings are equal
+                                    { //CONSIDER changing if you want partial matches to show a defined term
+                                        //If we got a match
+
+                                        //Assemble all the needed values from our found match
+                                        //termID pf parent - so we know what chapter to open
+                                        termID = a[ii].id;
+                                        //defineID - since the popup tags have a naming convention we create what is should be so we can locate it later
+                                        defineID = (searchValues[jj] + "Definition");
+                                        //Name of term - since we sanitised teh input prevously we don't need to check now
+                                        resultText = searchValues[jj];
+
+                                        //Create a div to contain our result - allows easier styling
+                                        //The div contains the anchor we will use in searchFilter to load the chapter provided
+                                        defines.push(('<div class="searchResult definitions"> <a class="defineItem" data-target-id="' + termID + '" data-define-id="' + defineID + '">' + resultText + '</a> </div>'));
+
+                                    }
+                                }
+
                             }
 
+                            foundMatch = true;
                         }
 
 
-                        foundMatch = true;
-
-                        matches.push(result); //Add found tag to list of matches
                     }
 
-
                 }
-
             }
 
             currentMatch = false; //Since we have finished with the current anchor - reset matching for the next one
-            defMatch = false;
 
         }
     }
@@ -256,7 +317,7 @@ function displayFilter()
     //A match was found - display all the items found, otherwise show an empty box
     if (foundMatch)
     {
-        searchFilter(matches);
+        searchFilter(matches, defines);
     } else
     {
         searchFilterBlur();
