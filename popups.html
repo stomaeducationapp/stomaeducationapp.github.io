@@ -12,12 +12,11 @@
 
         <p>
             This is a test body to see if terms can be searched for and an popup automatically defines the 
-            term. For example, <span id="bodyTerm" onmouseover=drawPopup("stoma")>stoma</span> is a term, as is ileostomy.
+            term. For example, <span class="tooltip" id="popup"onmouseover="drawPopup('stoma')">stoma</span> is a term, as is ileostomy.
         </p>
     </div>
 
 
-    <script type="text/javascript">
 
         // JSON file and error handling based off of Jeremy's work in the quiz javascript
         const defsJSONFile = "/json/definitions.json";
@@ -148,7 +147,8 @@
         *  ***********************************************************************/
 
         function drawPopup(popupID) {
-            var popup = document.getElementById(String(popupID));
+            //var popup = document.getElementById(String(popupID));
+            var popup = popUpID
             var defDescription;
 
             console.log("mouseOverEvent");
@@ -160,7 +160,7 @@
         function getDescription(){
             var outDescription, desDatabase;
 
-            console.log(popUpTerms);
+            //console.log(popUpTerms);
 
             outDescription = "test";
 
