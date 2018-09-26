@@ -12,13 +12,14 @@
 
         <p>
             This is a test body to see if terms can be searched for and an popup automatically defines the
-            term. For example, <span class="tooltip" id="defStoma">stoma</span> is a term, as is ileostomy.
-        </p>
+            term. For example, <span class="tooltip" id="defStoma">stoma</span> is a term, as is <span class="tooltip" id="defIleostomy">ileostomy</span>.
+</p>
     </div>
 
     <script type="text/javascript">
 
         var definitionList;
+        var definitionLength; //The number of definitions in the json file
         var definitionText = new Array(1000);
         // JSON file and error handling based off of Jeremy's work in the quiz javascript
         const defsJSONFile = "/json/definitions.json";
@@ -56,7 +57,6 @@
         function parseDefinitions(response) {
             //Take a JSON file - parse it into the chapter array for use later
             console.log("The definitions are being loaded.");
-            console.log(String(response));
 
             definitionList = JSON.parse(response);
 
@@ -68,9 +68,13 @@
             definitionText = definitionList.popUpTerms[2].definition;
             console.log(String(definitionText));
 
+            definitionLength = Object.keys(definitionList).length;
+
+            console.log(definitionLength);
+
             loaded = true;
 
-            addPopupDesc(definitionText);
+            addPopupDesc();
 
 
 
@@ -165,17 +169,19 @@
         *  EXPORT: none                                                           *
         *  ***********************************************************************/
 
-        function addPopupDesc(popupID) {
-            //var popup = document.getElementById("defStoma");
+        function addPopupDesc() {
+            var popup;
             var defDescription = String("");
+            console.log("Descriptions are being added to tags");
+            for (var i = 0; i < 1; i++) {
 
-            //console.log("mouseOverEvent");
-            defDescription = getJSONDescription();
+                popup = document.getElementById(definitionList.popUpTerms[0].id);
 
-            for ()
-            popup.title = defDescription
+                popup.title = definitionList.popUpTerms[0].definition;
 
-            console.log(String(popup.title));
+                console.log(String(popup.title));
+            }
+
         }
 
         function getJSONDescription() {
@@ -190,7 +196,6 @@
 
         window.addEventListener('load', function () {
             loadDefinitions();
-            addPopupDesc();
         });
 
 
