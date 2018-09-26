@@ -1,6 +1,5 @@
 {
-  "popUpTerms": [
-    [
+    "popUpTerms": [
         {
             "id": "defIleostomy",
             "term": "ileostomy",
@@ -10,13 +9,13 @@
             "id": "defStoma",
             "term": "stoma",
             "definition": "A surgically implanted hole."
-        }
+        },
         {
             "id": "defThe",
             "term": "the",
-            "definition": "A common definite article."
+            "definition": "An indefinite article."
         }
-    ]
 
-  ]
+
+    ]
 }
