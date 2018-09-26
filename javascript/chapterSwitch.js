@@ -30,6 +30,8 @@
  * How to use localStorage learned/adpated from https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
  * Javascript 2D array syntax learned from https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
  * How to scroll to a particular element learned from https://www.w3schools.com/jsref/met_element_scrollintoview.asp
+ * How to use setTimeout as an asynch call learned from https://stackoverflow.com/questions/7434685/event-when-element-added-to-page
+ * How to pass parameters through setTimeout call learned from https://stackoverflow.com/questions/1190642/how-can-i-pass-a-parameter-to-a-settimeout-callback
  * And many tutorials/documentation from https://www.w3schools.com 
  */
 
@@ -732,8 +734,20 @@ function selectChapter(chapter, subchapter)
  */
 function findDefinition(ID)
 {
-    defineAnchor = document.getElementById(ID);
-    defineAnchor.scrollIntoView();
+
+    if (loaded === true) //Page content is loaded
+    {
+        defineAnchor = document.getElementById(ID);
+        defineAnchor.scrollIntoView();
+    }
+    else
+    {
+        setTimeout(function ()
+        {
+            findDefinition(ID); //Set up a function like this so we can pass ID through the call stack
+        }, 100) //Wait 100ms and call again 
+    }
+
 }
 
 try

@@ -78,3 +78,10 @@
     text-decoration: underline;
     color: red;
 }
+
+#markers img {
+    cursor: pointer;
+}
+#chapterNav img {
+    cursor: pointer;
+}
