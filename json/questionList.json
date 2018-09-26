@@ -80,8 +80,8 @@
         "question": "Who's lovin it?",
         "answers": {
           "A": "McDonalds",
-          "B": "Bill Cosby",
-          "C": "Gary Glitter"
+          "B": "Me",
+          "C": "Subway"
         },
         "correctAnswer": "A",
         "reasoning": "Let me take you to the golden arches some time.",
@@ -144,7 +144,7 @@
           "C": "Bruce Wayne"
         },
         "correctAnswer": "C",
-        "reasoning": "Read a comic man.",
+        "reasoning": "We've had enough origin stories, you should know it off by heart.",
         "revisionText": "<h3>Batman</h3> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim augue non congue porttitor. Nullam eu dolor bibendum, tincidunt massa sed, interdum libero. Cras porta diam ac massa tincidunt, a vestibulum odio commodo. Pellentesque sagittis leo vel vestibulum fringilla. Quisque eget nisi tincidunt odio dapibus laoreet sit amet quis erat. Morbi a eros ante. Nam sit amet sagittis odio. Fusce porta porta bibendum. Suspendisse congue urna ut eros tempus, eget sollicitudin eros gravida. Nunc venenatis magna eros, et posuere tortor mattis ac.</p> <p> Sed dignissim volutpat fringilla. Vivamus eu venenatis orci. Phasellus id elit velit. Fusce pretium lacinia eros, at sollicitudin lectus dictum rhoncus. Cras nec nisl feugiat, commodo libero et, euismod odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed at scelerisque turpis. Sed vel ante eget leo tempor faucibus eget ac urna. Vestibulum ultrices, nulla id porttitor tempor, nisl enim pellentesque ipsum, quis volutpat dui odio sed mauris.</p> <p> Phasellus accumsan ut purus id ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur non felis eget odio congue ultricies sed at ligula. Cras sit amet vulputate eros, et commodo orci. Suspendisse ultrices volutpat leo quis vehicula. Sed ornare ullamcorper augue, eu molestie eros condimentum id. Vivamus eget tellus eget velit aliquam finibus a non massa. Sed ultricies nunc ut neque vehicula venenatis. Curabitur varius dui et tortor commodo rutrum.</p> <p> Vestibulum odio diam, imperdiet nec suscipit in, cursus sit amet felis. Aenean at suscipit eros. Nulla pellentesque efficitur nisi. In vel dolor posuere, porttitor purus eget, ultricies nulla. Donec pretium metus quis hendrerit lobortis. Sed pulvinar, sem in mollis condimentum, augue elit auctor nulla, sed ullamcorper risus eros eget quam. Vestibulum blandit fermentum elementum. Donec imperdiet lacus porta diam scelerisque posuere. Cras sit amet turpis id arcu sodales venenatis. Mauris a tortor turpis. Aliquam aliquet ac tellus nec varius. Morbi porttitor erat eget felis lobortis feugiat. Aliquam gravida porta felis, quis varius ante pellentesque nec. Donec lacinia justo quis mattis tristique. Phasellus rutrum ante vel ullamcorper dignissim. Nulla eget massa bibendum, consequat felis sed, lacinia leo.</p>"
       },
 
@@ -181,7 +181,7 @@
           "C": "You fool!"
         },
         "correctAnswer": "A",
-        "reasoning": "Watch a movie.",
+        "reasoning": "A classic film quote.",
         "revisionText": "<h3>Movie Quotes</h3> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim augue non congue porttitor. Nullam eu dolor bibendum, tincidunt massa sed, interdum libero. Cras porta diam ac massa tincidunt, a vestibulum odio commodo. Pellentesque sagittis leo vel vestibulum fringilla. Quisque eget nisi tincidunt odio dapibus laoreet sit amet quis erat. Morbi a eros ante. Nam sit amet sagittis odio. Fusce porta porta bibendum. Suspendisse congue urna ut eros tempus, eget sollicitudin eros gravida. Nunc venenatis magna eros, et posuere tortor mattis ac.</p> <p> Sed dignissim volutpat fringilla. Vivamus eu venenatis orci. Phasellus id elit velit. Fusce pretium lacinia eros, at sollicitudin lectus dictum rhoncus. Cras nec nisl feugiat, commodo libero et, euismod odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed at scelerisque turpis. Sed vel ante eget leo tempor faucibus eget ac urna. Vestibulum ultrices, nulla id porttitor tempor, nisl enim pellentesque ipsum, quis volutpat dui odio sed mauris.</p> <p> Phasellus accumsan ut purus id ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur non felis eget odio congue ultricies sed at ligula. Cras sit amet vulputate eros, et commodo orci. Suspendisse ultrices volutpat leo quis vehicula. Sed ornare ullamcorper augue, eu molestie eros condimentum id. Vivamus eget tellus eget velit aliquam finibus a non massa. Sed ultricies nunc ut neque vehicula venenatis. Curabitur varius dui et tortor commodo rutrum.</p> <p> Vestibulum odio diam, imperdiet nec suscipit in, cursus sit amet felis. Aenean at suscipit eros. Nulla pellentesque efficitur nisi. In vel dolor posuere, porttitor purus eget, ultricies nulla. Donec pretium metus quis hendrerit lobortis. Sed pulvinar, sem in mollis condimentum, augue elit auctor nulla, sed ullamcorper risus eros eget quam. Vestibulum blandit fermentum elementum. Donec imperdiet lacus porta diam scelerisque posuere. Cras sit amet turpis id arcu sodales venenatis. Mauris a tortor turpis. Aliquam aliquet ac tellus nec varius. Morbi porttitor erat eget felis lobortis feugiat. Aliquam gravida porta felis, quis varius ante pellentesque nec. Donec lacinia justo quis mattis tristique. Phasellus rutrum ante vel ullamcorper dignissim. Nulla eget massa bibendum, consequat felis sed, lacinia leo.</p>"
       },
       {
@@ -205,7 +205,7 @@
           "C": "Rotten eggs"
         },
         "correctAnswer": "A",
-        "reasoning": "Read a book.",
+        "reasoning": "A classic children's story.",
         "revisionText": "<h3>Fairy Tales</h3> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim augue non congue porttitor. Nullam eu dolor bibendum, tincidunt massa sed, interdum libero. Cras porta diam ac massa tincidunt, a vestibulum odio commodo. Pellentesque sagittis leo vel vestibulum fringilla. Quisque eget nisi tincidunt odio dapibus laoreet sit amet quis erat. Morbi a eros ante. Nam sit amet sagittis odio. Fusce porta porta bibendum. Suspendisse congue urna ut eros tempus, eget sollicitudin eros gravida. Nunc venenatis magna eros, et posuere tortor mattis ac.</p> <p> Sed dignissim volutpat fringilla. Vivamus eu venenatis orci. Phasellus id elit velit. Fusce pretium lacinia eros, at sollicitudin lectus dictum rhoncus. Cras nec nisl feugiat, commodo libero et, euismod odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed at scelerisque turpis. Sed vel ante eget leo tempor faucibus eget ac urna. Vestibulum ultrices, nulla id porttitor tempor, nisl enim pellentesque ipsum, quis volutpat dui odio sed mauris.</p> <p> Phasellus accumsan ut purus id ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur non felis eget odio congue ultricies sed at ligula. Cras sit amet vulputate eros, et commodo orci. Suspendisse ultrices volutpat leo quis vehicula. Sed ornare ullamcorper augue, eu molestie eros condimentum id. Vivamus eget tellus eget velit aliquam finibus a non massa. Sed ultricies nunc ut neque vehicula venenatis. Curabitur varius dui et tortor commodo rutrum.</p> <p> Vestibulum odio diam, imperdiet nec suscipit in, cursus sit amet felis. Aenean at suscipit eros. Nulla pellentesque efficitur nisi. In vel dolor posuere, porttitor purus eget, ultricies nulla. Donec pretium metus quis hendrerit lobortis. Sed pulvinar, sem in mollis condimentum, augue elit auctor nulla, sed ullamcorper risus eros eget quam. Vestibulum blandit fermentum elementum. Donec imperdiet lacus porta diam scelerisque posuere. Cras sit amet turpis id arcu sodales venenatis. Mauris a tortor turpis. Aliquam aliquet ac tellus nec varius. Morbi porttitor erat eget felis lobortis feugiat. Aliquam gravida porta felis, quis varius ante pellentesque nec. Donec lacinia justo quis mattis tristique. Phasellus rutrum ante vel ullamcorper dignissim. Nulla eget massa bibendum, consequat felis sed, lacinia leo.</p>"
       },
       {
@@ -272,8 +272,8 @@
         "id": 23,
         "question": "Why do I have this cough?",
         "answers": {
-          "A": "AIDS",
-          "B": "Cancerous memes",
+          "A": "Probably dying",
+          "B": "Pollution in the air",
           "C": "Probably a cold"
         },
         "correctAnswer": "C",
@@ -349,10 +349,10 @@
         "answers": {
           "A": "You don't even have hands",
           "B": "All of them",
-          "C": "Just one"
+          "C": "Two"
         },
         "correctAnswer": "C",
-        "reasoning": "Can you guess which one?",
+        "reasoning": "Are you psychic?",
         "revisionText": "<h3>Sarcasm</h3> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim augue non congue porttitor. Nullam eu dolor bibendum, tincidunt massa sed, interdum libero. Cras porta diam ac massa tincidunt, a vestibulum odio commodo. Pellentesque sagittis leo vel vestibulum fringilla. Quisque eget nisi tincidunt odio dapibus laoreet sit amet quis erat. Morbi a eros ante. Nam sit amet sagittis odio. Fusce porta porta bibendum. Suspendisse congue urna ut eros tempus, eget sollicitudin eros gravida. Nunc venenatis magna eros, et posuere tortor mattis ac.</p> <p> Sed dignissim volutpat fringilla. Vivamus eu venenatis orci. Phasellus id elit velit. Fusce pretium lacinia eros, at sollicitudin lectus dictum rhoncus. Cras nec nisl feugiat, commodo libero et, euismod odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed at scelerisque turpis. Sed vel ante eget leo tempor faucibus eget ac urna. Vestibulum ultrices, nulla id porttitor tempor, nisl enim pellentesque ipsum, quis volutpat dui odio sed mauris.</p> <p> Phasellus accumsan ut purus id ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur non felis eget odio congue ultricies sed at ligula. Cras sit amet vulputate eros, et commodo orci. Suspendisse ultrices volutpat leo quis vehicula. Sed ornare ullamcorper augue, eu molestie eros condimentum id. Vivamus eget tellus eget velit aliquam finibus a non massa. Sed ultricies nunc ut neque vehicula venenatis. Curabitur varius dui et tortor commodo rutrum.</p> <p> Vestibulum odio diam, imperdiet nec suscipit in, cursus sit amet felis. Aenean at suscipit eros. Nulla pellentesque efficitur nisi. In vel dolor posuere, porttitor purus eget, ultricies nulla. Donec pretium metus quis hendrerit lobortis. Sed pulvinar, sem in mollis condimentum, augue elit auctor nulla, sed ullamcorper risus eros eget quam. Vestibulum blandit fermentum elementum. Donec imperdiet lacus porta diam scelerisque posuere. Cras sit amet turpis id arcu sodales venenatis. Mauris a tortor turpis. Aliquam aliquet ac tellus nec varius. Morbi porttitor erat eget felis lobortis feugiat. Aliquam gravida porta felis, quis varius ante pellentesque nec. Donec lacinia justo quis mattis tristique. Phasellus rutrum ante vel ullamcorper dignissim. Nulla eget massa bibendum, consequat felis sed, lacinia leo.</p>"
       },
       {
@@ -514,14 +514,14 @@
       },
       {
         "id": 18,
-        "question": "When was AIDS discovered?",
+        "question": "When id the Black Plague happen?",
         "answers": {
-          "A": "When did Reddit start?",
+          "A": "It was a conspiracy by the pharmaceutical companies",
           "B": "Thousands of years ago",
-          "C": "80s"
+          "C": "1347-1351"
         },
         "correctAnswer": "C",
-        "reasoning": "Despite being one of the most recent medical epidemics - it is one of the deadliest conditions out there.",
+        "reasoning": "It is one of the most serious medical epidemics - it killed an estimated 200 million people.",
         "revisionText": "<h3>Medical History</h3> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim augue non congue porttitor. Nullam eu dolor bibendum, tincidunt massa sed, interdum libero. Cras porta diam ac massa tincidunt, a vestibulum odio commodo. Pellentesque sagittis leo vel vestibulum fringilla. Quisque eget nisi tincidunt odio dapibus laoreet sit amet quis erat. Morbi a eros ante. Nam sit amet sagittis odio. Fusce porta porta bibendum. Suspendisse congue urna ut eros tempus, eget sollicitudin eros gravida. Nunc venenatis magna eros, et posuere tortor mattis ac.</p> <p> Sed dignissim volutpat fringilla. Vivamus eu venenatis orci. Phasellus id elit velit. Fusce pretium lacinia eros, at sollicitudin lectus dictum rhoncus. Cras nec nisl feugiat, commodo libero et, euismod odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed at scelerisque turpis. Sed vel ante eget leo tempor faucibus eget ac urna. Vestibulum ultrices, nulla id porttitor tempor, nisl enim pellentesque ipsum, quis volutpat dui odio sed mauris.</p> <p> Phasellus accumsan ut purus id ornare. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur non felis eget odio congue ultricies sed at ligula. Cras sit amet vulputate eros, et commodo orci. Suspendisse ultrices volutpat leo quis vehicula. Sed ornare ullamcorper augue, eu molestie eros condimentum id. Vivamus eget tellus eget velit aliquam finibus a non massa. Sed ultricies nunc ut neque vehicula venenatis. Curabitur varius dui et tortor commodo rutrum.</p> <p> Vestibulum odio diam, imperdiet nec suscipit in, cursus sit amet felis. Aenean at suscipit eros. Nulla pellentesque efficitur nisi. In vel dolor posuere, porttitor purus eget, ultricies nulla. Donec pretium metus quis hendrerit lobortis. Sed pulvinar, sem in mollis condimentum, augue elit auctor nulla, sed ullamcorper risus eros eget quam. Vestibulum blandit fermentum elementum. Donec imperdiet lacus porta diam scelerisque posuere. Cras sit amet turpis id arcu sodales venenatis. Mauris a tortor turpis. Aliquam aliquet ac tellus nec varius. Morbi porttitor erat eget felis lobortis feugiat. Aliquam gravida porta felis, quis varius ante pellentesque nec. Donec lacinia justo quis mattis tristique. Phasellus rutrum ante vel ullamcorper dignissim. Nulla eget massa bibendum, consequat felis sed, lacinia leo.</p>"
       },
       {

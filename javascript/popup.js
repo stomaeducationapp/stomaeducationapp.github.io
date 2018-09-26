@@ -170,7 +170,7 @@ function loadDefinitions()
 function addPopupDesc()
 {
     var popup;
-    for (var ii = 1; ii < (definitionList.popUpTerms).length; ii++)
+    for (var ii = 0; ii < (definitionList.popUpTerms).length; ii++)
     {
 
         popup = document.getElementById(definitionList.popUpTerms[ii].id);

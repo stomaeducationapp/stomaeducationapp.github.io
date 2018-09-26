@@ -268,7 +268,7 @@ function displayFilter()
 
                                 //Create a div to contain our result - allows easier styling
                                 //The div contains the acnhor we will use in searchFilter to load the chapter provided
-                                matches.push(('<div class="searchResult"> <a class="searchItem" data-target-id="' + termID + '">' + resultText + '</a> </div>'));
+                                matches.push(('<div class="searchResult searchItem" data-target-id="' + termID + '"> <a>' + resultText + '</a> </div>'));
 
                             }
                             if (defineList === null)
@@ -293,7 +293,7 @@ function displayFilter()
 
                                         //Create a div to contain our result - allows easier styling
                                         //The div contains the anchor we will use in searchFilter to load the chapter provided
-                                        defines.push(('<div class="searchResult definitions"> <a class="defineItem" data-target-id="' + termID + '" data-define-id="' + defineID + '">' + resultText + '</a> </div>'));
+                                        defines.push(('<div class="searchResult definitions defineItem" data-target-id="' + termID + '" data-define-id="' + defineID + '"> <a>' + resultText + '</a> </div>'));
 
                                     }
                                 }

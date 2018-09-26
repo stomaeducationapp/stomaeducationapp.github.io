@@ -732,11 +732,6 @@ function selectChapter(chapter, subchapter)
  */
 function findDefinition(ID)
 {
-    while (!loaded)
-    {
-        //Until Chapter content loaded wait
-    }
-
     defineAnchor = document.getElementById(ID);
     defineAnchor.scrollIntoView();
 }
