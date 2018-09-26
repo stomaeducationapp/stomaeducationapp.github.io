@@ -133,9 +133,11 @@
                 if (dropdownContent.style.display === "block")
                 {
                     dropdownContent.style.display = "none";
+                    this.innerText = "▼";
                 } else
                 {
                     dropdownContent.style.display = "block";
+                    this.innerText = "▲";
                 }
             });
         }
