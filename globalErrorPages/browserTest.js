@@ -112,7 +112,7 @@ function browserTest()
 
     if (browserSupport === false)
     {
-        document.location.href = "/globalErrorPages/browserError.html"; //Go to our custom error page
+        document.location.href = "./globalErrorPages/browserError.html"; //Go to our custom error page
     }
 }
 

@@ -168,7 +168,7 @@ function displayFilter()
 
     //Get the area the user is searching (each chapter tab has search terms applied based on if the subject is covered there)
     //This is what the user is looking for
-    div = document.getElementById("sideNav");
+    div = document.getElementById("sidenav");
 
     //Since we use anchor tags to store the chapter tabs - we can strip out all uneeded HTML tags so our loop is as short as possible
     a = div.getElementsByTagName("a");
