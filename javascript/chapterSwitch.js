@@ -189,31 +189,36 @@ const tutorialPage =
     <!--Play video tutorial info-->
     <h2 id="video">Play A Video:</h2>
         <p>First, browse for a particular piece of content in the sidebar.</p>
-        <img src="./media/images/sidebar.PNG" alt="Sidebar image" class="images" />
+        <img src="./media/images/Main Screen.PNG" alt="Sidebar image" class="images" width=70% />
         <p>When you have found something you wish to view, select it.</p>
-        <img src="./media/images/videoSelect.PNG" alt="Video select image" class="images" />
+        <img src="./media/images/MainScreen2(content).PNG" alt="Video select image" class="images" width=70%/>
         <p>Proceed to interact with the controls to play, pause and navigate the video.Options to change volume and to move into full screen view are also available.</p>
-        <img src="./media/images/videoPlayer.PNG" alt="Video player image" class="images" />
+        <img src="./media/images/PlayVideo(content).PNG" alt="Video player image" class="images" width=70%/>
         </br>
         <a href="#top">Return to top</a>
     <!--Mark content tutorial info-->
     <h2 id="mark" style="padding-top: 50px">Mark Content:</h2>
-        <p>First, navigate to the content you wish to mark.</p>
-        <img src="./media/images/videoSelect.PNG" alt="Video select image" class="images" />
-        <p>On the content page, press the star button located beside the title.</p>
-        <img src="./media/images/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
-        <p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p>
-        <img src="./media/images/markedContent.PNG" alt="Marked content image" class="images" />
+        <p>At the bottom of every chapter you will see these symbols.</p>
+        <img src="./media/images/Bookmarking.PNG" alt="Video select image" class="images" width=70%/>
+        <p>Click the book to mark the chapter to be "re-read" for later.</p>
+        <img src="./media/images/ReRead(content).PNG" alt="Video select image" class="images" width=70%/>
+        <p>A star will appear next to the chapter which is to be re-read.</p>
+        <img src="./media/images/ReRead2.PNG" alt="Unmarked content image" class="images" width=70%/>
+        <p>Click the exclamation to mark the chapter as "Important".</p>
+        <img src="./media/images/MarkImportant(content).PNG" alt="Video select image" class="images" width=70%/>
+        <p>An exclamation mark will appear next to the chapter.</p>
+        <img src="./media/images/MarkImportant.PNG" alt="Unmarked content image" class="images" width=70%/>
         </br>
         <a href="#top">Return to top</a>
     <!--Searching tutorial info-->
     <h2 id="search" style="padding-top: 50px">Search:</h2>
         <p>From the start page, notice the search bar.</p>
-        <img src="./media/images/searchbar.PNG" alt="Searchbar image" class="images" />
+        <img src="./media/images/SearchBar.PNG" alt="Searchbar image" class="images" width=70%/>
         <p>Start typing something to search for and possible matches will appear.</p>
-        <img src="./media/images/searching.PNG" alt="Searching image" class="images" />
+        <img src="./media/images/Search.PNG" alt="Searching image" class="images" width=70% />
         <p>Select the content that you wish to view and it will be loaded into the page.</p>
-        <img src="./media/images/searchComplete.PNG" alt="Search complete image" class="images" />
+        <p>Here we have selected the Trick Questions page to be viewed.</p>
+        <img src="./media/images/SearchClick.PNG" alt="Search complete image" class="images"width=70% />
         </br>
         <a href="#top">Return to top</a>
 </div>`;
