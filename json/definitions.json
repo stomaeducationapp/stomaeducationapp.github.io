@@ -1,6 +1,9 @@
 {
     "popUpTerms": [
         {
+            "length": 3
+        },
+        {
             "id": "defIleostomy",
             "term": "ileostomy",
             "definition": "A surgical operation."

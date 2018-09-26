@@ -57,18 +57,20 @@
         function parseDefinitions(response) {
             //Take a JSON file - parse it into the chapter array for use later
             console.log("The definitions are being loaded.");
+            console.log(String(response));
 
             definitionList = JSON.parse(response);
 
             //DEBUG: Only used to test formatting of json file. 
-            definitionText = definitionList.popUpTerms[0].definition;
-            console.log(String(definitionText));
             definitionText = definitionList.popUpTerms[1].definition;
             console.log(String(definitionText));
             definitionText = definitionList.popUpTerms[2].definition;
             console.log(String(definitionText));
+            definitionText = definitionList.popUpTerms[3].definition;
+            console.log(String(definitionText));
 
-            definitionLength = Object.keys(definitionList).length;
+            //definitionLength = Object.keys(definitionList).length;
+            definitionLength = definitionList.popUpTerms[0].length;
 
             console.log(definitionLength);
 
@@ -173,11 +175,11 @@
             var popup;
             var defDescription = String("");
             console.log("Descriptions are being added to tags");
-            for (var i = 0; i < 1; i++) {
+            for (var i = 1; i < definitionLength; i++) {
 
-                popup = document.getElementById(definitionList.popUpTerms[0].id);
+                popup = document.getElementById(definitionList.popUpTerms[i].id);
 
-                popup.title = definitionList.popUpTerms[0].definition;
+                popup.title = definitionList.popUpTerms[i].definition;
 
                 console.log(String(popup.title));
             }
