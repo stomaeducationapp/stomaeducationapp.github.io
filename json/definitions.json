@@ -2,12 +2,19 @@
   "popUpTerms": [
     [
         {
+            "id": "defIleostomy",
             "term": "ileostomy",
-            "definition": "A surgical operation"
+            "definition": "A surgical operation."
         },
         {
+            "id": "defStoma",
             "term": "stoma",
-            "definition": "A surgically implanted hole"
+            "definition": "A surgically implanted hole."
+        }
+        {
+            "id": "defThe",
+            "term": "the",
+            "definition": "A common definite article."
         }
     ]
 

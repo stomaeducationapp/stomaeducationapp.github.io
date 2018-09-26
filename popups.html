@@ -12,12 +12,13 @@
 
         <p>
             This is a test body to see if terms can be searched for and an popup automatically defines the
-            term. For example, <span class="tooltip" id="defStoma" title="A stoma is a medical term.">stoma</span> is a term, as is ileostomy.
+            term. For example, <span class="tooltip" id="defStoma">stoma</span> is a term, as is ileostomy.
         </p>
     </div>
 
     <script type="text/javascript">
 
+        var definitionText = new Array(500);
         // JSON file and error handling based off of Jeremy's work in the quiz javascript
         const defsJSONFile = "/json/definitions.json";
 
@@ -36,6 +37,32 @@
                     </li>
                     </ul>
                   </p>`;
+
+
+
+
+
+
+         /* FUNCTION INFORMATION
+         * NAME - loadDefinitions
+         * INPUTS - response
+         * OUTPUTS - none
+         * PURPOSE - This is the method that parses a JSON file which contains definitions
+         * ORIGINAL AUTHOR - Jeremy Dunnet
+         * MODIFIED BY - Oliver Yeudall
+         */
+
+        function loadDefinitions(response) {
+            //Take a JSON file - parse it into the chapter array for use later
+            var definitionList = JSON.parse(response);
+            definitionText = definitionList.popUpTerms[(chapter - 1)]; //Since array is 0-based -1 to get real chapter content
+            loaded = true;
+            if (subchapter != maxSections) //This was called by a non-quiz button
+            {
+                displayChapter(chapter, subchapter);
+            }
+
+        }
 
         /* FUNCTION INFORMATION
          * NAME - loadDefinitionsJSON
@@ -117,48 +144,28 @@
                 }
             }
         }
+
         /**************************************************************************
-        *  Function: addPopupTags                                                 *
-        *  Purpose: Add tags to the text body to enable the popup functionality   *
-        *           on mouseover                                                  *
+        *  Function: addPopupDesc                                                 *
+        *  Purpose: Finds all popup objects and modifies their title              *
+        *           attribute properly                                            *
         *  IMPORT: none                                                           *
         *  EXPORT: none                                                           *
         *  ***********************************************************************/
 
-        function addPopupTags(response) {
-            /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
-
-            var textBody, div, a;
-
-            var searchValue = "";
-
-            textBody = document.getElementById("displayBody");
-
-
-        }
-
-
-        /**************************************************************************
-        *  Function: drawPopup                                                    *
-        *  Purpose: Add tags to the text body to enable the popup functionality   *
-        *           on mouseover                                                  *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function drawPopup(popupID) {
+        function addPopupDesc(popupID) {
             var popup = document.getElementById("defStoma");
             var defDescription = String("");
 
             //console.log("mouseOverEvent");
-            defDescription = getDescription();
+            defDescription = getJSONDescription();
 
             popup.title = defDescription
 
             console.log(String(popup.title));
         }
 
-        function getDescription() {
+        function getJSONDescription() {
             var outDescription, desDatabase;
 
             //console.log(popUpTerms);
@@ -171,7 +178,7 @@
         window.addEventListener('load', function () {
             loadDefinitions();
             addPopupTags();
-            drawPopup();
+            addPopupDesc();
         });
 
 
