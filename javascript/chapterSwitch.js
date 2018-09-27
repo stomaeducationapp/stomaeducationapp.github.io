@@ -270,7 +270,7 @@ const faqPage =
     <h3>How do I dispose of a used bag?</h3>
         <p>If possible empty the contents into the toilet. Secure the appliance in a plastic bag and dispose in a regular rubbish bin.</p>
     <h3>Should I tell people about my stoma?</h3>
-        <p>Whether or not you inform others about your stoma is completely up to you. Either way it is important to remember that you shouldnot be ashamed of your stoma surgery.</p>
+        <p>Whether or not you inform others about your stoma is completely up to you.</p>
     <h3>Can I travel with a stoma?</h3>
         <p>The presence of a stoma should not stop you from travelling, however it is recommended to always take a reasonable supply of stomabags with you, as availability can be uncertain.</p>
         </br>
