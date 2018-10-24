@@ -1,6 +1,6 @@
 /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 03/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 03/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 22/10/2018
  * 
  * CLASS/FILE DESCRIPTION
  * This file is design to identify and test the browser software and version being used by the client to view a web page in the app.
@@ -11,14 +11,17 @@
  *  Firefox (Version 61 and above)
  *  Edge (Version 17 and above)
  *  Opera (Version 55 and above)
+ *  Safari/iOS (Version 6 and above)
  * 
  * VERSION HISTORY
  * 03/09/2018 - Created and refined design for use in all html pages in this app
+ * 22/10/2018 - Added Safari check code
  * 
  * REFERENCES
  * This design/implementation was adapted from https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
  *  (All useful comments from the above reference are marked with a #)
- * 
+ * All bowser version support apart from Safari were taken from browser tests with current available browser versions, the Safari version number was sourced from
+ * https://everyi.com/by-capability/maximum-supported-ios-version-for-ipod-iphone-ipad.html and https://en.wikipedia.org/wiki/IPad#Model_comparison (this website was designed to work on iPads so that is browser with the most support)
  */
 
 //PLEASE NOTE - THIS IS A BEST-CAN-DO FIX, IF YOU CAN DESIGN A MORE ELEGANT AND PRECISE WAY PLEASE DO!
@@ -102,6 +105,10 @@ function browserTest()
         browserSupport = true;
     }
     else if ((browserName === "Opera") && (majorVersion >= 55))
+    {
+        browserSupport = true;
+    }
+    else if ((browserName === "Safari") && (majorVersion >= 6)) //This will work with every iPad apart from gen 1 currently
     {
         browserSupport = true;
     }

@@ -1,6 +1,6 @@
-﻿/* AUTHOR INFORMATION
+﻿﻿ /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 09/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 23/10/2018
  * 
  * CLASS/FILE DESCRIPTION
  * This is the design template file for the layout of all additional divs inside the chapter text area in headers.html
@@ -9,33 +9,26 @@
  * 09/09/2018 - Created and placed first draft of button layout
  * 12/09/2018 - Fixed styling layout
  * 15/09/2018 - Added additional stylings based on new chapter quiz integration, edited some class names and fixed layout
+ * 23/10/2018 - Finalised styling
  * 
  * REFERENCES
  * Design options were learned/adapted from the many tutorials at https://www.w3schools.com
  * 
  */
-
-
 #quiz {
-    height: 100%;
-    width: 100%;
     margin: auto;
     display: inline;
-}
-
-#chapterNav {
-    height: 100%;
-    width: 100%;
 }
 
 
 /* These buttons have modifers opposite from each other since they will appear side by side*/
 #nextButt {
     text-align: left;
+    margin-bottom: 0px;
 }
 
 
-    #backButt {
+#backButt {
     text-align: right;
 }
 
@@ -46,13 +39,10 @@
 
 /* These buttons have modifers opposite from each other since they will appear side by side*/
 #importantButt {
-
     height: 50px;
-
 }
 
 #rereadButt {
-
     height: 50px;
 }
 
@@ -71,7 +61,6 @@
     cursor: pointer;
     margin-bottom: 100px;
     display: inline-block;
-    height: 100%;
 }
 
 .defineSpan {
@@ -82,6 +71,7 @@
 #markers img {
     cursor: pointer;
 }
+
 #chapterNav img {
     cursor: pointer;
 }

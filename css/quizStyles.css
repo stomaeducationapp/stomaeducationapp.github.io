@@ -28,7 +28,6 @@
     display: inline-block;
     font-weight: 600;
     width: 98%;
-    height: 98%;
     text-align: center;
 }
 
@@ -93,7 +92,6 @@
     padding: 20px;
     display: inline-block;
     width: 49%;
-    height: 100%;
     cursor: pointer;
     margin-bottom: 10px;
 }

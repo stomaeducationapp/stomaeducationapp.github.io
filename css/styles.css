@@ -2,7 +2,7 @@
 
 /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 12/09/2018
- * LAST MODIFIED BY - Casey Rogers 25/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 23/10/2018
  * 
  * CLASS/FILE DESCRIPTION
  * This is the global css file which will give the whole website a uniform look
@@ -10,22 +10,25 @@
  * 
  * VERSION HISTORY
  * 25/09/2018 - Created and moved existing code here
+ * 23/10/2018 - Updated styling
  * 
  * REFERENCES
- * All code was sourced from ...
+ * Design options were learned/adapted from the many tutorials at https://www.w3schools.com
  * 
  */
 
 body {
 }
 
-
-
+.contentImage {
+    height: 100%;
+    width: 100%;
+}
 
 .header {
     padding: 20px; /* some padding */
-    padding-left: 300px;
-    background: white; 
+    padding-left: 150px;
+    background: white;
 }
 
 .cuttoff_bar {
@@ -59,25 +62,23 @@ body {
 
 /* tutorial column */
 .content {
-    float: right;
-    padding-right: 300px;
-
+    display: inline-block;
+    vertical-align: top;
 }
 
 /* Left column */
 .leftcolumn {
     float: left;
-    padding-left:300px;
+    padding-left: 50px;
     padding-top: 20px;
-
-
 }
 
 #home {
     font-size: 14px;
     font-family: Verdana;
-    width: 45%;
-    align-items:center;
+    width: 65%;
+    align-items: center;
+    padding-left: 50px;
 }
 
 #quiz {
@@ -97,10 +98,9 @@ body {
     text-align: left;
     cursor: pointer;
     background-color: moccasin;
-    outline:auto;
+    outline: auto;
     outline-width: 1px;
     outline-color: burlywood;
-    
 }
 
 
@@ -128,7 +128,7 @@ body {
     padding-left: 20px;
 }
 
-    .sidenav a:hover, .dropdown-btn:hover {
+.sidenav a:hover, .dropdown-btn:hover {
     background-color: rgb(233, 131, 0);
     text-decoration: underline;
 }
@@ -159,7 +159,6 @@ body {
 @media screen and (max-height: 450px) {
     .sidenav {
         padding-top: 100px
-
     }
 
         .sidenav a {
@@ -181,8 +180,8 @@ body, html {
     outline: auto;
     outline-width: 1px;
     outline-color: burlywood;
-    padding-right: 300px;
-    padding-left: 300px;
+    padding-right: 50px;
+    padding-left: 50px;
 }
 
     .navbar a {
@@ -216,7 +215,6 @@ body, html {
         background-color: inherit;
         font-family: inherit;
         margin: 0;
-
     }
 
     /*colour of the button when hovered over*/
@@ -249,4 +247,3 @@ body, html {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
