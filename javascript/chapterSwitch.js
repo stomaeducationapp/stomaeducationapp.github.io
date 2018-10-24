@@ -1,6 +1,6 @@
 ﻿/* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 06/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 22/09/2018 
+ * LAST MODIFIED BY - Jeremy Dunnet 26/09/2018 
  */
 
 /* CLASS/FILE DESCRIPTION
@@ -18,6 +18,7 @@
  *              and edited variable names to match shared space (with other js files) in headers.html
  * 19/09/2015 - Edited help page image paths so they load properly - and fixed busg related to quiz buttons and chapter tab selection
  * 22/09/2018 - Fixed a few bugs and altered click listener for chapter splash screens
+ * 26/09/2018 - Updated to use new fucntions related to popups
  */
 
 /* REFERENCES
@@ -28,6 +29,9 @@
  * How to get just text out of a HTML element learned/adapted from https://stackoverflow.com/questions/19030742/difference-between-innertext-and-innerhtml
  * How to use localStorage learned/adpated from https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
  * Javascript 2D array syntax learned from https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
+ * How to scroll to a particular element learned from https://www.w3schools.com/jsref/met_element_scrollintoview.asp
+ * How to use setTimeout as an asynch call learned from https://stackoverflow.com/questions/7434685/event-when-element-added-to-page
+ * How to pass parameters through setTimeout call learned from https://stackoverflow.com/questions/1190642/how-can-i-pass-a-parameter-to-a-settimeout-callback
  * And many tutorials/documentation from https://www.w3schools.com 
  */
 
@@ -136,40 +140,62 @@ var loaded;
 //not move from chapter to chapter, though this can be easily changed - same reasoning for finalSectionButt
 //The reason we have them included but disabled is to keep the button placement on the screen consistent (CSS Layout)
 //They have weird placement of some >< so that the divs smash together on the screen
+//<div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 const startSectionButt =
-`<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt" style="color:white;cursor:default" disabled><<</button
-    ><button class="chapterButton" id="nextButt">>></button>
+`<div id="chapterNav" align="left" style="padding-left: 17px">
+    <img id="backButt" src="/media/NavigationArrows/left-arrow.png" disabled/>
+    <img id="nextButt" src="/media/NavigationArrows/right-arrow.png" title="Click here to go the first chapter"/>
  </div>`; 
 const normalSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt"><<</button
-    ><button class="chapterButton" id="nextButt">>></button>
+    <img id="backButt" src="/media/NavigationArrows/left-arrow.png" title="Click here to go to previous chapter"/>
+    <img id="nextButt" src="/media/NavigationArrows/right-arrow.png" title="Click here to go to the next chapter"/>
  </div>`;
 const finalSectionButt =
 `<div id="chapterNav" align="center">
-    <button class="chapterButton" id="backButt"><<</button
-    ><button class="chapterButton" id="nextButt">Quiz</button>
+    <img id="backButt" src="/media/NavigationArrows/left-arrow.png" title="click here to go back to the previous chapter"/>
+    <button class="chapterButton" id="nextButt">Quiz</button>
  </div>`;
 
 //HTML container for the mark as reread and important bookmark options
 //AT THE MOMENT THE WORDING IS THE ONLY THING KEEPING THIS AND THE ABOVE SECTIONS AS ALIGNED IN THE CENTER AS I CAN! - EDIT AT YOUR OWN PERIL!!!!!!!!
 //If you can style it better please try
 //They have weird placement of some >< so that the divs smash together on the screen
+//<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+//<div>Icons made by <a href="https://www.flaticon.com/authors/elegant-themes" title="Elegant Themes">Elegant Themes</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 const additonalBookmarks =
 `<div id="markers" align="center">
-    <button class="chapterButton" id="rereadButt">Click here to </br>mark "read again" </br>
-                                           If you need </br>
-                                           to read again</button
-    ><button class="chapterButton" id="importantButt">Click here to </br>
-                                              mark "important!" </br>
-                                              If you need </br>
-                                              to refer back</button>
+    <img id="rereadButt" src="/media/BookmarkIcons/open-book.png" title="Click here to mark 'read again' If you need to read again"/>
+    <img id="importantButt" src="/media/BookmarkIcons/exclamation-button.png" title="Click here to mark 'important!' If you need to refer back"/>
+
  </div>`;
 
-//HTML Containers for help sections and corresponding button objects
+//This is for the first page of the chapter since the allignment is to the left
+const additonalBookmarks_2 =
+    `<div id="markers" align="left">
+    <img id="rereadButt" src="/media/BookmarkIcons/open-book.png" title="Click here to mark 'read again' If you need to read again"/>
+    <img id="importantButt" src="/media/BookmarkIcons/exclamation-button.png" title="Click here to mark 'important!' If you need to refer back"/>
+
+ </div>`;
+
+
+//HTML Containers for top navigation bar sections and corresponding button objects - These are constant so we define here so we can reload when page changes to chapter content
+const homePage = 
+    `<h1>This is the Main Screen</h1>
+     <p>Select a content header to get started!</p>`;
+const newsPage =
+    `<h1>This is the News page</h1>
+     <p>Here you can find:
+        <ul>
+        <li>Important announcements</li>
+        <li>Website changes</li>
+        <li>News concerning the subject matter</li>
+        </ul>
+     </p>`;
 const tutorialPage =
-`<h1>Tutorial</h1>
+    `<div id="tutorial-layout"
+<br>
+    <h1>Tutorial</h1>
     <a class="link" href="#video">1. Skip to Play Video tutorial</a>
     </br></br>
     <a class="link" href="#mark">2. Skip to Content Marking tutorial</a>
@@ -179,60 +205,41 @@ const tutorialPage =
     <!--Play video tutorial info-->
     <h2 id="video">Play A Video:</h2>
         <p>First, browse for a particular piece of content in the sidebar.</p>
-        <img src="/media/images/sidebar.PNG" alt="Sidebar image" class="images" />
+        <img src="./media/images/Main Screen.PNG" alt="Sidebar image" class="images" width=70% />
         <p>When you have found something you wish to view, select it.</p>
-        <img src="/media/images/videoSelect.PNG" alt="Video select image" class="images" />
+        <img src="./media/images/MainScreen2(content).PNG" alt="Video select image" class="images" width=70%/>
         <p>Proceed to interact with the controls to play, pause and navigate the video.Options to change volume and to move into full screen view are also available.</p>
-        <img src="/media/images/videoPlayer.PNG" alt="Video player image" class="images" />
+        <img src="./media/images/PlayVideo(content).PNG" alt="Video player image" class="images" width=70%/>
         </br>
         <a href="#top">Return to top</a>
     <!--Mark content tutorial info-->
     <h2 id="mark" style="padding-top: 50px">Mark Content:</h2>
-        <p>First, navigate to the content you wish to mark.</p>
-        <img src="/media/images/videoSelect.PNG" alt="Video select image" class="images" />
-        <p>On the content page, press the star button located beside the title.</p>
-        <img src="/media/images/unmarkedContent.PNG" alt="Unmarked content image" class="images" />
-        <p>When a piece of content has been marked, it will be identifiable by a similar mark within the sidebar.</p>
-        <img src="/media/images/markedContent.PNG" alt="Marked content image" class="images" />
+        <p>At the bottom of every chapter you will see these symbols.</p>
+        <img src="./media/images/Bookmarking.PNG" alt="Video select image" class="images" width=70%/>
+        <p>Click the book to mark the chapter to be "re-read" for later.</p>
+        <img src="./media/images/ReRead(content).PNG" alt="Video select image" class="images" width=70%/>
+        <p>A star will appear next to the chapter which is to be re-read.</p>
+        <img src="./media/images/ReRead2.PNG" alt="Unmarked content image" class="images" width=70%/>
+        <p>Click the exclamation to mark the chapter as "Important".</p>
+        <img src="./media/images/MarkImportant(content).PNG" alt="Video select image" class="images" width=70%/>
+        <p>An exclamation mark will appear next to the chapter.</p>
+        <img src="./media/images/MarkImportant.PNG" alt="Unmarked content image" class="images" width=70%/>
         </br>
         <a href="#top">Return to top</a>
     <!--Searching tutorial info-->
     <h2 id="search" style="padding-top: 50px">Search:</h2>
         <p>From the start page, notice the search bar.</p>
-        <img src="/media/images/searchbar.PNG" alt="Searchbar image" class="images" />
+        <img src="./media/images/SearchBar.PNG" alt="Searchbar image" class="images" width=70%/>
         <p>Start typing something to search for and possible matches will appear.</p>
-        <img src="/media/images/searching.PNG" alt="Searching image" class="images" />
+        <img src="./media/images/Search.PNG" alt="Searching image" class="images" width=70% />
         <p>Select the content that you wish to view and it will be loaded into the page.</p>
-        <img src="/media/images/searchComplete.PNG" alt="Search complete image" class="images" />
+        <p>Here we have selected the Trick Questions page to be viewed.</p>
+        <img src="./media/images/SearchClick.PNG" alt="Search complete image" class="images"width=70% />
         </br>
-        <a href="#top">Return to top</a>`;
-const faqPage =
-`<h1>Frequently Asked Questions</h1>
-    <h3>What is an ileostomy stoma?</h3>
-        <p>An ileostomy stoma is an opening created between the small intestine and the abdominal wall for the evacuation of faeces when organ function is abnormal.</p>
-    <h3>Is a stoma surgery permanent?</h3>
-        <p>A stoma surgery may be permanent or temporary depending on the reason. You should be able to get information about yourcondition from your stoma therapy nurse.</p>
-    <h3>What do I do if I am having problems with my stoma?</h3>
-        <p>You should contact your stoma therapy nurse or general practitioner, or in case of emergencies your hospital’s emergency room.</p>
-    <h3>How is waste collected?</h3>
-        <p>Evacuated waste is collected in a bag connected to the stoma via an adhesive.</p>
-    <h3>Where can I get stoma bags from?</h3>
-        <p>Your stoma therapy nurse will assist you in finding the best location to acquire any appliances you require to maintain your health.It is always best to check with your nurse before purchasing/using new products to confirm it is what you need.</p>
-    <h3>How do I dispose of a used bag?</h3>
-        <p>If possible empty the contents into the toilet. Secure the appliance in a plastic bag and dispose in a regular rubbish bin.</p>
-    <h3>Should I tell people about my stoma?</h3>
-        <p>Whether or not you inform others about your stoma is completely up to you. Either way it is important to remember that you shouldnot be ashamed of your stoma surgery.</p>
-    <h3>Can I travel with a stoma?</h3>
-        <p>The presence of a stoma should not stop you from travelling, however it is recommended to always take a reasonable supply of stomabags with you, as availability can be uncertain.</p>
-        </br>
-    <h3>Couldn&#39t find what you were looking for?</h3>
-        <p>Any further questions should be directed towards your registered stoma therapy nurse.</p>
-        </br>
-        <p>FAQ adapted from:
-        <a href="https://australianstoma.com.au/about-stoma/frequently-asked-questions/">australianstoma.com</a>
-        </p>`;
+        <a href="#top">Return to top</a>
+</div>`;
 const contactsPage =
-`<h1>Contacts</h1>
+    `<h1>Contacts</h1>
     <h2>XYZ Hospital</h2>
         <p>Address: 123 ABC Street, Perth, WA</p>
         <p>Phone: (08) 1111 1111</p>
@@ -248,22 +255,38 @@ const contactsPage =
         <p>Twitter: 
         <a href="www.twitter.com/XYZ">@XYZ_Hospital</a>
         </p>`;
-const settingsPage =
-`<h1>Settings</h1>
-    <p>Which setting do you want to change?</p>
-    <ul style="list-style:none">
-        <li>
-            <button id="clearButt">Clear all bookmarks</button>
-        </li>
-        <!-- Unimplemented settings - DO LATER -->
-        <li>Increase font size</li>
-        <li>Decrease font size</li>
-    </ul>`;
+const faqPage =
+`<h1>Frequently Asked Questions</h1>
+    <h3>What is an ileostomy stoma?</h3>
+        <p>An ileostomy stoma is an opening created between the small intestine and the abdominal wall for the evacuation of faeces when organ function is abnormal.</p>
+    <h3>Is a stoma surgery permanent?</h3>
+        <p>A stoma surgery may be permanent or temporary depending on the reason. You should be able to get information about yourcondition from your stoma therapy nurse.</p>
+    <h3>What do I do if I am having problems with my stoma?</h3>
+        <p>You should contact your stoma therapy nurse or general practitioner, or in case of emergencies your hospital’s emergency room.</p>
+    <h3>How is waste collected?</h3>
+        <p>Evacuated waste is collected in a bag connected to the stoma via an adhesive.</p>
+    <h3>Where can I get stoma bags from?</h3>
+        <p>Your stoma therapy nurse will assist you in finding the best location to acquire any appliances you require to maintain your health.It is always best to check with your nurse before purchasing/using new products to confirm it is what you need.</p>
+    <h3>How do I dispose of a used bag?</h3>
+        <p>If possible empty the contents into the toilet. Secure the appliance in a plastic bag and dispose in a regular rubbish bin.</p>
+    <h3>Should I tell people about my stoma?</h3>
+        <p>Whether or not you inform others about your stoma is completely up to you.</p>
+    <h3>Can I travel with a stoma?</h3>
+        <p>The presence of a stoma should not stop you from travelling, however it is recommended to always take a reasonable supply of stomabags with you, as availability can be uncertain.</p>
+        </br>
+    <h3>Couldn&#39t find what you were looking for?</h3>
+        <p>Any further questions should be directed towards your registered stoma therapy nurse.</p>
+        </br>
+        <p>FAQ adapted from:
+        <a href="https://australianstoma.com.au/about-stoma/frequently-asked-questions/">australianstoma.com</a>
+        </p>`;
 
+const homeButt = document.getElementById("homeButt");
+const newButt = document.getElementById("newsButt");
 const tutorialButt = document.getElementById("tutorialButt");
 const faqButt = document.getElementById("faqButt");
 const contactsButt = document.getElementById("contactsButt");
-const settingsButt = document.getElementById("settingsButt");
+const clearBookButt = document.getElementById("clearBookButt"); //Deals with clearing all bookmarks
 
 //HTML for Chapter quiz layout
 const quizLayout = 
@@ -422,7 +445,7 @@ function displayChapter(chapter, subchapter)
 
     if (subchapter === 0) //This is the start of the chapter
     {
-        textArea.innerHTML = chapterText[subchapter].sectionHeader + chapterText[subchapter].sectionText + startSectionButt + additonalBookmarks;
+        textArea.innerHTML = chapterText[subchapter].sectionHeader + chapterText[subchapter].sectionText + startSectionButt + additonalBookmarks_2;
         //Since we know this section only has a next button set it's listener up
         nextButt = document.getElementById("nextButt");
         if ((subchapter + 1) <= maxSections)
@@ -581,6 +604,8 @@ function displayChapter(chapter, subchapter)
 
     });
 
+    loadDefinitions(); //We call this fucntion to load any definitions that may be present on the page
+
 }
 
 /* FUNCTION INFORMATION
@@ -642,6 +667,7 @@ function displayQuiz(chapter, subchapter)
                 window.localStorage.setItem(name, finishedMark); //Store in local storage so can be reloaded later
             }
 
+            loaded = false; //Since we are moving on to another chapter - we need to make sure the site loads the next chapter set
             selectChapter((chapter + 1), 0); //We simply take what chapter we are in and move on to the next one (if not at maxChapters)
         });
     }
@@ -700,6 +726,30 @@ function selectChapter(chapter, subchapter)
 
 }
 
+/* FUNCTION INFORMATION
+ * NAME - findDefinition
+ * INPUTS - ID
+ * OUTPUTS - none
+ * PURPOSE - This is the method that changes window focus to given definition tag
+ */
+function findDefinition(ID)
+{
+
+    if (loaded === true) //Page content is loaded
+    {
+        defineAnchor = document.getElementById(ID);
+        defineAnchor.scrollIntoView();
+    }
+    else
+    {
+        setTimeout(function ()
+        {
+            findDefinition(ID); //Set up a function like this so we can pass ID through the call stack
+        }, 100) //Wait 100ms and call again 
+    }
+
+}
+
 try
 {
     loadBookmarks(); //Load all intial bookmarks
@@ -740,7 +790,15 @@ catch (bug) //It's a joke. I do that.
 
 //Button listeners for when the user moves chapters/subchapters - pass the value for the chapter + subchapter they tag
 
-//Buttons to go to help pages
+//Buttons to go to top nav bar pages
+homeButt.addEventListener('click', function ()
+{
+    textArea.innerHTML = homePage;
+});
+newsButt.addEventListener('click', function ()
+{
+    textArea.innerHTML = newsPage;
+});
 tutorialButt.addEventListener('click', function ()
 {
     textArea.innerHTML = tutorialPage;
@@ -753,15 +811,9 @@ contactsButt.addEventListener('click', function ()
 {
     textArea.innerHTML = contactsPage;
 });
-settingsButt.addEventListener('click', function ()
+clearBookButt.addEventListener('click', function ()
 {
-    textArea.innerHTML = settingsPage;
-    clearButt = document.getElementById("clearButt"); //Find newly injected button and set a listener
-    clearButt.addEventListener('click', function ()
-    {
-        clearBookmarks();
-    });
-
+    clearBookmarks();
 });
 
 //Chapter 1

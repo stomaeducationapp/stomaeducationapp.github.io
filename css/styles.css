@@ -1,3 +1,249 @@
-﻿/* This is the main css (found via root relative link of "/globalCSS/styles.css) to use to give the app a uniform look */
+/* This is the main css (found via root relative link of "/globalCSS/styles.css) to use to give the app a uniform look */
+
+/* AUTHOR INFORMATION
+ * CREATOR - Jeremy Dunnet 12/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 23/10/2018
+ * 
+ * CLASS/FILE DESCRIPTION
+ * This is the global css file which will give the whole website a uniform look
+ *  
+ * 
+ * VERSION HISTORY
+ * 25/09/2018 - Created and moved existing code here
+ * 23/10/2018 - Updated styling
+ * 
+ * REFERENCES
+ * Design options were learned/adapted from the many tutorials at https://www.w3schools.com
+ * 
+ */
+
 body {
+}
+
+.contentImage {
+    height: 100%;
+    width: 100%;
+}
+
+.header {
+    padding: 20px; /* some padding */
+    padding-left: 150px;
+    background: white;
+}
+
+.cuttoff_bar {
+    padding: 15px; /* some padding */
+    background: #f7901e;
+}
+
+.nextButt {
+    background: url(./media/NavigationArrows/right-arrow.png);
+}
+
+/* Style the top navigation bar */
+.topnav {
+    overflow: hidden;
+    background-color: none;
+}
+
+
+    /* Style the topnav links */
+    .topnav a {
+        float: left;
+        display: block;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+        /* Change color on hover */
+        .topnav a:hover {
+        }
+
+/* tutorial column */
+.content {
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Left column */
+.leftcolumn {
+    float: left;
+    padding-left: 50px;
+    padding-top: 20px;
+}
+
+#home {
+    font-size: 14px;
+    font-family: Verdana;
+    width: 65%;
+    align-items: center;
+    padding-left: 50px;
+}
+
+#quiz {
+    font-size: 14px;
+    font-family: Verdana;
+}
+
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    border: thin;
+    text-align: left;
+    cursor: pointer;
+    background-color: moccasin;
+    outline: auto;
+    outline-width: 1px;
+    outline-color: burlywood;
+}
+
+
+.chapter-btn {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    border: thin;
+    width: 79.5%;
+    text-align: left;
+    cursor: pointer;
+    background-color: moccasin;
+    outline: auto;
+    outline-width: 1px;
+    outline-color: burlywood;
+}
+
+
+
+/*style all sub headers to be slightly padded*/
+#scPop, #scTrickOne, #scMed, #scObv, #scMyth, #cqOne, #scTrickTwo, #scAnimal, #scAstro, #scTime, #scHist, #cqTwo {
+    width: 86.43%;
+    padding-left: 20px;
+}
+
+.sidenav a:hover, .dropdown-btn:hover {
+    background-color: rgb(233, 131, 0);
+    text-decoration: underline;
+}
+
+/* Main content */
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    font-size: 20px; /* Increased text to enable scrolling */
+    padding: 0px 0px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+    background-color: rgb(233, 131, 0);
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 100px
+    }
+
+        .sidenav a {
+            font-size: 20px;
+        }
+}
+
+body, html {
+    height: 100%;
+    margin: 0px;
+    font-family: Arial;
+}
+
+.navbar {
+    overflow: auto;
+    background-color: bisque;
+    /*commented out fonts do not exist for visual studio, but are appart of sjog style guide*/
+    font-family: /*Antartida, Caecilia, Kostic serif,*/ Verdana; /*Stone sans-serif;*/
+    outline: auto;
+    outline-width: 1px;
+    outline-color: burlywood;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+    .navbar a {
+        width: 60px; /*fixed sized buttons*/
+        float: left;
+        font-size: 12px;
+        color: black;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        outline: auto;
+        outline-width: 1px;
+        outline-color: burlywood;
+        cursor: pointer;
+    }
+
+.dropdown {
+    overflow: hidden;
+    outline: auto;
+    outline-width: 1px;
+    outline-color: burlywood;
+}
+
+    /*colour of the text for the Dropdown button*/
+    .dropdown .dropbtn {
+        font-size: 12px;
+        border: none;
+        outline: none;
+        color: black;
+        padding: 14px 16px;
+        background-color: inherit;
+        font-family: inherit;
+        margin: 0;
+    }
+
+    /*colour of the button when hovered over*/
+    .navbar a:hover, .dropdown:hover .dropbtn {
+        background-color: #f7901e;
+    }
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: moccasin;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding-right: -20px;
+    z-index: 1;
+}
+
+    .dropdown-content a {
+        float: none;
+        color: black;
+        padding: 12px 14px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+
+        .dropdown-content a:hover {
+            background-color: #f7901e;
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
