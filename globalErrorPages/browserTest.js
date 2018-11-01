@@ -1,6 +1,6 @@
 /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 03/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 22/10/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 31/10/2018
  * 
  * CLASS/FILE DESCRIPTION
  * This file is design to identify and test the browser software and version being used by the client to view a web page in the app.
@@ -16,6 +16,7 @@
  * VERSION HISTORY
  * 03/09/2018 - Created and refined design for use in all html pages in this app
  * 22/10/2018 - Added Safari check code
+ * 31/10/2018 - Added comment for future updates 
  * 
  * REFERENCES
  * This design/implementation was adapted from https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
@@ -92,6 +93,7 @@ function browserTest()
 
 
     //Now we check to see if the client's broswer matches one we support (added by me to original deisgn - theirs simply published info to the screen)
+    //NOTE: You can change these to match whatever versions you want to support
     if ((browserName === "Chrome") && (majorVersion >= 68))
     {
         browserSupport = true; //Since this is one we support - we don't need to error out
