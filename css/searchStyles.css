@@ -1,0 +1,63 @@
+/* AUTHOR INFORMATION
+ * CREATOR - Oliver Yeudall 20/09/2018 (Original Code), Jeremy Dunnet 22/09/2018 (This file)
+ * LAST MODIFIED BY - Jeremy Dunnet 22/09/2018 
+ * 
+ * CLASS/FILE DESCRIPTION
+ * This is the design template file for the layout of search bar and it's related functionality
+ * 
+ * VERSION HISTORY
+ * 22/09/2018 - Updated existing code here and added comments
+ * 
+ * REFERENCES
+ * All code was sourced from project teammate Oliver Yeudall
+ * Z-index was learned from https://www.w3schools.com/cssref/pr_pos_z-index.asp
+ */
+
+#searchList {
+    position: absolute;
+    z-index: 30;
+    background-color:moccasin;
+}
+
+.searchResult {
+    background: rgb(252,179, 22);
+    min-width: 230px;
+    outline: auto;
+    outline-width: 1px;
+    outline-color: coral;
+    display: inline-block;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#searchBar {
+width: 68.5%;
+}
+
+#defineMatches {
+    padding-bottom: 20px;
+}
+
+.searchTitle {
+    text-decoration: underline;
+    color: black;
+    padding-bottom: 5px;
+}
+
+/* Allow us to highlight the divs with the definition of the given term */
+.definitions {
+    background-color: #f2684c;
+}
+
+.hide {display: none;}
+
+.show {
+    display: block;
+    background: rgb(252,179, 22);
+}
+
+
+
+

@@ -163,18 +163,18 @@ function buildQuestion()
 
     //Set all buttons to disabled and hide their text
     retryButt.disabled = true;
-    retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    retryButt.style.backgroundColor = "gray";
+    retryButt.style.color = "moccasin";  //Change the colors back to the "disabled" button settings
+    retryButt.style.backgroundColor = "moccasin";
     retryButt.style.cursor = "not-allowed";
 
     nextQButt.disabled = true;
-    nextQButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    nextQButt.style.backgroundColor = "gray";
+    nextQButt.style.color = "moccasin";  //Change the colors back to the "disabled" button settings
+    nextQButt.style.backgroundColor = "moccasin";
     nextQButt.style.cursor = "not-allowed";
 
     continueButt.disabled = true;
-    continueButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
-    continueButt.style.backgroundColor = "gray";
+    continueButt.style.color = "moccasin";  //Change the colors back to the "disabled" button settings
+    continueButt.style.backgroundColor = "moccasin";
     continueButt.style.cursor = "not-allowed";
 
 
@@ -391,19 +391,19 @@ function showResult()
         {
 
             //Disable the retry button - no incorrect answer
-            retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            retryButt.style.backgroundColor = "gray";
+            retryButt.style.color = "moccasin";  //Change the colors back to the "disabled" button settings
+            retryButt.style.backgroundColor = "moccasin";
             retryButt.disabled = true;  //Disable button press
             retryButt.style.cursor = "not-allowed";
 
             //Disable the next button - got it right
-            nextQButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            nextQButt.style.backgroundColor = "gray";
+            nextQButt.style.color = "moccasin";  //Change the colors back to the "disabled" button settings
+            nextQButt.style.backgroundColor = "moccasin";
             nextQButt.disabled = true;  //Disable button press
             nextQButt.style.cursor = "not-allowed";
 
             //Enable continue to next quiz buttton
-            continueButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
+            continueButt.style.color = "black";  //Change the colors back to the "normal" button settings
             continueButt.style.backgroundColor = "#8FBBA5";
             continueButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
             continueButt.style.cursor = "pointer";
@@ -411,14 +411,14 @@ function showResult()
         else
         {
             //Disable the retry button - no incorrect answer
-            retryButt.style.color = "gray";  //Change the colors back to the "disabled" button settings
-            retryButt.style.backgroundColor = "gray";
+            retryButt.style.color = "moccasin";  //Change the colors back to the "disabled" button settings
+            retryButt.style.backgroundColor = "moccasin";
             retryButt.disabled = true;  //Disable button press
             retryButt.style.cursor = "not-allowed";
 
             //Enable the next button - got it right
-            nextQButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
-            nextQButt.style.backgroundColor = "#8FBBA5";
+            nextQButt.style.color = "black";  //Change the colors back to the "normal" button settings
+            nextQButt.style.backgroundColor = "#f7901e";
             nextQButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
             nextQButt.style.cursor = "pointer";
         }
@@ -485,8 +485,8 @@ function showResult()
         }*/
 
         //Enable the retry button - give a chance to try again
-        retryButt.style.color = "#464646";  //Change the colors back to the "normal" button settings
-        retryButt.style.backgroundColor = "#8FBBA5";
+        retryButt.style.color = "black";  //Change the colors back to the "normal" button settings
+        retryButt.style.backgroundColor = "#f7901e";
         retryButt.disabled = false;  //Remove the lock on the button and return cursor to standard as well
         retryButt.style.cursor = "pointer";
 

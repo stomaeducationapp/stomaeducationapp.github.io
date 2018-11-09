@@ -1,6 +1,6 @@
 ﻿<!-- AUTHOR INFORMATION
      CREATOR - Casey Rogers XX/XX/2018
-     LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
+     LAST MODIFIED BY - Jeremy Dunnet 31/10/2018
 -->
 
 <!-- CLASS/FILE DESCRIPTION
@@ -14,6 +14,8 @@
      09/09/2018 (JD) - Updated to link to new stylesheet for chapter text elements and removed chapter three to ensure javascript works for current setup
      12/09/2018 (CR + JD) - Added new top nav buttons for navigation, as well as linking to help page
      15/09/2018 (JD) - Updated to use new links/names for chapter quiz integration
+     22/09/2018 (JD) - Updated to use new script/css for search bar and sanitision integration, and removed old unused code
+     31/10/2018 (JD) - Updated heading to allow for demo of information provided by client
 -->
 
 <!-- REFERENCES
@@ -28,250 +30,123 @@
     -->
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/chapterNavStyles.css">
-    <link rel="stylesheet" href="/css/headerStyles.css">
     <link rel="stylesheet" href="/css/quizStyles.css">
+    <link rel="stylesheet" href="/css/searchStyles.css">
 
-    <!-- Broswer check for supported software/versions -->
+    <!-- Browser check for supported software/versions -->
     <script type="application/javascript" src="/globalErrorPages/browserTest.js"></script>
 </head>
 <body>
 
     <div class="navbar">
-        <a href="#home">Home</a>
-        <a href="#news">News</a>
+        <a id="homeButt">Home</a>
+        <a id="newsButt">News</a>
+        <a id="tutorialButt">Tutorial</a>
+        <a id="contactsButt">Contacts</a>
+        <a id="faqButt">FAQ</a>
         <button class="buttons" id="default" onclick="changePage(event, 'home')" style="display: none">Home</button>
         <div class="dropdown" style="float:right;">
-            <button class="dropbtn">
-                Dropdown
-                <i class="fa fa-caret-down"></i>
-            </button>
+            <button class="dropbtn">Settings</button>
             <div class="dropdown-content">
-                <button class="buttons" id="tutorialButt">Tutorial</button>
-                <button class="buttons" id="faqButt">FAQ</button>
-                <button class="buttons" id="contactsButt">Contacts</button>
-                <button class="buttons" id="settingsButt">Settings</button>
+
+                <a id="clearBookButt">Clear all Bookmarks</a>
             </div>
         </div>
+    </div>
+
+    <div class="cuttoff_bar">
+        <!-- cut off the logo from the main page-->
     </div>
 
     <!--Actual content of the page-->
     <!--Landing page of help page-->
-    <div class="content" id="home">
-        <h1>This is the Main Screen</h1>
-        <p>Select a content header to get started!</p>
+    <div>
+         <div class="row content">
+          <div class="leftcolumn">
+               <!-- encapsulate the side navigation bar-->
+               <div id="sidenav" class="sidenav">
+
+                    <!-- chapter 1 dropdown-->
+                    <!-- This section has a few additional values that are mainly here for the search bar functionality - I will describe each individually
+                     Additonal cX in dropdown-btn class - this allows each dropdown anchor to locate it's parent (contained in data-parent-id) so we can dynamically open dropdown from search bar
+                     data-search-tags - these are the values that the search bar compares user input to to find which subchapter matches the given input
+                      data-def-tags - these are search tags that have a definition (a mouseover popup telling a user what the term means) within the chapter
+                     This enables users to find a specific definition again (and prevents search from confusing partial search tags with definition tags)
+                     -->
+                  <button class="chapter-btn" id="chapterOne" style="display: inline-block">Chapter 1</button>
+                  <button class="dropdown-btn cOne" style="display: inline-block">▼</button>
+                   <div class="dropdown-container cOne" id="sub-containers">
+                         <a data-parent-id="cOne" data-search-tags="Urine Colour Odour Urinary Output" data-def-tags="" id="scPop">Management of High Ostomy Outputs</a>
+                      <a data-parent-id="cOne" data-search-tags="Ileum Duodenum Jejunum " data-def-tags="Ileum" id="scTrickOne">Trick Questions</a>
+                     <a data-parent-id="cOne" data-search-tags="Raw Spicy Foods Low Fibre Diet" data-def-tags="" id="scMed">Medicine</a>
+                      <a data-parent-id="cOne" data-search-tags="Osmosis Anastomosis Electrolyte" data-def-tags="" id="scObv">Obviousness</a>
+                      <a data-parent-id="cOne" data-search-tags="Ileostomy Stoma Ostomy Peristomal Skin Bag Pouch" data-def-tags="Ileostomy" id="scMyth">Mythology</a>
+                       <a data-parent-id="cOne" data-search-tags="Quiz Urine Colour Odour Urinary Output Ileum Duodenum Jejunum Raw Spicy Foods Low Fibre Diet Osmosis Anastomosis Electrolyte Ileostomy Stoma Ostomy Peristomal Skin Bag Pouch" data-def-tags="" id="cqOne">Chapter One Quiz</a>
+                     </div>
+                     <br />
+                     <!--chapter 2 dropdown-->
+                     <button class="chapter-btn" id="chapterTwo" style="display: inline-block">Chapter 2</button>
+                 <button class="dropdown-btn cTwo" style="display: inline-block">▼</button>
+                 <div class="dropdown-container cTwo">
+                      <a data-parent-id="cTwo" data-search-tags="Stoma Output Consistency Volume Day Pouch Bag Measuring Inflation" data-def-tags="Stoma" id="scTrickTwo">Trick Questions</a>
+                      <a data-parent-id="cTwo" data-search-tags="Tissue Turgor" data-def-tags="" id="scAnimal">Animals</a>
+                      <a data-parent-id="cTwo" data-search-tags="Medication Absorption Slow Release Combination Symptoms" data-def-tags="" id="scAstro">Astrology</a>
+                      <a data-parent-id="cTwo" data-search-tags="Dehydration Nutrients Fibre Low Diet Rehydration Fluid Intake Oral Electrolyte Drinks Soluble" data-def-tags="" id="scTime">Time</a>
+                     <a data-parent-id="cTwo" data-search-tags="Gut Transition Time Abdomen Faeces Peristalses Flatus" data-def-tags="" id="scHist">History</a>
+                     <a data-parent-id="cTwo" data-search-tags="Quiz Stoma Output Consistency Volume Day Pouch Bag Measuring Inflation Tissue Turgor Medication Absorption Slow Release Combination Symptoms Dehydration Nutrients Fibre Low Diet Rehydration Fluid Intake Oral Electrolyte Drinks Soluble Gut Transition Time Abdomen Faeces Peristalses Flatus" data-def-tags="" id="cqTwo">Chapter Two Quiz</a>
+                 </div>
+
+                  <br />
+              </div>
+              <a style="font-size:15px">Search</a>
+              <input id="searchBar" type="text" placeholder="Enter search...">
+                 <div id="searchList" class="dropDownList" style="display: none;">
+                     <div class="searchTitle">Definitions</div>
+                     <div id="defineMatches"></div>
+                     <div class="searchTitle">Search Results</div>
+                 <div id="termMatches"></div>
+             </div>
+            </div>         
+          </div>
+          <div class="content" id="home">
+               <h1>This is the Main Screen</h1>
+               <p>Select a content header to get started!</p>
+          </div>
     </div>
-
-    <div class="row">
-        <div class="leftcolumn">
-            <!-- encapsulate the side navigation bar-->
-            <div class="sidenav">
-
-                <!-- chapter 1 dropdown-->
-                <button class="dropdown-btn" id="chapterOne">
-                    Chapter 1
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-container">
-                    <a id="scPop">Pop Culture</a>
-                    <a id="scTrickOne">Trick Questions</a>
-                    <a id="scMed">Medicine</a>
-                    <a id="scObv">Obviousness</a>
-                    <a id="scMyth">Mythology</a>
-                    <a id="cqOne">Chapter Quiz</a>
-                </div>
-                <!--chapter 2 dropdown-->
-                <button class="dropdown-btn" id="chapterTwo">
-                    Chapter 2
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-container">
-                    <a id="scTrickTwo">Trick Questions</a>
-                    <a id="scAnimal">Animals</a>
-                    <a id="scAstro">Astrology</a>
-                    <a id="scTime">Time</a>
-                    <a id="scHist">History</a>
-                    <a id="cqTwo">Chapter Quiz</a>
-                </div>
-
-                <a href="#">Search</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- example from www.w3schools.com/howto/howto_js_filterdropdown.asp */ -->
-    <div id="dropdownUI" class="UserInterfaceSearchScreen">
-        <input id="inputBox" type="text" placeholder="Enter search..." onkeyup="displayFilter()">
-        <div id="dropDownList" class="dropDownList">
-
-            <a href="#apple">Apple</a>
-            <a href="#banana">Banana</a>
-            <a href="#carrot">Carrot</a>
-            <a href="#danish">Danish</a>
-            <a href="#eggplant">Eggplant</a>
-            <a href="#fritters">Fritters</a>
-            <a href="#garlic">Garlic</a>
-            <a href="#halloumi">Halloumi</a>
-            <a href="#ice">Ice</a>
-            <a href="#jalapeno">Jalapeno</a>
-        </div>
-
-    </div>
-
-
-    <script>
-
-        // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
-        window.onload = pre_loader; // Hides the search items when the page is loaded
-
-
-
-        /**************************************************************************
-        *  Function: Event listener click event                                   *
-        *  Purpose: Detect the location of clicks relative to the search bar and  *
-        *           search items                                                  *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-        //Based on example from http://blustemy.io/detecting-a-click-outside-an-element-in-javascript/
-        document.addEventListener("click", (evt) =>
-        {
-            const flyoutElement = document.getElementById("dropdownUI");
-            var clickFlag = false;
-            let targetElement = evt.target;
-
-            do
-            {
-                if (targetElement == flyoutElement)
-                {
-                    // A click has been made in the search bar and associated items
-                    clickFlag = true;
-
-                }
-
-                targetElement = targetElement.parentNode;
-            } while (targetElement);
-
-            if (clickFlag)
-            {
-                // Show search items
-                searchFilter();
-            }
-            else
-            {
-                // Hide search items
-                searchFilterBlur();
-            }
-
-            clickFlag = false;
-
-            return;
-        });
-
-
-        /**************************************************************************
-        *  Function: pre_loader                                                   *
-        *  Purpose: Hides the search list before the page is loaded               *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function pre_loader()
-        {
-            // Solution based on: https://css-tricks.com/forums/topic/how-to-change-styles-on-onload/
-
-            document.getElementById("dropDownList").style.display = "none";
-        };
-
-        /**************************************************************************
-        *  Function: searchFilter                                                 *
-        *  Purpose: Enable the display of the current items in the search list    *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function searchFilter()
-        {
-            document.getElementById("dropDownList").style.display = "block";
-        }
-
-
-        /**************************************************************************
-        *  Function: searchFilterBlur                                             *
-        *  Purpose: Disable and hide the current items in the search list         *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function searchFilterBlur()
-        {
-            document.getElementById("dropDownList").style.display = "none";
-        }
-
-
-        /**************************************************************************
-        *  Function: displayFilter                                                *
-        *  Purpose: Alter the displayed search list based on user input           *
-        *  IMPORT: none                                                           *
-        *  EXPORT: none                                                           *
-        *  ***********************************************************************/
-
-        function displayFilter()
-        {
-            /* Based on example from www.w3schools.com/howto/howto_js_filterdropdown.asp */
-
-            var searchInput, searchValue, a, i;
-
-            searchInput = document.getElementById("inputBox");
-
-            searchValue = searchInput.value.toUpperCase();
-
-            div = document.getElementById("dropDownList");
-
-            a = div.getElementsByTagName("a");
-
-            for (i = 0; i < a.length; i++)
-            {
-                if (a[i].innerHTML.toUpperCase().indexOf(searchValue) > -1)
-                {
-                    a[i].style.display = "";
-                }
-                else
-                {
-                    a[i].style.display = "none";
-                }
-
-            }
-        }
-    </script>
 
     <script>
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
+        var ii;
 
-        for (i = 0; i < dropdown.length; i++)
+        for (ii = 0; ii < dropdown.length; ii++)
         {
-            dropdown[i].addEventListener("click", function ()
+            dropdown[ii].addEventListener("click", function ()
             {
                 this.classList.toggle("active");
                 var dropdownContent = this.nextElementSibling;
                 if (dropdownContent.style.display === "block")
                 {
                     dropdownContent.style.display = "none";
+                    this.innerText = "▼";
                 } else
                 {
                     dropdownContent.style.display = "block";
+                    this.innerText = "▲";
                 }
             });
         }
     </script>
 
-    <!-- This is all the seperate javascript files (to allow to functionaility to be divided)
+    <!-- This is all the seperate javascript files (to allow to functionality to be divided)
          This list is put into a load order as some script files may call functions of others
          Be aware this means these files can see each others global constants etc. so they all need to be unique names
          Insert new files in the correct order or page may fail to load
     -->
+    <script type="application/javascript" src="/javascript/popup.js"></script>
+    <script type="application/javascript" src="/javascript/sanitise.js"></script>
     <script type="application/javascript" src="/javascript/quiz.js"></script>
     <script type="application/javascript" src="/javascript/chapterSwitch.js"></script>
+    <script type="application/javascript" src="/javascript/search.js"></script>
 </body>
 </html>

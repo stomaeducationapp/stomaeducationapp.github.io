@@ -1,6 +1,6 @@
-﻿/* AUTHOR INFORMATION
+﻿﻿ /* AUTHOR INFORMATION
  * CREATOR - Jeremy Dunnet 09/09/2018
- * LAST MODIFIED BY - Jeremy Dunnet 15/09/2018
+ * LAST MODIFIED BY - Jeremy Dunnet 23/10/2018
  * 
  * CLASS/FILE DESCRIPTION
  * This is the design template file for the layout of all additional divs inside the chapter text area in headers.html
@@ -9,53 +9,45 @@
  * 09/09/2018 - Created and placed first draft of button layout
  * 12/09/2018 - Fixed styling layout
  * 15/09/2018 - Added additional stylings based on new chapter quiz integration, edited some class names and fixed layout
+ * 23/10/2018 - Finalised styling
  * 
  * REFERENCES
  * Design options were learned/adapted from the many tutorials at https://www.w3schools.com
  * 
  */
-
 #quiz {
-    height: 100%;
-    width: 100%;
     margin: auto;
     display: inline;
 }
 
-#chapterNav {
-    height: 100%;
-    width: 100%;
-}
 
 /* These buttons have modifers opposite from each other since they will appear side by side*/
 #nextButt {
-    border: 1px black;
-    border-style: none none none solid;
     text-align: left;
+    margin-bottom: 0px;
 }
 
+
 #backButt {
-    border: 1px black;
-    border-style: none solid none none;
     text-align: right;
 }
 
 #markers {
-    height: 98%;
-    width: 98%;
+    margin-bottom: 100px;
+    margin-top: 20px;
 }
 
 /* These buttons have modifers opposite from each other since they will appear side by side*/
 #importantButt {
-    border: 1px black;
-    border-style: none none none solid;
-    text-align: left;
+    height: 50px;
 }
 
 #rereadButt {
-    border: 1px black;
-    border-style: none solid none none;
-    text-align: right;
+    height: 50px;
+}
+
+#tutorial-layout {
+    font-size: 14px;
 }
 
 .chapterButton {
@@ -67,7 +59,19 @@
     color: #464646;
     padding: 20px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
     display: inline-block;
-    height: 100%;
+}
+
+.defineSpan {
+    text-decoration: underline;
+    color: red;
+}
+
+#markers img {
+    cursor: pointer;
+}
+
+#chapterNav img {
+    cursor: pointer;
 }

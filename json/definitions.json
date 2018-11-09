@@ -1,0 +1,16 @@
+{
+    "popUpTerms": [
+      {
+        "id": "defILEOSTOMY",
+        "definition": "A surgical operation in which a damaged part is removed from the ileum and the cut end diverted to an artificial opening in the abdominal wall."
+      },
+      {
+        "id": "defSTOMA",
+        "definition": "An artificial opening made into a hollow organ, especially one on the surface of the body leading to the gut or trachea"
+      },
+      {
+        "id": "defILEUM",
+        "definition": "The third portion of the small intestine, between the jejunum and the caecum"
+      }
+    ]
+}
